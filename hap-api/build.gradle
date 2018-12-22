@@ -1,0 +1,4 @@
+
+dependencies {
+    compile group: 'org.scala-lang.platform', name: 'scalajson_2.12', version: '1.0.0-M4'
+}
