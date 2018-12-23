@@ -1,2 +1,3 @@
 
 include 'hap-api'
+include 'hap-server-beowulfe'
