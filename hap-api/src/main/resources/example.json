@@ -1,0 +1,90 @@
+{
+    "accessories" : [
+        {
+            "aid" : 1,
+            "services" : [
+                {
+                    "type" : "3E",
+                    "iid" : 1,
+                    "characteristics" : [
+                        {
+                            "type" : "23",
+                            "value" : "Acme Light Bridge",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 2
+                        }, {
+                            "type" : "20",
+                            "value" : "Acme",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 3
+                        }, {
+                            "type" : "30",
+                            "value" : "037A2BABF19D",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 4
+                        }, {
+                            "type" : "21",
+                            "value" : "Bridge1,1",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 5
+                        }, {
+                            "type" : "14",
+                            "value" : null,
+                            "perms" : [ "pw" ],
+                            "format" : "bool",
+                            "iid" : 6
+                        }]
+                        }]
+                        },
+        {
+            "aid" : 2,
+            "services" : [
+                {
+                    "type" : "3E",
+                    "iid" : 1,
+                    "characteristics" : [
+                        {
+                            "type" : "23",
+                            "value" : "Acme LED Light Bulb",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 2
+                        }, {
+                            "type" : "20",
+                            "value" : "Acme",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 3
+                        }, {
+                            "type" : "30",
+                            "value" : "099DB48E9E28",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 4
+                        }, {
+                            "type" : "21",
+                            "value" : "LEDBulb1,1",
+                            "perms" : [ "pr" ],
+                            "format" : "string",
+                            "iid" : 5
+                        }, {
+                            "type" : "14",
+                            "value" : null,
+                            "perms" : [ "pw" ],
+                            "format" : "bool",
+                            "iid" : 6
+                        }
+                    ]
+                }, {
+                    "type" : "43",
+                    "iid" : 7,
+                    "characteristics" : []
+                }
+            ]
+        }
+    ]
+}
