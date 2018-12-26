@@ -41,8 +41,8 @@ class BeowulfeAccessoryAdapterSpec extends FlatSpec with Matchers with ImplicitE
     val oSwitch = oCharIt.next()
 
     val cCharIt = cCharacteristics.iterator()
-    val cSwitch = cCharIt.next()
     val cName = cCharIt.next()
+    val cSwitch = cCharIt.next()
 
     val oNameJson = oName.toJson(1).get()
     val cNameJson = cName.toJson(1).get()

@@ -1,15 +1,20 @@
 package com.github.otah.hap.api.services.sensor
 
 import com.github.otah.hap.api._
-import com.github.otah.hap.api.characteristics.{ContactSensorStateCharacteristic, StatusActiveCharacteristic}
-import com.github.otah.hap.api.services.OptionalName
+import com.github.otah.hap.api.characteristics._
+import com.github.otah.hap.api.services._
 
-trait ContactSensorService extends AccessoryService with OptionalName {
+trait ContactSensorService extends AccessoryService with OptionalName with Has6Characteristics {
 
   override final val serviceId = hap.service.sensor.contact
 
   def contactDetected: ContactSensorStateCharacteristic
   def statusActive: Option[StatusActiveCharacteristic] = None
 
-  override def characteristics: Seq[LowLevelCharacteristic] = Seq(contactDetected) ++ name ++ statusActive //TODO other optional characteristics
+  //TODO other optional characteristics
+  override def characteristics: Characteristics = Seq(
+    id1 - name,
+    id2 - contactDetected,
+    id3 - statusActive,
+  )
 }

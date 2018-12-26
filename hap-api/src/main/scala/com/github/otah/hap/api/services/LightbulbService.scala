@@ -3,7 +3,7 @@ package com.github.otah.hap.api.services
 import com.github.otah.hap.api.AccessoryService
 import com.github.otah.hap.api.characteristics._
 
-trait LightbulbService extends AccessoryService with OptionalName {
+trait LightbulbService extends AccessoryService with OptionalName with Has6Characteristics {
 
   override final val serviceId = hap.service.lightbulb
 
@@ -13,5 +13,10 @@ trait LightbulbService extends AccessoryService with OptionalName {
 
   def colorTemperature: Option[ColorTemperatureCharacteristic] = None
 
-  lazy val characteristics: Characteristics = Seq(powerState) ++ brightness ++ colorTemperature ++ name
+  lazy val characteristics: Characteristics = Seq(
+    id1 - name,
+    id2 - powerState,
+    id3 - brightness,
+    id4 - colorTemperature,
+  )
 }

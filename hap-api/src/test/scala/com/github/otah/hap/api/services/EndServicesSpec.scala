@@ -9,20 +9,24 @@ import org.scalatest.junit.JUnitRunner
 class EndServicesSpec extends FlatSpec {
 
   import sensor._
+
+  trait MockIds extends SequenceInstanceIds {
+    override def baseInstanceId: Int = 10
+  }
   
   def stub: Nothing = throw new Exception()
 
-  abstract class SPwr {
+  abstract class SPwr extends MockIds {
     def powerState: PowerStateCharacteristic = stub
   }
 
   "End-user services" should "need only their characteristics to be specified" in {
 
-    new ContactSensorService {
+    new ContactSensorService with MockIds {
       override def contactDetected = stub
     }
 
-    new MotionSensorService {
+    new MotionSensorService with MockIds {
       override def motionDetected = stub
     }
 
@@ -40,12 +44,12 @@ class EndServicesSpec extends FlatSpec {
       override def inUse = stub
     }
 
-    new SpeakerService {
+    new SpeakerService with MockIds {
       override def mute = stub
       override def volume = stub
     }
 
-    new ProgrammableSwitchService {
+    new ProgrammableSwitchService with MockIds {
       override def programmableSwitchEvent = stub
     }
   }

@@ -26,7 +26,8 @@ class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: Executi
   override def getSerialNumber: String = accessory.serialNumber
   override def getServices: util.Collection[Service] = accessory.services.map(service => new Service {
     override def getType: String = service.serviceId.minimalForm
-    override def getCharacteristics: util.List[Characteristic] = service.characteristics.map(convertCharacteristic).asJava
+    override def getCharacteristics: util.List[Characteristic] =
+      service.characteristics.flatMap(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
   }).asJava
 }
 

@@ -12,7 +12,7 @@ class TestSwitchSpec extends FlatSpec with Matchers with ImplicitExecutionContex
 
     val test = TestSwitch(1, "The Label")
 
-    val names = test.services flatMap (_.characteristics) collect {
+    val names = test.services flatMap (_.characteristics) flatMap (_.characteristic) collect {
       case name: NameCharacteristic => name
     }
     names map (_.name) shouldBe Seq("The Label")
