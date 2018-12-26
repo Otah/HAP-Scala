@@ -6,7 +6,7 @@ import com.github.otah.hap.api.services.OptionalName
 
 trait ContactSensorService extends AccessoryService with OptionalName {
 
-  override final val serviceId = hap.service.sensor.contact
+  override final val serviceType = hap.service.sensor.contact
 
   def contactDetected: ContactSensorStateCharacteristic
   def statusActive: Option[StatusActiveCharacteristic] = None

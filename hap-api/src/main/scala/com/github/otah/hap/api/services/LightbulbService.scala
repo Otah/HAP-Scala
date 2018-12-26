@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics._
 
 trait LightbulbService extends AccessoryService with OptionalName {
 
-  override final val serviceId = hap.service.lightbulb
+  override final val serviceType = hap.service.lightbulb
 
   def powerState: PowerStateCharacteristic
 

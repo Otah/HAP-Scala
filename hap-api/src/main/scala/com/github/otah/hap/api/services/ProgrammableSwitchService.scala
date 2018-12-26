@@ -5,7 +5,7 @@ import com.github.otah.hap.api.{AccessoryService, LowLevelCharacteristic}
 
 trait ProgrammableSwitchService extends AccessoryService with OptionalName {
 
-  override final val serviceId = hap.service.programmableSwitch
+  override final val serviceType = hap.service.programmableSwitch
 
   def programmableSwitchEvent: ProgrammableSwitchEvent
 

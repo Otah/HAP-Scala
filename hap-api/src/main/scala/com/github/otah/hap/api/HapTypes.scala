@@ -1,8 +1,8 @@
 package com.github.otah.hap.api
 
-object HapIds {
+object HapTypes {
 
-  import HapId._
+  import HapType._
 
   object service {
     val fan                = Apple("40")

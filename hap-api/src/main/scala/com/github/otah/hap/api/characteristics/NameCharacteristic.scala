@@ -4,7 +4,7 @@ import scala.concurrent.Future
 
 trait NameCharacteristic extends StringCharacteristic {
 
-  override final val characteristicId = hap.characteristic.name
+  override final val characteristicType = hap.characteristic.name
 
   override def description = "Name of the accessory"
 

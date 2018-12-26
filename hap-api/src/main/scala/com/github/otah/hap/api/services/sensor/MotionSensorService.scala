@@ -6,7 +6,7 @@ import com.github.otah.hap.api.services.{Characteristics, OptionalName}
 
 trait MotionSensorService extends AccessoryService with OptionalName {
 
-  override final val serviceId = hap.service.sensor.motion
+  override final val serviceType = hap.service.sensor.motion
 
   def motionDetected: MotionDetectedCharacteristic
   def statusActive: Option[StatusActiveCharacteristic] = None

@@ -1,7 +1,7 @@
 package com.github.otah.hap.api
 
-trait AccessoryService extends IdConvenience {
+trait AccessoryService extends TypeConvenience {
 
-  def serviceId: HapId
+  def serviceType: HapType
   def characteristics: Seq[LowLevelCharacteristic]
 }
