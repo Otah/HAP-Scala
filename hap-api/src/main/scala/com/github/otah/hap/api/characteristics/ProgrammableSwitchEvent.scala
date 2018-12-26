@@ -6,7 +6,7 @@ trait ProgrammableSwitchEvent extends UInt8Characteristic with Units.None {
 
   override def min = 0
 
-  override final val characteristicId = hap.characteristic.programmableSwitchEvent
+  override final val characteristicType = hap.characteristic.programmableSwitchEvent
 
   override def description = "Programmable switch"
 

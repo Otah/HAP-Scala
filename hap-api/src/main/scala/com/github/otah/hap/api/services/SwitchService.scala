@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 
 trait SwitchService extends AccessoryService with OptionalName with Has2Characteristics {
 
-  override final val serviceId = hap.service.switch
+  override final val serviceType = hap.service.switch
 
   def powerState: PowerStateCharacteristic
 

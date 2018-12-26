@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics._
 
 trait SpeakerService extends AccessoryService with OptionalName with Has3Characteristics {
 
-  override final val serviceId = hap.service.speaker
+  override final val serviceType = hap.service.speaker
 
   def mute: MuteCharacteristic
 

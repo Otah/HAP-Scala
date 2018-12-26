@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics.{PowerStateCharacteristic, Rotati
 
 trait FanService extends AccessoryService with OptionalName with Has4Characteristics {
 
-  override final val serviceId = hap.service.fan
+  override final val serviceType = hap.service.fan
 
   def powerState: PowerStateCharacteristic
 

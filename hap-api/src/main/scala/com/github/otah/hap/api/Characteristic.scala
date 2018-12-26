@@ -3,9 +3,9 @@ package com.github.otah.hap.api
 import scala.concurrent.{ExecutionContext, Future}
 import scalajson.ast._
 
-trait Characteristic[T] extends LowLevelCharacteristic with IdConvenience {
+trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
 
-  def characteristicId: HapId
+  def characteristicType: HapType
   def description: String
 
   def format: String
@@ -55,7 +55,7 @@ trait Characteristic[T] extends LowLevelCharacteristic with IdConvenience {
     JObject {
       Map(
         "iid" -> JNumber(instanceId),
-        "type" -> JString(characteristicId.minimalForm),
+        "type" -> JString(characteristicType.minimalForm),
         "format" -> JString(format),
         "value" -> currentValue,
         "perms" -> JArray(perms.toVector map JString.apply),

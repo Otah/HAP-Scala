@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics.{OutletInUseCharacteristic, Power
 
 trait OutletService extends AccessoryService with OptionalName with Has3Characteristics {
 
-  override final val serviceId = hap.service.outlet
+  override final val serviceType = hap.service.outlet
 
   def powerState: PowerStateCharacteristic
   def inUse: OutletInUseCharacteristic
