@@ -25,6 +25,55 @@ them using the internal Netty implementation.
 _An alternative implementation purely in Scala is in progress._
 - `hap-monix` and `hap-reactivex` are small toolkit modules
 enabling to use Observables as a natural implementation of the accessories' states.
+- `hap-examples` contains _(you guessed it)_ some examples how to define and run accessories.
+
+## Example
+Defining accessories is quite straightforward, see it below or in the `hap-examples` module.
+
+```scala
+// assume hap-monix & hap-server-beowulfe are dependencies
+
+// It is usually handy to define a common accessory which will cover the most typical scenarios.
+trait BaseAccessory extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with IdentifyByPrintingLabel {
+
+  protected implicit val scheduler: Scheduler = ??? // or define implicit scheduler per each accessory
+
+  override def manufacturer = "Here comes your company/name"
+  override def model = "Name of the model"
+  override def serialNumber = "serial"
+}
+
+// This is really all you need to do to define a switch!
+case class ExampleSwitch(id: Int, label: String)
+                        (subject: BehaviorSubject[Boolean])
+        extends BaseAccessory with SwitchService {
+
+  override val powerState: PowerStateCharacteristic =
+    new ObservableWritableCharacteristic(subject) with PowerStateCharacteristic
+}
+
+// Let's run the server using Beowulfe's implementation
+object Runner extends App {
+  implicit val exec: ExecutionContext = ???
+
+  val switchStream = BehaviorSubject(false)
+
+  val accessories: Seq[HomeKitAccessory] = Seq(
+    ExampleSwitch(1001, "An example switch")(switchStream),
+  )
+
+  // --- the server definition follows ---
+
+  val server = new HomekitServer(1234)
+  val authInfo: HomekitAuthInfo = ??? // here comes the authentication information
+  val bridge = server.createBridge(authInfo, "Example Bridge", "You", "BridgeV1", "abcd")
+
+  import beowulfe.BeowulfeAccessoryAdapter.Implicit._ // import implicit accessory converter
+  accessories foreach (acc => bridge.addAccessory(acc))
+
+  bridge.start()
+}
+```
 
 ## Limitations
 There are some limitations regarding the state of the implementation
