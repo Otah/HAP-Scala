@@ -41,11 +41,4 @@ package object services {
     override def id5: InstanceId = id(5)
     override def id6: InstanceId = id(6)
   }
-
-  trait ServiceInstanceIdAsBase extends SequenceInstanceIds {
-
-    def iid: InstanceId // TODO name of this might change
-
-    override def baseInstanceId: Int = iid.value
-  }
 }

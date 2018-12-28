@@ -7,7 +7,7 @@ trait HomeKitAccessory {
   def serialNumber: String
   def model: String
   def manufacturer: String
-  def services: Seq[AccessoryService]
+  def services: Seq[ServiceInstance]
 
   def identification: () => Unit
 }

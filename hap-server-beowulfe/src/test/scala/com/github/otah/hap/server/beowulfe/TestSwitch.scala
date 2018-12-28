@@ -32,8 +32,6 @@ case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
     }
   }
 
-  override def baseInstanceId: Int = 100
-
   override def name = super.name map (sc => NameCharacteristic(sc.name, 255))
 
   override def powerState = this
