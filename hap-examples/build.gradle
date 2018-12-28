@@ -1,0 +1,5 @@
+
+dependencies {
+    compile project(':hap-monix')
+    compile project(':hap-server-beowulfe')
+}

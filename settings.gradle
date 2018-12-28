@@ -5,3 +5,6 @@ include 'hap-server-beowulfe'
 // Accessory state implementations
 include 'hap-monix'
 include 'hap-reactivex'
+
+// Examples
+include 'hap-examples'
