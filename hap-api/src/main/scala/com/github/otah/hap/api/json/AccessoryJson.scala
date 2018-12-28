@@ -9,13 +9,20 @@ object AccessoryJson {
 
   // TODO check the exact field names
 
-  private def JSeq(seq: Seq[JValue]) = JArray(seq.toVector)
   private def build(what: Seq[Future[JValue]])(f: JArray => Map[String, JValue])(implicit ec: ExecutionContext) =
-    Future.sequence(what) map JSeq map f map JObject.apply
+    Future.sequence(what) map (seq => JObject(f.apply(JArray(seq.toVector))))
 
   def apply(accessory: HomeKitAccessory)(implicit ec: ExecutionContext): Future[JObject] = {
 
-    val servicesFuts: Seq[Future[JObject]] = accessory.services map { instance =>
+    val allServices = accessory.services/*:+ infoService*/ //TODO add info service
+
+    val iids = allServices flatMap (s => s.iid +: s.service.characteristics.map(_.iid)) map (_.value)
+    val duplicates = iids groupBy identity collect {
+      case (iid, occurrences) if occurrences.tail.nonEmpty => s"$iid defined ${occurrences.size}x"
+    }
+    if (duplicates.nonEmpty) throw new IllegalStateException("Duplicate IIDs found: " + duplicates.mkString(", "))
+
+    val servicesFutJson: Seq[Future[JObject]] = allServices map { instance =>
       import instance._
       build(service.characteristics flatMap (_.asJson)) { characteristics =>
         Map(
@@ -26,7 +33,7 @@ object AccessoryJson {
       }
     }
 
-    build(servicesFuts/*:+ infoService*/) { services => //TODO add info service
+    build(servicesFutJson) { services =>
       Map(
         "aid" -> JNumber(accessory.id),
         "services" -> services
