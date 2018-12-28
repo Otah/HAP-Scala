@@ -10,7 +10,7 @@ trait SwitchService extends AccessoryService with OptionalName with Has2Characte
   def powerState: PowerStateCharacteristic
 
   lazy val characteristics: Characteristics = Seq(
-    id1 - name,
-    id2 - powerState,
+    id1 -> name,
+    id2 -> powerState,
   )
 }

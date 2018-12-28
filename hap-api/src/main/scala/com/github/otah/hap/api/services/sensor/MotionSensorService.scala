@@ -13,8 +13,8 @@ trait MotionSensorService extends AccessoryService with OptionalName with Has6Ch
 
   //TODO other optional characteristics
   lazy val characteristics: Characteristics = Seq(
-    id1 - name,
-    id2 - motionDetected,
-    id3 - statusActive,
+    id1 -> name,
+    id2 -> motionDetected,
+    id3 -> statusActive,
   )
 }

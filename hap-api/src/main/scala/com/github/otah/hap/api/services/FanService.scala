@@ -12,8 +12,8 @@ trait FanService extends AccessoryService with OptionalName with Has4Characteris
   def rotationSpeed: Option[RotationSpeedCharacteristic]
 
   override lazy val characteristics: Characteristics = Seq(
-    id1 - name,
-    id2 - powerState,
-    id3 - rotationSpeed,
+    id1 -> name,
+    id2 -> powerState,
+    id3 -> rotationSpeed,
   )
 }
