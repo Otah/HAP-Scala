@@ -34,7 +34,8 @@ Defining accessories is quite straightforward, see it below or in the `hap-examp
 // assume hap-monix & hap-server-beowulfe are dependencies
 
 // It is usually handy to define a common accessory which will cover the most typical scenarios.
-trait BaseAccessory extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with IdentifyByPrintingLabel {
+trait BaseAccessory extends SingleServiceAccessory with IdentifyByPrintingLabel {
+  this: AccessoryService =>
 
   protected implicit val scheduler: Scheduler = ??? // or define implicit scheduler per each accessory
 

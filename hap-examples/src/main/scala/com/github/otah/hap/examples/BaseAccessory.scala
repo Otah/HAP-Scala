@@ -8,7 +8,9 @@ import monix.execution.Scheduler
 
 /** It is usually handy to define a common accessory which will cover the most typical scenarios of your setup.
   */
-trait BaseAccessory extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with IdentifyByPrintingLabel {
+trait BaseAccessory extends SingleServiceAccessory with IdentifyByPrintingLabel {
+
+  this: AccessoryService =>
 
   protected implicit val scheduler = BaseAccessory.sharedScheduler
 
