@@ -11,8 +11,9 @@ which is currently still used as a "server driver".
 ## Real Scala
 The intention was to provide a framework which is enough "Scala-idiomatic".
 This especially means no stateful code (there is not a single `var` or `AtomicXxx`),
-no dependencies on being instance of something,
-the framework also heavily uses `traits` where possible to enable mixing stuff together.
+no mutable collections,
+no dependencies on being instance of something.
+The framework also heavily uses Traits where possible to enable mixing stuff together.
 
 ## Modules
 The framework is done in modular way, so you can pick whatever you need.
@@ -91,6 +92,47 @@ Contributions are definitely very welcome!
 The completeness would be great, it just wasn't the priority.
 
 ### Beowulfe HAP-Java Implications
-TBD
+The underlying server driver has few implications which are necessary to consider.
 
-- Synchronous state determination
+#### Synchronous supplyValue
+Due to the design of `Characteristic.supplyValue`,
+which is synchronous (unlike `Characteristic.toJson`),
+it is impossible to request states of multiple accessories/characteristics at once.
+The framework asks one by one because the execution of `supplyValue` blocks until
+the characteristic provides its value, which is then glued to the provided JSON builder.
+
+**The practical impact** is that this complicates getting values which are derived
+from a shared data source among multiple characteristics.
+Following scenario is impossible to implement:
+1. Given 3 accessories internally depending on 1 source of data.
+1. Debounce the requests for getting values of all 3 accessories, thus there is 1 request for data.
+1. As soon as the data arrives, respond to all 3 accessories with their derived values.
+
+With the synchronous nature, the only possibility is to cache the result of first accessory
+and reuse it for the second and third ones.
+
+#### Characteristic does not notify the new value
+The value-changed notification is implemented in Beowulfe's framework literally as a notification
+that "something changed".
+What the framework does, is that it calls `supplyValue` immediately after that notification.
+There is unfortunately no way how to distinguish the context in which `supplyValue` was called,
+so HAP Scala solves this by short 1-second caching of the notified value.
+In other words, the notifications in HAP Scala contain the new value.
+To be able to take advantage from it, on each notification, the value is stored to a cache
+from where the `supplyValue` tries to pick it up first.
+Only if it is not found in that short-term cache, the characteristic is instructed to provide a fresh value.
+
+The **impact** is, that any request for a "fresh" value coming in a 1 second window after a value-change notification
+is effectively not performed and it's provided with that cached value.
+
+_Both issues above are described in detail in the code of the `BeowulfeAccessoryAdapter`._
+
+#### IIDs are automatically generated
+Unlike AIDs (accessory IDs) which are necessary to provide by each accessory,
+the framework automatically generates the IIDs (instance IDs) of the services and characteristics.
+
+This means the IIDs are dependent on the order of services/characteristics and also on their amount.
+This can cause some troubles because the specification requires
+every service and characteristic to keep its IID for the whole lifetime of the accessory
+and IIDs of those which stop existing mustn't be recycled.
+The doc even explicitly mentions that it has to keep the IID even after a firmware update.
