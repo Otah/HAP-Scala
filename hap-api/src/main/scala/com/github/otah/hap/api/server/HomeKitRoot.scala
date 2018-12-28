@@ -2,9 +2,15 @@ package com.github.otah.hap.api.server
 
 import com.github.otah.hap.api.HomeKitAccessory
 
-case class HomeKitRoot(auth: HomeKitAuthentication, root: Either[HomeKitAccessory, HomeKitBridge])
+class HomeKitRoot private (val auth: HomeKitAuthentication,
+                           val root: Either[HomeKitAccessory, HomeKitBridge],
+                           val accessories: Seq[HomeKitAccessory])
 
 object HomeKitRoot {
-  def bridge(bridge: HomeKitBridge, auth: HomeKitAuthentication) = HomeKitRoot(auth, Right(bridge))
-  def standaloneAccessory(accessory: HomeKitAccessory, auth: HomeKitAuthentication) = HomeKitRoot(auth, Left(accessory))
+
+  def bridge(bridge: HomeKitBridge, auth: HomeKitAuthentication) =
+    new HomeKitRoot(auth, Right(bridge), bridge.selfAndAccessories)
+
+  def standaloneAccessory(accessory: HomeKitAccessory, auth: HomeKitAuthentication) =
+    new HomeKitRoot(auth, Left(accessory), Seq(accessory))
 }
