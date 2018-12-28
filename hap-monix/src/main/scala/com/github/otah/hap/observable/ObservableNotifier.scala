@@ -1,6 +1,6 @@
 package com.github.otah.hap.observable
 
-import com.github.otah.hap.api.{Subscription, TypedNotifier}
+import com.github.otah.hap.api.internal.{Subscription, TypedNotifier}
 import monix.execution.{Ack, Scheduler}
 import monix.reactive.Observable
 

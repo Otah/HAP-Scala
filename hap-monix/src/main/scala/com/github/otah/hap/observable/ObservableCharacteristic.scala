@@ -1,6 +1,6 @@
 package com.github.otah.hap.observable
 
-import com.github.otah.hap.api.Characteristic
+import com.github.otah.hap.api.internal.Characteristic
 import monix.eval.Task
 import monix.execution.Scheduler
 import monix.reactive.Observable

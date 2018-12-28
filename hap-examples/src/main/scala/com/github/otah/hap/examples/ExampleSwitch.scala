@@ -1,7 +1,6 @@
 package com.github.otah.hap.examples
 
-import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
-import com.github.otah.hap.api.services.SwitchService
+import com.github.otah.hap.api.{PowerStateCharacteristic, SwitchService}
 import com.github.otah.hap.observable.ObservableWritableCharacteristic
 import monix.reactive.subjects.BehaviorSubject
 

@@ -1,6 +1,6 @@
 package com.github.otah.hap.observable
 
-import com.github.otah.hap.api.Characteristic
+import com.github.otah.hap.api.internal.Characteristic
 import rx.lang.scala.Observable
 import rx.lang.scala.subjects.BehaviorSubject
 

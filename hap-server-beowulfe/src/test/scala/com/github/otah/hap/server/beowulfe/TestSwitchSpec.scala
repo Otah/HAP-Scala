@@ -1,6 +1,6 @@
 package com.github.otah.hap.server.beowulfe
 
-import com.github.otah.hap.api.characteristics.NameCharacteristic
+import com.github.otah.hap.api.NameCharacteristic
 import org.junit.runner.RunWith
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner

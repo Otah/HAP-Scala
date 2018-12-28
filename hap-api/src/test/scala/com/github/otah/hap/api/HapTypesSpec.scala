@@ -1,6 +1,7 @@
 package com.github.otah.hap.api
 
-import com.github.otah.hap.api.HapTypes._
+import com.github.otah.hap.api.internal.HapType
+import com.github.otah.hap.api.internal.HapTypes._
 import org.junit.runner.RunWith
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner

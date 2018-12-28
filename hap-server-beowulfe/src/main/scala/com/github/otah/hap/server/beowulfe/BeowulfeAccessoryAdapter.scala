@@ -2,12 +2,13 @@ package com.github.otah.hap.server.beowulfe
 
 import java.util
 import java.util.concurrent.{CompletableFuture, ConcurrentHashMap}
-import javax.json._
 
+import javax.json._
 import com.beowulfe.hap.characteristics.{Characteristic, EventableCharacteristic}
 import com.beowulfe.hap.{HomekitAccessory, HomekitCharacteristicChangeCallback, Service}
 import com.github.blemale.scaffeine.Scaffeine
-import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscription}
+import com.github.otah.hap.api.internal.{LowLevelCharacteristic, Subscription}
+import com.github.otah.hap.api.HomeKitAccessory
 
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
