@@ -28,7 +28,19 @@ package object services {
     def id6: InstanceId
   }
 
-  trait SequenceInstanceIds extends Has6Characteristics { // TODO use the largest one
+  trait Has7Characteristics extends Has6Characteristics {
+    def id7: InstanceId
+  }
+
+  trait Has8Characteristics extends Has7Characteristics {
+    def id8: InstanceId
+  }
+
+  trait Has9Characteristics extends Has8Characteristics {
+    def id9: InstanceId
+  }
+
+  trait SequenceInstanceIds extends Has9Characteristics { // TODO use the largest one
 
     def baseInstanceId: Int
 
@@ -40,5 +52,8 @@ package object services {
     override def id4: InstanceId = id(4)
     override def id5: InstanceId = id(5)
     override def id6: InstanceId = id(6)
+    override def id7: InstanceId = id(7)
+    override def id8: InstanceId = id(8)
+    override def id9: InstanceId = id(9)
   }
 }

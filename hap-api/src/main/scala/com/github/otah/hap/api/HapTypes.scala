@@ -5,6 +5,9 @@ object HapTypes {
   import HapType._
 
   object service {
+
+    val accessoryInformation = Apple("3E")
+
     val fan                = Apple("40")
     val lightbulb          = Apple("43")
     val switch             = Apple("49")
@@ -19,6 +22,19 @@ object HapTypes {
   }
 
   object characteristic {
+    val identify            = Apple("14")
+    val manufacturer        = Apple("20")
+    val model               = Apple("21")
+    val serialNumber        = Apple("30")
+    val accessoryProperties = Apple("A6")
+
+    object firmware {
+      val revision = Apple("52")
+    }
+    object hardware {
+      val revision = Apple("53")
+    }
+
     val brightness              = Apple("8")
     val name                    = Apple("23")
     val powerState              = Apple("25")

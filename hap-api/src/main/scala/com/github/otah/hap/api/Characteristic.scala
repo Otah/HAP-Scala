@@ -6,7 +6,7 @@ import scalajson.ast._
 trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
 
   def characteristicType: HapType
-  def description: String
+  def description: String //TODO make optional
 
   def format: String
 

@@ -9,7 +9,7 @@ trait StringCharacteristic extends Characteristic[String] {
 
   override final val format = "string"
 
-  def maxLength: Int
+  def maxLength: Int // TODO make optional
 
   override protected def toJsonValue(v: String) = JString(v)
 
