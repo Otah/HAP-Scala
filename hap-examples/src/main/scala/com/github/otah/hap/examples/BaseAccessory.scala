@@ -4,6 +4,7 @@ import java.util.concurrent.Executors
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.accessories._
+import com.github.otah.hap.api.information.Revision
 import monix.execution.Scheduler
 
 /** It is usually handy to define a common accessory which will cover the most typical scenarios of your setup.
@@ -17,6 +18,9 @@ trait BaseAccessory extends SingleServiceAccessory with IdentifyByPrintingLabel 
   override def manufacturer = "Otah"
   override def model = "Virtual Accessory"
   override def serialNumber = "none"
+
+  override def firmwareRevision = Revision("0.0.1")
+  override def hardwareRevision = None
 }
 
 object BaseAccessory {

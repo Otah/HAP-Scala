@@ -2,6 +2,7 @@ package com.github.otah.hap.server.beowulfe
 
 import com.github.otah.hap.api.accessories.{IdentifyByPrintingLabel, SingleServiceAccessory}
 import com.github.otah.hap.api.characteristics.{NameCharacteristic, PowerStateCharacteristic}
+import com.github.otah.hap.api.information.Revision
 import com.github.otah.hap.api.services._
 import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
@@ -18,6 +19,10 @@ case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
   override def model = "none"
 
   override def serialNumber = "none"
+
+  override def firmwareRevision = Revision("0.0.1")
+
+  override def hardwareRevision = None
 
   override def reader = Reader(Future.successful(state))
 

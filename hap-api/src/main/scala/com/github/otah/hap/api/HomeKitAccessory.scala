@@ -4,6 +4,4 @@ trait HomeKitAccessory extends HomeKitInfo {
 
   def id: Int
   def services: Seq[ServiceInstance]
-
-  def identification: () => Unit
 }
