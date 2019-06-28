@@ -15,6 +15,8 @@ object HapTypes {
     object sensor {
       val motion           = Apple("85")
       val contact          = Apple("80")
+      val humidity         = Apple("82")
+      val temperature      = Apple("8A")
     }
   }
 
@@ -31,5 +33,11 @@ object HapTypes {
     val programmableSwitchEvent = Apple("73")
     val statusActive            = Apple("75")
     val outletInUse             = Apple("26")
+    object temperature {
+      val current = Apple("11")
+    }
+    object relativeHumidity {
+      val current = Apple("10")
+    }
   }
 }
