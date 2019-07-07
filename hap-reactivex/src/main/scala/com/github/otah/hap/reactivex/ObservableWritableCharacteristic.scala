@@ -1,4 +1,4 @@
-package com.github.otah.hap.observable
+package com.github.otah.hap.reactivex
 
 import rx.lang.scala.subjects.BehaviorSubject
 import rx.lang.scala.{Observable, Observer, Subject}

@@ -1,4 +1,4 @@
-package com.github.otah.hap.observable
+package com.github.otah.hap.reactivex
 
 import com.github.otah.hap.api.{Subscription, TypedNotifier}
 import rx.lang.scala.Observable

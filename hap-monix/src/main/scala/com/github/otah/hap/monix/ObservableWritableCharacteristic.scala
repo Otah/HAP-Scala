@@ -1,4 +1,4 @@
-package com.github.otah.hap.observable
+package com.github.otah.hap.monix
 
 import monix.eval.Task
 import monix.execution.Scheduler
