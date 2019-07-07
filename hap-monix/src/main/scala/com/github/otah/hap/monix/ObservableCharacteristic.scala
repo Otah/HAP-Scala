@@ -13,5 +13,5 @@ abstract class ObservableCharacteristic[T](observable: Observable[T], currentVal
 
   override val reader = Reader(currentValue.runAsync)
 
-  override val notifier = Some(ObservableNotifier[T](observable))
+  override val notifier = ObservableNotifier(observable)
 }

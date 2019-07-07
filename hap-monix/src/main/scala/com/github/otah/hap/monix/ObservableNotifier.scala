@@ -6,7 +6,7 @@ import monix.reactive.Observable
 
 import scala.concurrent.Future
 
-case class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: Scheduler) extends TypedNotifier[T] {
+class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: Scheduler) extends TypedNotifier[T] {
 
   override def subscribe(callback: T => Future[Unit]) = new Subscription {
 
@@ -14,4 +14,8 @@ case class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: 
 
     override def unsubscribe(): Unit = subscription.cancel()
   }
+}
+
+object ObservableNotifier {
+  def apply[T](observable: Observable[T])(implicit scheduler: Scheduler) = Some(new ObservableNotifier(observable))
 }

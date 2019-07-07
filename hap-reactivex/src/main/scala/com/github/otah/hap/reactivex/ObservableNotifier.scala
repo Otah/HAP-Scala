@@ -5,7 +5,7 @@ import rx.lang.scala.Observable
 
 import scala.concurrent.Future
 
-case class ObservableNotifier[T](observable: Observable[T]) extends TypedNotifier[T] {
+class ObservableNotifier[T](observable: Observable[T]) extends TypedNotifier[T] {
 
   override def subscribe(callback: T => Future[Unit]) = new Subscription {
 
@@ -13,4 +13,8 @@ case class ObservableNotifier[T](observable: Observable[T]) extends TypedNotifie
 
     override def unsubscribe(): Unit = subscription.unsubscribe()
   }
+}
+
+object ObservableNotifier {
+  def apply[T](observable: Observable[T]) = Some(new ObservableNotifier(observable))
 }
