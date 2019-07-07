@@ -11,7 +11,7 @@ abstract class ObservableCharacteristic[T](observable: Observable[T], currentVal
 
   def this(behavior: BehaviorSubject[T])(implicit scheduler: Scheduler) = this(behavior, behavior.headL)
 
-  override val reader = Reader(currentValue.runAsync)
+  override val reader = ObservableReader(currentValue)
 
   override val notifier = ObservableNotifier(observable)
 }
