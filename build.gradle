@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'maven'
 
     group = "com.github.otah"
-    version = "0.2-observables-SNAPSHOT"
+    version = "0.2-SNAPSHOT"
 
     sourceCompatibility = 1.8
 
