@@ -2,7 +2,7 @@ package com.github.otah.hap.examples
 
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import com.github.otah.hap.api.services.SwitchService
-import com.github.otah.hap.observable.ObservableWritableCharacteristic
+import com.github.otah.hap.monix.ObservableWritableCharacteristic
 import monix.reactive.subjects.BehaviorSubject
 
 case class ExampleSwitch(id: Int, label: String)
