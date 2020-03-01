@@ -1,4 +1,6 @@
 
+// TODO add Scala version plugin
+
 subprojects {
 
     repositories {
@@ -10,7 +12,7 @@ subprojects {
     apply plugin: 'maven'
 
     group = "com.github.otah"
-    version = "0.2-SNAPSHOT"
+    version = "0.3-SNAPSHOT"
 
     sourceCompatibility = 1.8
 

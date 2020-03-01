@@ -8,5 +8,5 @@ import scala.concurrent.{ExecutionContext, Future}
 object ObservableReader {
 
   def apply[T](currentValue: Task[T])(implicit scheduler: Scheduler): Some[ExecutionContext => Future[Option[T]]] =
-    Some(_ => currentValue.map(Some.apply).runAsync)
+    Some(_ => currentValue.map(Some.apply).runToFuture)
 }
