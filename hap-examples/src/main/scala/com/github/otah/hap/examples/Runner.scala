@@ -5,18 +5,17 @@ import java.util.concurrent.Executors
 import com.beowulfe.hap._
 import com.github.otah.hap.api.HomeKitAccessory
 import com.github.otah.hap.server.beowulfe
+import monix.execution.Scheduler
 import monix.reactive.subjects.BehaviorSubject
-
-import scala.concurrent.ExecutionContext
 
 object Runner extends App {
 
-  implicit val exec: ExecutionContext = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
+  implicit val scheduler = Scheduler(Executors.newCachedThreadPool())
 
   val switchStream = BehaviorSubject(false)
 
   val accessories: Seq[HomeKitAccessory] = Seq(
-    ExampleSwitch(1001, "An example switch")(switchStream),
+    new ExampleSwitch(1001, "An example switch", switchStream),
   )
 
   // --- the server definition follows ---

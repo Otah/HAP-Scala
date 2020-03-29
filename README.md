@@ -38,17 +38,15 @@ Defining accessories is quite straightforward, see it below or in the `hap-examp
 trait BaseAccessory extends SingleServiceAccessory with IdentifyByPrintingLabel {
   this: AccessoryService =>
 
-  protected implicit val scheduler: Scheduler = ??? // or define implicit scheduler per each accessory
-
   override def manufacturer = "Here comes your company/name"
   override def model = "Name of the model"
   override def serialNumber = "serial"
 }
 
 // This is really all you need to do to define a switch!
-case class ExampleSwitch(id: Int, label: String)
-                        (subject: BehaviorSubject[Boolean])
-        extends BaseAccessory with SwitchService {
+class ExampleSwitch(val id: Int, val label: String, subject: BehaviorSubject[Boolean])
+                   (implicit s: Scheduler)
+  extends BaseAccessory with SwitchService {
 
   override val powerState: PowerStateCharacteristic =
     new ObservableWritableCharacteristic(subject) with PowerStateCharacteristic
@@ -56,12 +54,12 @@ case class ExampleSwitch(id: Int, label: String)
 
 // Let's run the server using Beowulfe's implementation
 object Runner extends App {
-  implicit val exec: ExecutionContext = ???
+  implicit val scheduler = Scheduler(Executors.newCachedThreadPool())
 
   val switchStream = BehaviorSubject(false)
 
   val accessories: Seq[HomeKitAccessory] = Seq(
-    ExampleSwitch(1001, "An example switch")(switchStream),
+    new ExampleSwitch(1001, "An example switch", switchStream),
   )
 
   // --- the server definition follows ---
