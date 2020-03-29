@@ -7,9 +7,17 @@ subprojects {
         mavenCentral()
     }
 
+    ext {
+        monix = [ group: 'io.monix', name: 'monix_2.12', version: '3.1.0'] //TODO add some systematic versioning
+        rxScala = [ group: 'io.reactivex', name: 'rxscala_2.12', version: '0.26.5']
+        beowulfeHap = [ group: 'com.beowulfe.hap', name: 'hap', version: '1.1.3' ]
+        scaffeine = [ group: 'com.github.blemale', name: 'scaffeine_2.12', version: '2.3.0' ]
+        scalajson = [ group: 'org.scala-lang.platform', name: 'scalajson_2.12', version: '1.0.0-M4' ]
+    }
+
     apply plugin: 'java'
     apply plugin: 'scala'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     group = "com.github.otah"
     version = "0.3-SNAPSHOT"
@@ -17,13 +25,13 @@ subprojects {
     sourceCompatibility = 1.8
 
     dependencies {
-        compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
-        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        compile group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.7.2'
+        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.7.2'
 
-        testCompile group: 'junit', name: 'junit', version: '4.11'
-        testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'
-        testCompile group: 'org.scalamock', name: 'scalamock-scalatest-support_2.12', version: '3.6.0'
+        testImplementation group: 'junit', name: 'junit', version: '4.11'
+        testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'
+        testImplementation group: 'org.scalamock', name: 'scalamock-scalatest-support_2.12', version: '3.6.0'
     }
 
     configurations.all {

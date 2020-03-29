@@ -1,6 +1,7 @@
 
 dependencies {
-    compile project(':hap-api')
+    implementation project(':hap-api')
 
-    compile group: 'io.monix', name: 'monix_2.12', version: '3.1.0' //TODO add some systematic versioning
+    implementation monix
+    implementation scalajson
 }
