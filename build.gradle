@@ -1,11 +1,20 @@
 
 // TODO add Scala version plugin
 
-subprojects {
-
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
+    }
     repositories {
+        mavenLocal()
         mavenCentral()
     }
+}
+
+subprojects {
 
     ext {
         monix = [ group: 'io.monix', name: 'monix_2.12', version: '3.1.0'] //TODO add some systematic versioning
@@ -40,5 +49,13 @@ subprojects {
 
     compileScala {
         scalaCompileOptions.additionalParameters = ["-feature"]
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
     }
 }
