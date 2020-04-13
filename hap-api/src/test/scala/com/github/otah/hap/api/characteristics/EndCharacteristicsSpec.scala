@@ -61,7 +61,6 @@ class EndCharacteristicsSpec extends FlatSpec {
     new ProgrammableSwitchEvent {
       override def notifier = stub
       override def max = 1
-      override protected def pressed(pressId: Int) = Future.successful(()) // Future.unit since 2.12
     }
   }
 }
