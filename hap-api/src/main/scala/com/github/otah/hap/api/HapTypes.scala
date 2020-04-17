@@ -11,6 +11,7 @@ object HapTypes {
     val programmableSwitch = Apple("89")
     val speaker            = Apple("113")
     val outlet             = Apple("47")
+    val battery            = Apple("96")
 
     object sensor {
       val motion           = Apple("85")
@@ -33,6 +34,10 @@ object HapTypes {
     val programmableSwitchEvent = Apple("73")
     val statusActive            = Apple("75")
     val outletInUse             = Apple("26")
+    val battery                 = Apple("68")
+    val statusLowBattery        = Apple("79")
+    val chargingState           = Apple("8F")
+
     object temperature {
       val current = Apple("11")
     }
