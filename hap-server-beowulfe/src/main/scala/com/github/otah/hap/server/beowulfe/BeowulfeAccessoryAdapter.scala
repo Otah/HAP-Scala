@@ -4,8 +4,8 @@ import java.util
 import java.util.concurrent.{CompletableFuture, ConcurrentHashMap}
 import javax.json._
 
-import com.beowulfe.hap.characteristics.{Characteristic, EventableCharacteristic}
-import com.beowulfe.hap.{HomekitAccessory, HomekitCharacteristicChangeCallback, Service}
+import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristic}
+import io.github.hapjava.{HomekitAccessory, HomekitCharacteristicChangeCallback, Service}
 import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscription}
 

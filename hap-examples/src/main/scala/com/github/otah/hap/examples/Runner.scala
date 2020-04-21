@@ -2,7 +2,7 @@ package com.github.otah.hap.examples
 
 import java.util.concurrent.Executors
 
-import com.beowulfe.hap._
+import io.github.hapjava._
 import com.github.otah.hap.api.HomeKitAccessory
 import com.github.otah.hap.server.beowulfe
 import monix.execution.Scheduler

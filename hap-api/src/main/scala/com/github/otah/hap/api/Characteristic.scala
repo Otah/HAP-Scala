@@ -60,8 +60,7 @@ trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
         "value" -> currentValue,
         "perms" -> JArray(perms.toVector map JString.apply),
         "description" -> JString(description),
-        "events" -> JFalse,
-        "bonjour" -> JFalse
+        "ev" -> JFalse,
       )
     }
   }

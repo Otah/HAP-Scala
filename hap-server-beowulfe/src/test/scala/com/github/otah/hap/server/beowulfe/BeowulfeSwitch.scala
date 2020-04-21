@@ -1,7 +1,7 @@
 package com.github.otah.hap.server.beowulfe
 
-import com.beowulfe.hap.HomekitCharacteristicChangeCallback
-import com.beowulfe.hap.accessories.Switch
+import io.github.hapjava.HomekitCharacteristicChangeCallback
+import io.github.hapjava.accessories.Switch
 
 import scala.concurrent.{ExecutionContext, Future}
 

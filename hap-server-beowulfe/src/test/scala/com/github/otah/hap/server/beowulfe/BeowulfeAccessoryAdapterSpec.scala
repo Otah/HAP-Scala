@@ -2,7 +2,7 @@ package com.github.otah.hap.server.beowulfe
 
 import javax.json.JsonValue
 
-import com.beowulfe.hap.HomekitAccessory
+import io.github.hapjava.HomekitAccessory
 import org.junit.runner.RunWith
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
@@ -50,12 +50,6 @@ class BeowulfeAccessoryAdapterSpec extends FlatSpec with Matchers with ImplicitE
     val oNameMap = new java.util.HashMap[String, JsonValue](oNameJson)
     val cNameMap = new java.util.HashMap[String, JsonValue](cNameJson)
 
-    val tp = "type"
-    assert(oNameJson.getString(tp) === "00000023-0000-1000-8000-0026BB765291")
-    assert(cNameJson.getString(tp) === "23")
-    oNameMap.remove(tp)
-    cNameMap.remove(tp)
-
     assert(oNameMap === cNameMap)
 
     val oSwitchJson = oSwitch.toJson(1).get()
@@ -64,16 +58,11 @@ class BeowulfeAccessoryAdapterSpec extends FlatSpec with Matchers with ImplicitE
     val perms = "perms"
     assert(oSwitchJson.getJsonArray(perms).asScala.toSet === cSwitchJson.getJsonArray(perms).asScala.toSet)
 
-    assert(oSwitchJson.getString(tp) === "00000025-0000-1000-8000-0026BB765291")
-    assert(cSwitchJson.getString(tp) === "25")
-
     val oSwitchMap = new java.util.HashMap[String, JsonValue](oSwitchJson)
     val cSwitchMap = new java.util.HashMap[String, JsonValue](cSwitchJson)
 
     oSwitchMap.remove(perms)
     cSwitchMap.remove(perms)
-    oSwitchMap.remove(tp)
-    cSwitchMap.remove(tp)
     assert(oSwitchMap === cSwitchMap)
   }
 }
