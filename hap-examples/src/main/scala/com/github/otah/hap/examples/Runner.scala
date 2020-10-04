@@ -2,9 +2,10 @@ package com.github.otah.hap.examples
 
 import java.util.concurrent.Executors
 
-import io.github.hapjava._
 import com.github.otah.hap.api.HomeKitAccessory
 import com.github.otah.hap.server.beowulfe
+import io.github.hapjava.server.HomekitAuthInfo
+import io.github.hapjava.server.impl.HomekitServer
 import monix.execution.Scheduler
 import monix.reactive.subjects.BehaviorSubject
 
@@ -24,7 +25,7 @@ object Runner extends App {
 
   val authInfo: HomekitAuthInfo = ??? // TODO here comes the implementation of storage of authentication information
 
-  val bridge = server.createBridge(authInfo, "Example Bridge", "Otah", "BridgeV1", "111bbb222")
+  val bridge = server.createBridge(authInfo, "Example Bridge", "Otah", "BridgeV1", "111bbb222", null, null)
 
   import beowulfe.BeowulfeAccessoryAdapter.Implicit._ // import implicit accessory converter
   accessories foreach (acc => bridge.addAccessory(acc))
