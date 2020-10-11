@@ -6,7 +6,7 @@ import javax.json.JsonValue.ValueType
 import sjsonnew.shaded.scalajson
 import scalajson.ast._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 /** Mutual conversions between [[javax.json]] and [[scalajson.ast]]

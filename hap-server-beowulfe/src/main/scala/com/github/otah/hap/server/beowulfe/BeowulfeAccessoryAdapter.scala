@@ -10,9 +10,9 @@ import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscription}
 import sjsonnew.shaded.scalajson.ast._
 
-import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.jdk.CollectionConverters._
 
 class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: ExecutionContext) extends HomekitAccessory {
 
