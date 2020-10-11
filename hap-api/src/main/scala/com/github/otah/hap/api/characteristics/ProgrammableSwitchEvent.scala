@@ -15,8 +15,6 @@ trait ProgrammableSwitchEvent extends UInt8Characteristic with Units.None {
   override final def writer: Option[Writer] = None
 
   override def notifier: Some[Notifier]
-
-  protected def pressed(pressId: Int): Future[Unit]
 }
 
 object ProgrammableSwitchEvent {
@@ -27,9 +25,13 @@ object ProgrammableSwitchEvent {
     val long = 2
   }
 
+  trait Convenience extends ProgrammableSwitchEvent {
+    protected def pressed(pressId: Int): Future[Unit]
+  }
+
   import Press._
 
-  trait SinglePress extends ProgrammableSwitchEvent {
+  trait SinglePress extends Convenience {
     override def max = single
     def singlePressed() = pressed(single)
   }

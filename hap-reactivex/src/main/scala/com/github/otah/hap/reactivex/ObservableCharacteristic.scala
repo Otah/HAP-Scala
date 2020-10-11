@@ -1,4 +1,4 @@
-package com.github.otah.hap.observable
+package com.github.otah.hap.reactivex
 
 import com.github.otah.hap.api.Characteristic
 import rx.lang.scala.Observable
@@ -9,7 +9,7 @@ abstract class ObservableCharacteristic[T](observable: Observable[T], currentVal
 
   def this(behavior: BehaviorSubject[T]) = this(behavior, behavior.head)
 
-  override val reader = Reader(currentValue.toBlocking.toFuture)
+  override val reader = ObservableReader(currentValue)
 
-  override val notifier = Some(ObservableNotifier[T](observable))
+  override val notifier = ObservableNotifier(observable)
 }

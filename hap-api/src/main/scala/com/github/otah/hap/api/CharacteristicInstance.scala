@@ -1,6 +1,6 @@
 package com.github.otah.hap.api
 
-import scalajson.ast.JObject
+import sjsonnew.shaded.scalajson.ast.JObject
 
 import scala.concurrent.{ExecutionContext, Future}
 

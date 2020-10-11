@@ -1,6 +1,7 @@
 
 dependencies {
-    compile project(':hap-api')
+    implementation project(':hap-api')
 
-    compile group: 'io.reactivex', name: 'rxscala_2.12', version: '0.26.5'
+    implementation rxScala
+    implementation scalajson
 }

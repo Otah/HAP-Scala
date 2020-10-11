@@ -1,27 +1,55 @@
 
-subprojects {
-
-    repositories {
-        mavenCentral()
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
     }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = 'https://dl.bintray.com/openhab/mvn/'
+        }
+    }
+}
+
+ext.scalaMajor = '2.12'
+ext.scalaMinor = 11
+ext.scalaLib = ext.scalaMajor + '.' + ext.scalaMinor
+
+def scala(libName) {
+    return libName + '_' + ext.scalaMajor
+}
+
+subprojects {
 
     apply plugin: 'java'
     apply plugin: 'scala'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    ext {
+        monix = [ group: 'io.monix', name: scala('monix'), version: '3.1.0'] //TODO add some systematic versioning
+        rxScala = [ group: 'io.reactivex', name: scala('rxscala'), version: '0.27.0']
+        beowulfeHap = [ group: 'io.github.hap-java', name: 'hap', version: '2.0.0.OH' ]
+        scaffeine = [ group: 'com.github.blemale', name: scala('scaffeine'), version: '3.1.0' ]
+        scalajson = [ group: 'com.eed3si9n', name: scala('shaded-scalajson'), version: '1.0.0-M4' ]
+    }
 
     group = "com.github.otah"
-    version = "0.2-iids-SNAPSHOT"
+    version = "0.8.0-iids-SNAPSHOT"
 
     sourceCompatibility = 1.8
 
     dependencies {
-        compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
-        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        compile group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.7.2'
+        implementation group: 'org.scala-lang', name: 'scala-library', version: scalaLib
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        implementation group: 'com.typesafe.scala-logging', name: scala('scala-logging'), version: '3.9.2'
 
-        testCompile group: 'junit', name: 'junit', version: '4.11'
-        testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'
-        testCompile group: 'org.scalamock', name: 'scalamock-scalatest-support_2.12', version: '3.6.0'
+        testImplementation group: 'junit', name: 'junit', version: '4.11'
+        testImplementation group: 'org.scalatest', name: scala('scalatest'), version: '3.1.2'
+        testImplementation group: 'org.scalatestplus', name: scala('scalatestplus-junit'), version: '1.0.0-M2'
     }
 
     configurations.all {
@@ -30,5 +58,15 @@ subprojects {
 
     compileScala {
         scalaCompileOptions.additionalParameters = ["-feature"]
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId scala(project.name)
+
+                from components.java
+            }
+        }
     }
 }

@@ -27,5 +27,5 @@ trait AccessoryConversions {
     future map Integer.valueOf
 
   implicit def futToVoidCpltFuture(future: Future[_])(implicit ec: ExecutionContext): CompletableFuture[java.lang.Void] =
-    future map (_ => null)
+    futToCpltFuture(future map (_ => null: Void))
 }

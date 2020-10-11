@@ -1,11 +1,13 @@
 package com.github.otah.hap.server.beowulfe
 
-import com.beowulfe.hap.HomekitCharacteristicChangeCallback
-import com.beowulfe.hap.accessories.Switch
+import java.util.concurrent.CompletableFuture
+
+import io.github.hapjava.accessories.SwitchAccessory
+import io.github.hapjava.characteristics.HomekitCharacteristicChangeCallback
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class BeowulfeSwitch(id: Int, label: String)(implicit ec: ExecutionContext) extends Switch with AccessoryConversions {
+case class BeowulfeSwitch(id: Int, label: String)(implicit ec: ExecutionContext) extends SwitchAccessory with AccessoryConversions {
 
   @volatile private var changeCallback: Option[HomekitCharacteristicChangeCallback] = None
   @volatile private var state = false
@@ -25,15 +27,17 @@ case class BeowulfeSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
 
   override def unsubscribeSwitchState(): Unit = changeCallback = None
 
-  override def getLabel = label
+  override def getName = CompletableFuture.completedFuture(label)
 
   override def getId = id
 
-  override def getManufacturer = "Otah"
+  override def getManufacturer = CompletableFuture.completedFuture("Otah")
 
-  override def getSerialNumber = "none"
+  override def getSerialNumber = CompletableFuture.completedFuture("none")
 
-  override def getModel = "none"
+  override def getModel = CompletableFuture.completedFuture("none")
+
+  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(null)
 
   override def identify(): Unit = println("This is the original switch")
 }
