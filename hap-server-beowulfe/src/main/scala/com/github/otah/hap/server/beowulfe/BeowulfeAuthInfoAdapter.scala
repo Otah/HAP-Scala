@@ -2,8 +2,8 @@ package com.github.otah.hap.server.beowulfe
 
 import java.math.BigInteger
 
-import com.beowulfe.hap.HomekitAuthInfo
 import com.github.otah.hap.api.server.HomeKitAuthentication
+import io.github.hapjava.server.HomekitAuthInfo
 
 class BeowulfeAuthInfoAdapter(authentication: HomeKitAuthentication) extends HomekitAuthInfo {
 

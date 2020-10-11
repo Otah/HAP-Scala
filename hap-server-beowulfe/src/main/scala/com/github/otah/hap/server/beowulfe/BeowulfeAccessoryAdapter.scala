@@ -4,15 +4,16 @@ import java.util
 import java.util.concurrent.{CompletableFuture, ConcurrentHashMap}
 import javax.json._
 
-import com.beowulfe.hap.characteristics.{Characteristic, EventableCharacteristic}
-import com.beowulfe.hap.{HomekitAccessory, HomekitCharacteristicChangeCallback, Service}
 import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscription}
+import io.github.hapjava.accessories.HomekitAccessory
+import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristic, HomekitCharacteristicChangeCallback}
+import io.github.hapjava.services.Service
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
-import scalajson.ast._
 
 class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: ExecutionContext) extends HomekitAccessory {
 
@@ -20,15 +21,16 @@ class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: Executi
 
   override def identify(): Unit = accessory.identification()
   override def getId: Int = accessory.id
-  override def getLabel: String = accessory.label
-  override def getManufacturer: String = accessory.manufacturer
-  override def getModel: String = accessory.model
-  override def getSerialNumber: String = accessory.serialNumber
+  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.label)
+  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.manufacturer)
+  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.model)
+  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.serialNumber)
+  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.firmwareRevision.asString)
   override def getServices: util.Collection[Service] = accessory.services.map(instance => new Service {
     import instance._
     override def getType: String = service.serviceType.minimalForm
     override def getCharacteristics: util.List[Characteristic] =
-      service.characteristics.flatMap(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
+      service.characteristics.map(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
   }).asJava
 }
 

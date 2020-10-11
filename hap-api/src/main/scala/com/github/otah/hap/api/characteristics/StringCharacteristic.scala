@@ -1,9 +1,9 @@
 package com.github.otah.hap.api.characteristics
 
 import com.github.otah.hap.api.Characteristic
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.concurrent.ExecutionContext
-import scalajson.ast._
 
 trait StringCharacteristic extends Characteristic[String] {
 

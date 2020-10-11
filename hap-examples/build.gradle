@@ -1,5 +1,10 @@
 
 dependencies {
-    compile project(':hap-monix')
-    compile project(':hap-server-beowulfe')
+    implementation project(':hap-api')
+    implementation project(':hap-monix')
+    implementation project(':hap-server-beowulfe')
+
+    implementation monix
+    implementation beowulfeHap
+    implementation scalajson
 }

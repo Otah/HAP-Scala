@@ -1,8 +1,14 @@
 package com.github.otah.hap.api
 
+import scala.language.implicitConversions
+
 package object services {
 
+  implicit def characteristicInstanceAutoOption(x: CharacteristicInstance) = Some(x)
+
   type Characteristics = Seq[CharacteristicInstance]
+
+  def Characteristics(chs: Option[CharacteristicInstance]*): Characteristics = chs.flatten
 
   trait Has1Characteristic {
     def id1: InstanceId

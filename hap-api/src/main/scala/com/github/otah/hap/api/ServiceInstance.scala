@@ -1,3 +1,3 @@
 package com.github.otah.hap.api
 
-case class ServiceInstance(iid: InstanceId, service: AccessoryService)
+class ServiceInstance(val iid: InstanceId, val service: AccessoryService)

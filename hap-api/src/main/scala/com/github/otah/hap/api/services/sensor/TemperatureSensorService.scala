@@ -4,17 +4,17 @@ import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 
-trait ContactSensorService extends AccessoryService with OptionalName with Has6Characteristics {
+trait TemperatureSensorService extends AccessoryService with OptionalName with Has3Characteristics {
 
-  override final val serviceType = hap.service.sensor.contact
+  override final val serviceType = hap.service.sensor.temperature
 
-  def contactDetected: ContactSensorStateCharacteristic
+  def currentTemperature: CurrentTemperatureCharacteristic
+
   def statusActive: Option[StatusActiveCharacteristic] = None
 
-  //TODO other optional characteristics
   override def characteristics = Characteristics(
     id1 -> name,
-    id2 -> contactDetected,
+    id2 -> currentTemperature,
     id3 -> statusActive,
   )
 }

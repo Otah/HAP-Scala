@@ -18,7 +18,7 @@ trait AccessoryInformation extends AccessoryService with Has8Characteristics {
   def hardwareRevision: Option[RevisionCharacteristic]
   def accessoryFlags: Option[LowLevelCharacteristic] //TODO proper type
 
-  override def characteristics: Characteristics = Seq(
+  override def characteristics = Characteristics(
     id1 -> name,
     id2 -> identify,
     id3 -> manufacturer,

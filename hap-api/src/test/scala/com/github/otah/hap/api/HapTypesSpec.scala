@@ -2,11 +2,12 @@ package com.github.otah.hap.api
 
 import com.github.otah.hap.api.HapTypes._
 import org.junit.runner.RunWith
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class HapTypesSpec extends FlatSpec with Matchers {
+class HapTypesSpec extends AnyFlatSpec with Matchers {
 
   object expected {
     val rotSpeed  = "00000029-0000-1000-8000-0026BB765291"

@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-import scalajson.ast._
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.util.Try
 

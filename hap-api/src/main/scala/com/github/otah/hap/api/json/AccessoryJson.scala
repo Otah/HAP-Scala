@@ -1,7 +1,7 @@
 package com.github.otah.hap.api.json
 
 import com.github.otah.hap.api.HomeKitAccessory
-import scalajson.ast._
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -24,7 +24,7 @@ object AccessoryJson {
 
     val servicesFutJson: Seq[Future[JObject]] = allServices map { instance =>
       import instance._
-      build(service.characteristics flatMap (_.asJson)) { characteristics =>
+      build(service.characteristics map (_.asJson)) { characteristics =>
         Map(
           "type" -> JString(service.serviceType.minimalForm),
           "iid" -> JNumber(iid.value),

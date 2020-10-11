@@ -1,6 +1,8 @@
 
 dependencies {
-    compile project(':hap-api')
-    compile group: 'com.beowulfe.hap', name: 'hap', version: '1.1.3'
-    compile group: 'com.github.blemale', name: 'scaffeine_2.12', version: '2.3.0'
+    implementation project(':hap-api')
+
+    implementation beowulfeHap
+    implementation scaffeine
+    implementation scalajson
 }

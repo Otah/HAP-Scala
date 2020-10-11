@@ -3,9 +3,11 @@ package com.github.otah.hap.server.beowulfe
 import javax.json._
 import javax.json.JsonValue.ValueType
 
+import sjsonnew.shaded.scalajson
+import scalajson.ast._
+
 import scala.collection.JavaConverters._
 import scala.util.Try
-import scalajson.ast._
 
 /** Mutual conversions between [[javax.json]] and [[scalajson.ast]]
   */
@@ -13,7 +15,12 @@ trait JsonConverters {
 
   def convertJsonToJ(jsonValue: JsonValue): JValue = jsonValue.getValueType match {
     case ValueType.ARRAY => JArray(jsonValue.asInstanceOf[JsonArray].asScala.toVector map convertJsonToJ)
-    case ValueType.OBJECT => JObject(jsonValue.asInstanceOf[JsonObject].asScala.toMap mapValues convertJsonToJ)
+    case ValueType.OBJECT =>
+      JObject(
+        jsonValue.asInstanceOf[JsonObject].asScala.map { case (key, value) =>
+          key -> convertJsonToJ(value)
+        }.toMap
+      )
     case ValueType.NULL => JNull
     case ValueType.NUMBER => JNumber(jsonValue.toString) getOrElse (throw new IllegalArgumentException(s"$jsonValue is not a number"))
     case ValueType.STRING => JString(jsonValue.asInstanceOf[JsonString].getString)

@@ -1,10 +1,10 @@
 package com.github.otah.hap.api
 
-import scalajson.ast.JObject
+import sjsonnew.shaded.scalajson.ast.JObject
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class CharacteristicInstance(iid: InstanceId, characteristic: Option[LowLevelCharacteristic]) {
+class CharacteristicInstance(val iid: InstanceId, val characteristic: LowLevelCharacteristic) {
 
-  def asJson(implicit ec: ExecutionContext): Option[Future[JObject]] = characteristic map (_.asJson(iid.value))
+  def asJson(implicit ec: ExecutionContext): Future[JObject] = characteristic.asJson(iid.value)
 }

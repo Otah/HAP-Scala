@@ -1,7 +1,7 @@
 package com.github.otah.hap.server.beowulfe
 
 import com.github.otah.hap.api.accessories.{IdentifyByPrintingLabel, SingleServiceAccessory}
-import com.github.otah.hap.api.characteristics.{NameCharacteristic, PowerStateCharacteristic}
+import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import com.github.otah.hap.api.information.Revision
 import com.github.otah.hap.api.services._
 import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
         extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with SequenceInstanceIds
-                with IdentifyByPrintingLabel with SwitchService with UseLabelAsName with PowerStateCharacteristic {
+                with IdentifyByPrintingLabel with SwitchService with PowerStateCharacteristic {
 
   @volatile private var state = false
 
@@ -19,6 +19,8 @@ case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
   override def model = "none"
 
   override def serialNumber = "none"
+
+  override def description: String = "On / Off state"
 
   override def firmwareRevision = Revision("0.0.1")
 
@@ -36,8 +38,6 @@ case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
       override def subscribe(callback: Boolean => Future[Unit]) = () => ()
     }
   }
-
-  override def name = super.name map (sc => NameCharacteristic(sc.name, 255))
 
   override def powerState = this
 }

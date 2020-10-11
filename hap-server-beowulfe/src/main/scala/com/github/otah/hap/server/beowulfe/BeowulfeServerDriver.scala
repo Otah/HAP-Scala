@@ -2,9 +2,9 @@ package com.github.otah.hap.server.beowulfe
 
 import java.net.InetAddress
 
-import com.beowulfe.hap.HomekitServer
 import com.github.otah.hap.api.server.HomeKitServer
 import com.typesafe.scalalogging.Logger
+import io.github.hapjava.server.impl.HomekitServer
 
 import scala.concurrent.ExecutionContext
 
@@ -32,7 +32,10 @@ object BeowulfeServerDriver {
 
         case Right(bridgeDef) =>
           import bridgeDef._
-          val bridge = server.createBridge(authInfo, label, manufacturer, model, serialNumber)
+          val bridge = server.createBridge(
+            authInfo, label, manufacturer, model, serialNumber,
+            firmwareRevision.asString, hardwareRevision.map(_.asString).orNull
+          )
           accessories foreach (acc => bridge.addAccessory(acc))
       }
     }
