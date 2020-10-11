@@ -1,6 +1,5 @@
-package com.github.otah.hap.api.accessories
+package com.github.otah.hap.api
 
-import com.github.otah.hap.api.HomeKitInfo
 import com.typesafe.scalalogging.Logger
 
 trait IdentifyByLoggingLabel {

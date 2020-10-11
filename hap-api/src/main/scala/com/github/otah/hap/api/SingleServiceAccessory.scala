@@ -1,8 +1,6 @@
-package com.github.otah.hap.api.accessories
+package com.github.otah.hap.api
 
-import com.github.otah.hap.api._
 import com.github.otah.hap.api.services.BatteryService
-import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
 /** Many HAP accessories are defined only with a single service.
   * Mix this trait in case you want to define the service characteristics directly in the accessory class,

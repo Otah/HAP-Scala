@@ -1,10 +1,9 @@
 package com.github.otah.hap.server.beowulfe
 
-import com.github.otah.hap.api.accessories.{IdentifyByPrintingLabel, SingleServiceAccessory}
+import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import com.github.otah.hap.api.information.Revision
 import com.github.otah.hap.api.services._
-import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory, HomeKitInfo}
 
 import scala.concurrent.{ExecutionContext, Future}
 

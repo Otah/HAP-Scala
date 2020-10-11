@@ -1,6 +1,4 @@
-package com.github.otah.hap.api.accessories
-
-import com.github.otah.hap.api.HomeKitInfo
+package com.github.otah.hap.api
 
 trait IdentifyByPrintingLabel {
 
