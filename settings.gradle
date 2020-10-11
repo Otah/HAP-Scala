@@ -1,4 +1,6 @@
 
+rootProject.name = 'hap-scala'
+
 include 'hap-api'
 include 'hap-server-beowulfe'
 

@@ -2,11 +2,12 @@ package com.github.otah.hap.server.beowulfe
 
 import com.github.otah.hap.api.characteristics.NameCharacteristic
 import org.junit.runner.RunWith
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class TestSwitchSpec extends FlatSpec with Matchers with ImplicitExecutionContext {
+class TestSwitchSpec extends AnyFlatSpec with Matchers with ImplicitExecutionContext {
 
   "Label of the TestSwitch" should "be used as a name of its single service" in {
 
