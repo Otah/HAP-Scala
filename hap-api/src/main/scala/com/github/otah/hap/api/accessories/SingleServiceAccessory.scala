@@ -14,10 +14,10 @@ trait SingleServiceAccessory extends HomeKitAccessory {
 
   this: AccessoryService =>
 
-  def baseInstanceId = 20 // keeps enough space for Accessory Information service (IID 1) and its characteristics
+  def baseInstanceId = 30 // keeps enough space for Accessory Information service (IID 1) and its characteristics
 
-  val services: Seq[ServiceInstance] = Seq(InstanceId(baseInstanceId) -> this)
-  def services: Seq[AccessoryService] = Seq(this) ++ battery // TODO include battery to the service instances
+  def services: Seq[ServiceInstance] = Seq(InstanceId(baseInstanceId) -> this) ++
+    (battery map (InstanceId(20) -> _))
 
   def battery: Option[BatteryService] = None
 }
