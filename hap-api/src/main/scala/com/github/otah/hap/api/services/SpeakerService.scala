@@ -11,7 +11,7 @@ trait SpeakerService extends AccessoryService with OptionalName with Has3Charact
 
   def volume: Option[VolumeCharacteristic]
 
-  lazy val characteristics: Characteristics = Seq(
+  lazy val characteristics = Characteristics(
     id1 -> name,
     id2 -> volume,
     id3 -> mute,

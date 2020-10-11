@@ -12,7 +12,7 @@ trait HumiditySensorService extends AccessoryService with OptionalName with Has3
 
   def statusActive: Option[StatusActiveCharacteristic] = None
 
-  override def characteristics: Seq[CharacteristicInstance] = Seq(
+  override def characteristics = Characteristics(
     id1 -> name,
     id2 -> currentHumidity,
     id3 -> statusActive,

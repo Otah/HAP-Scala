@@ -12,7 +12,7 @@ trait ContactSensorService extends AccessoryService with OptionalName with Has6C
   def statusActive: Option[StatusActiveCharacteristic] = None
 
   //TODO other optional characteristics
-  override def characteristics: Characteristics = Seq(
+  override def characteristics = Characteristics(
     id1 -> name,
     id2 -> contactDetected,
     id3 -> statusActive,

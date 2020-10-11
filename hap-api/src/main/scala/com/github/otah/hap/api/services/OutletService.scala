@@ -10,7 +10,7 @@ trait OutletService extends AccessoryService with OptionalName with Has3Characte
   def powerState: PowerStateCharacteristic
   def inUse: OutletInUseCharacteristic
 
-  override lazy val characteristics: Characteristics = Seq(
+  override lazy val characteristics = Characteristics(
     id1 -> name,
     id2 -> powerState,
     id3 -> inUse,

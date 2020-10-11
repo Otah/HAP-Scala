@@ -30,7 +30,7 @@ class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: Executi
     import instance._
     override def getType: String = service.serviceType.minimalForm
     override def getCharacteristics: util.List[Characteristic] =
-      service.characteristics.flatMap(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
+      service.characteristics.map(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
   }).asJava
 }
 

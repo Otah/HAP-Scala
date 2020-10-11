@@ -17,7 +17,7 @@ trait SingleServiceAccessory extends HomeKitAccessory {
   def baseInstanceId = 30 // keeps enough space for Accessory Information service (IID 1) and its characteristics
 
   def services: Seq[ServiceInstance] = Seq(InstanceId(baseInstanceId) -> this) ++
-    (battery map (InstanceId(20) -> _))
+    (InstanceId(20) -> battery)
 
   def battery: Option[BatteryService] = None
 }

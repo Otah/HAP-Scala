@@ -10,7 +10,7 @@ trait ProgrammableSwitchService extends AccessoryService with OptionalName with 
   def programmableSwitchEvent: ProgrammableSwitchEvent
 
   //TODO label index
-  lazy val characteristics: Characteristics = Seq(
+  lazy val characteristics = Characteristics(
     id1 -> name,
     id2 -> programmableSwitchEvent,
   )

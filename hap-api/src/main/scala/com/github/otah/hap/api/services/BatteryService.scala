@@ -13,7 +13,7 @@ trait BatteryService extends AccessoryService with OptionalName with Has4Charact
 
   def chargingState: ChargingStateCharacteristic
 
-  override lazy val characteristics: Characteristics = Seq(
+  override lazy val characteristics = Characteristics(
     id1 -> name,
     id2 -> battery,
     id3 -> statusLowBattery,

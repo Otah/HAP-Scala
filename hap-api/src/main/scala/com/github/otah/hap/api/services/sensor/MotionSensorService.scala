@@ -12,7 +12,7 @@ trait MotionSensorService extends AccessoryService with OptionalName with Has6Ch
   def statusActive: Option[StatusActiveCharacteristic] = None
 
   //TODO other optional characteristics
-  lazy val characteristics: Characteristics = Seq(
+  lazy val characteristics = Characteristics(
     id1 -> name,
     id2 -> motionDetected,
     id3 -> statusActive,
