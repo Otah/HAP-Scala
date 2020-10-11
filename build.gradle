@@ -32,13 +32,13 @@ subprojects {
     ext {
         monix = [ group: 'io.monix', name: scala('monix'), version: '3.1.0'] //TODO add some systematic versioning
         rxScala = [ group: 'io.reactivex', name: scala('rxscala'), version: '0.27.0']
-        beowulfeHap = [ group: 'io.github.hap-java', name: 'hap', version: '1.2.0.OH' ]
+        beowulfeHap = [ group: 'io.github.hap-java', name: 'hap', version: '2.0.0.OH' ]
         scaffeine = [ group: 'com.github.blemale', name: scala('scaffeine'), version: '3.1.0' ]
         scalajson = [ group: 'com.eed3si9n', name: scala('shaded-scalajson'), version: '1.0.0-M4' ]
     }
 
     group = "com.github.otah"
-    version = "0.7.0-SNAPSHOT"
+    version = "0.8.0-SNAPSHOT"
 
     sourceCompatibility = 1.8
 
