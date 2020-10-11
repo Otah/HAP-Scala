@@ -19,13 +19,13 @@ class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: Executi
 
   import BeowulfeAccessoryAdapter._
 
-  override def identify(): Unit = accessory.identification()
+  override def identify(): Unit = accessory.info.identification()
   override def getId: Int = accessory.id
-  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.label)
-  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.manufacturer)
-  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.model)
-  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.serialNumber)
-  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.firmwareRevision.asString)
+  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.label)
+  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.manufacturer)
+  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.model)
+  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.serialNumber)
+  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.firmwareRevision.asString)
   override def getServices: util.Collection[Service] = accessory.services.map(instance => new Service {
     import instance._
     override def getType: String = service.serviceType.minimalForm

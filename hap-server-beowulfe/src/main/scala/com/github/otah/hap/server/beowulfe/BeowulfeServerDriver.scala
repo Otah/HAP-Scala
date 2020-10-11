@@ -31,12 +31,13 @@ object BeowulfeServerDriver {
           server.createStandaloneAccessory(authInfo, accessory)
 
         case Right(bridgeDef) =>
-          import bridgeDef._
+          val info = bridgeDef.info
+          import info._
           val bridge = server.createBridge(
             authInfo, label, manufacturer, model, serialNumber,
             firmwareRevision.asString, hardwareRevision.map(_.asString).orNull
           )
-          accessories foreach (acc => bridge.addAccessory(acc))
+          bridgeDef.accessories foreach (acc => bridge.addAccessory(acc))
       }
     }
   }

@@ -1,7 +1,8 @@
 package com.github.otah.hap.api
 
-trait HomeKitAccessory extends HomeKitInfo {
+trait HomeKitAccessory {
 
   def id: Int
+  def info: HomeKitInfo
   def services: Seq[ServiceInstance]
 }
