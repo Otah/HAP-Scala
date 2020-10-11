@@ -8,11 +8,11 @@ import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristi
 import io.github.hapjava.{HomekitAccessory, HomekitCharacteristicChangeCallback, Service}
 import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscription}
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
-import scalajson.ast._
 
 class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: ExecutionContext) extends HomekitAccessory {
 

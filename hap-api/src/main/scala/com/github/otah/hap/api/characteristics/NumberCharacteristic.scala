@@ -1,7 +1,7 @@
 package com.github.otah.hap.api.characteristics
 
 import com.github.otah.hap.api.Characteristic
-import scalajson.ast._
+import sjsonnew.shaded.scalajson.ast._
 
 import scala.concurrent.ExecutionContext
 

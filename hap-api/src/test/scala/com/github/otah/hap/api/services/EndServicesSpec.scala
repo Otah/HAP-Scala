@@ -2,11 +2,11 @@ package com.github.otah.hap.api.services
 
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import org.junit.runner.RunWith
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class EndServicesSpec extends FlatSpec {
+class EndServicesSpec extends AnyFlatSpec {
 
   import sensor._
   

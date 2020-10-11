@@ -4,13 +4,14 @@ import javax.json.JsonValue
 
 import io.github.hapjava.HomekitAccessory
 import org.junit.runner.RunWith
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
-class BeowulfeAccessoryAdapterSpec extends FlatSpec with Matchers with ImplicitExecutionContext {
+class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with ImplicitExecutionContext {
 
   "Original accessory creation" should "give the same result as the converted custom accessory" in {
 

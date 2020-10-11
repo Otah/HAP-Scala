@@ -1,6 +1,4 @@
 
-// TODO add Scala version plugin
-
 allprojects {
     buildscript {
         repositories {
@@ -17,33 +15,41 @@ allprojects {
     }
 }
 
-subprojects {
+ext.scalaMajor = '2.12'
+ext.scalaMinor = 11
+ext.scalaLib = ext.scalaMajor + '.' + ext.scalaMinor
 
-    ext {
-        monix = [ group: 'io.monix', name: 'monix_2.12', version: '3.1.0'] //TODO add some systematic versioning
-        rxScala = [ group: 'io.reactivex', name: 'rxscala_2.12', version: '0.26.5']
-        beowulfeHap = [ group: 'io.github.hap-java', name: 'hap', version: '1.2.0.OH' ]
-        scaffeine = [ group: 'com.github.blemale', name: 'scaffeine_2.12', version: '2.3.0' ]
-        scalajson = [ group: 'org.scala-lang.platform', name: 'scalajson_2.12', version: '1.0.0-M4' ]
-    }
+def scala(libName) {
+    return libName + '_' + ext.scalaMajor
+}
+
+subprojects {
 
     apply plugin: 'java'
     apply plugin: 'scala'
     apply plugin: 'maven-publish'
 
+    ext {
+        monix = [ group: 'io.monix', name: scala('monix'), version: '3.1.0'] //TODO add some systematic versioning
+        rxScala = [ group: 'io.reactivex', name: scala('rxscala'), version: '0.27.0']
+        beowulfeHap = [ group: 'io.github.hap-java', name: 'hap', version: '1.2.0.OH' ]
+        scaffeine = [ group: 'com.github.blemale', name: scala('scaffeine'), version: '3.1.0' ]
+        scalajson = [ group: 'com.eed3si9n', name: scala('shaded-scalajson'), version: '1.0.0-M4' ]
+    }
+
     group = "com.github.otah"
-    version = "0.6.0-SNAPSHOT"
+    version = "0.7.0-SNAPSHOT"
 
     sourceCompatibility = 1.8
 
     dependencies {
-        implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
+        implementation group: 'org.scala-lang', name: 'scala-library', version: scalaLib
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        implementation group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.7.2'
+        implementation group: 'com.typesafe.scala-logging', name: scala('scala-logging'), version: '3.9.2'
 
         testImplementation group: 'junit', name: 'junit', version: '4.11'
-        testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: '3.0.3'
-        testImplementation group: 'org.scalamock', name: 'scalamock-scalatest-support_2.12', version: '3.6.0'
+        testImplementation group: 'org.scalatest', name: scala('scalatest'), version: '3.1.2'
+        testImplementation group: 'org.scalatestplus', name: scala('scalatestplus-junit'), version: '1.0.0-M2'
     }
 
     configurations.all {
@@ -57,6 +63,8 @@ subprojects {
     publishing {
         publications {
             mavenJava(MavenPublication) {
+                artifactId scala(project.name)
+
                 from components.java
             }
         }

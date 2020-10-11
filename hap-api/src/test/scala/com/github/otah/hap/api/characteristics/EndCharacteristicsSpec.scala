@@ -1,13 +1,11 @@
 package com.github.otah.hap.api.characteristics
 
 import org.junit.runner.RunWith
-import org.scalatest._
-import org.scalatest.junit.JUnitRunner
-
-import scala.concurrent.Future
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class EndCharacteristicsSpec extends FlatSpec {
+class EndCharacteristicsSpec extends AnyFlatSpec {
 
   def stub: Some[Nothing] = throw new Exception()
 

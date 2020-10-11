@@ -1,7 +1,8 @@
 package com.github.otah.hap.api
 
+import sjsonnew.shaded.scalajson.ast._
+
 import scala.concurrent.{ExecutionContext, Future}
-import scalajson.ast._
 
 trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
 
