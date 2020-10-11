@@ -2,9 +2,9 @@ package com.github.otah.hap.api.services.sensor
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
-import com.github.otah.hap.api.services.OptionalName
+import com.github.otah.hap.api.services._
 
-trait TemperatureSensorService extends AccessoryService with OptionalName {
+trait TemperatureSensorService extends AccessoryService with OptionalName with Has3Characteristics {
 
   override final val serviceType = hap.service.sensor.temperature
 
@@ -12,5 +12,9 @@ trait TemperatureSensorService extends AccessoryService with OptionalName {
 
   def statusActive: Option[StatusActiveCharacteristic] = None
 
-  override def characteristics: Seq[LowLevelCharacteristic] = Seq(currentTemperature) ++ name ++ statusActive
+  override def characteristics: Seq[CharacteristicInstance] = Seq(
+    id1 -> name,
+    id2 -> currentTemperature,
+    id3 -> statusActive,
+  )
 }
