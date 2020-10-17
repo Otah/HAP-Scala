@@ -27,35 +27,6 @@ object TestRunner extends App {
   implicit val ec = ExecutionContext.fromExecutor(Executors.newCachedThreadPool())
   implicit val as = ActorSystem()
 
-  case class TypeAndValue(typeByte: Byte, value: Seq[Byte])
-
-  case class TlvMessage(bytes: Seq[Byte]) {
-
-    val chunks: Seq[TypeAndValue] = {
-      def popValue(initial: Seq[Byte]): Option[(TypeAndValue, Seq[Byte])] = initial match {
-        case Nil => None
-        case Seq(onlyType) => Some(TypeAndValue(onlyType, Nil) -> Nil)
-        case moreBytes => Some {
-          val lengthAndData = moreBytes.tail
-          val dataLength = lengthAndData.head
-          val dataAndNext = lengthAndData.tail
-          TypeAndValue(moreBytes.head, dataAndNext take dataLength) -> (dataAndNext drop dataLength)
-        }
-      }
-
-      def recurse(initial: Seq[Byte]): Seq[TypeAndValue] = {
-        popValue(initial) match {
-          case None => Nil
-          case Some((tv, remaining)) =>
-            tv +: recurse(remaining)
-        }
-      }
-
-      recurse(bytes)
-    }
-  }
-
-
   val handler = pathPrefix("pair-setup") {
     extractRequestEntity { entity =>
       complete {
