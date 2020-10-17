@@ -1,0 +1,8 @@
+
+dependencies {
+    implementation 'javax.jmdns:jmdns:3.4.1'
+
+    implementation group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.6.5'
+    implementation group: 'com.typesafe.akka', name: 'akka-stream_2.12', version: '2.6.5'
+    implementation group: 'com.typesafe.akka', name: 'akka-http_2.12', version: '10.1.12'
+}
