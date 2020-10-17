@@ -7,7 +7,7 @@ import org.scalatestplus.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class TlvMessageSpec extends AnyFlatSpec {
 
-  def input(bytes: Byte*)(results: TypeAndValue*) = assertResult(results)(TlvMessage(bytes).chunks)
+  def input(bytes: Byte*)(results: TypeAndValue*) = assertResult(results)(TlvMessage(bytes.toArray).chunks)
 
   it should "parse typical payload for pair-setup" in input(0, 1, 0, 6, 1, 1)(
     TypeAndValue(0, Seq(0)),
@@ -27,4 +27,15 @@ class TlvMessageSpec extends AnyFlatSpec {
     TypeAndValue(5, Seq()),
     TypeAndValue(8, Seq(2, 1, 0)),
   )
+
+  it should "convert values to bytes as well" in {
+    assertResult(
+      Seq[Byte](5, 0, 8, 3, 2, 1, 0)
+    )(
+      TlvMessage(Seq(
+        TypeAndValue(5, Seq()),
+        TypeAndValue(8, Seq(2, 1, 0)),
+      )).asBytes
+    )
+  }
 }
