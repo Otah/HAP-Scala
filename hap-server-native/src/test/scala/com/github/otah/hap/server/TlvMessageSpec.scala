@@ -38,4 +38,11 @@ class TlvMessageSpec extends AnyFlatSpec {
       )).asBytes
     )
   }
+
+  it should "convert negative length value to a positive integer – length is an unsigned byte" in input(
+    Seq[Byte](3, -126) ++ List.fill(133)(1.toByte): _*
+  )(
+    TypeAndValue(3, List.fill(130)(1.toByte)),
+    TypeAndValue(1, Seq(1)),
+  )
 }

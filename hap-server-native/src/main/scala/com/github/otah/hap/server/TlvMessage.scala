@@ -17,7 +17,7 @@ object TlvMessage {
       case Seq(onlyType) => Some(TypeAndValue(onlyType, Nil) -> Nil)
       case moreBytes => Some {
         val lengthAndData = moreBytes.tail
-        val dataLength = lengthAndData.head
+        val dataLength = TypeAndValue.byteAsUnsigned(lengthAndData.head)
         val dataAndNext = lengthAndData.tail
         TypeAndValue(moreBytes.head, dataAndNext take dataLength) -> (dataAndNext drop dataLength)
       }
