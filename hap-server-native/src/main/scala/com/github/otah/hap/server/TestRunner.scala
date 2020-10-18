@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.unmarshalling.Unmarshal
@@ -47,28 +48,44 @@ object TestRunner extends App {
   def printTlvMessage(message: TlvMessage): Unit =
     message.chunks.map(ch => s"${ch.typeByte}: ${ch.value.mkString(",")}").foreach(println)
 
+  val contentTypePairingTlv = ContentType(MediaType.applicationBinary("pairing+tlv8", MediaType.NotCompressible))
+
+  def extractTlv(f: TlvMessage => ToResponseMarshallable) = extractRequestEntity { entity =>
+    complete(Unmarshal(entity).to[Array[Byte]] map TlvMessage.apply map f)
+  }
+
+  def tlvResponse(responseMessage: TlvMessage) =
+    HttpResponse(entity = HttpEntity(contentTypePairingTlv, responseMessage.asBytes.toArray))
+
+  val pairVerifyHandler = new PairVerifyHandler(auth, label)
+
+  val keys = new AtomicReference[Option[SessionKeys]](None)
+
   val handler = pathPrefix("pair-setup") {
-    extractRequestEntity { entity =>
-      complete {
-        Unmarshal(entity).to[Array[Byte]] map { incoming =>
+    extractTlv { incoming =>
+      println(s"Incoming:")
+      printTlvMessage(incoming)
 
-          val incomingMessage = TlvMessage(incoming)
-          println(s"Incoming:")
-          printTlvMessage(incomingMessage)
+      if (incoming.firstOfType(6).flatMap(_.value.headOption).contains(1))
+        srp.set(Some(new PairSetupHandlerProxy(auth)))
 
-          if (incomingMessage.firstOfType(6).flatMap(_.value.headOption).contains(1))
-            srp.set(Some(new PairSetupHandlerProxy(auth)))
+      val responseMessage = srp.get().map(_.respondTo(incoming)).getOrElse(TlvMessage(Nil))
+      println(s"Response:")
+      printTlvMessage(responseMessage)
 
-          val responseBytes = srp.get().toArray.flatMap(_.responseFor(incomingMessage))
-          println(s"Response:")
-          printTlvMessage(TlvMessage(responseBytes))
+      tlvResponse(responseMessage)
+    }
+  } ~ pathPrefix("pair-verify") {
+    extractTlv { incoming =>
+      println(s"Incoming:")
+      printTlvMessage(incoming)
 
-          HttpResponse(entity = HttpEntity(
-            ContentType(MediaType.applicationBinary("pairing+tlv8", MediaType.NotCompressible)),
-            responseBytes
-          ))
-        }
-      }
+      val (responseMessage, maybeKeys) = pairVerifyHandler.respondTo(incoming)
+      keys.set(maybeKeys)
+      println(s"Response:")
+      printTlvMessage(responseMessage)
+
+      tlvResponse(responseMessage)
     }
   } ~ extractRequest { request =>
     println(request)

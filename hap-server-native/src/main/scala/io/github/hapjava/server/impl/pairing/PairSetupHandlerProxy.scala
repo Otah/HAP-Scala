@@ -4,6 +4,8 @@ import com.github.otah.hap.api.server.HomeKitAuthentication
 import com.github.otah.hap.server.TlvMessage
 import com.github.otah.hap.server.beowulfe.BeowulfeAuthInfoAdapter
 
+/** This has to be in "foreign" package to be able to access the SrpHandler
+  */
 class PairSetupHandlerProxy(auth: HomeKitAuthentication) {
 
   private val info = new BeowulfeAuthInfoAdapter(auth)
@@ -12,7 +14,7 @@ class PairSetupHandlerProxy(auth: HomeKitAuthentication) {
 
   def K() = srpHandler.getK
 
-  def responseFor(message: TlvMessage): Array[Byte] = {
+  def respondTo(message: TlvMessage): TlvMessage = {
 
     val handler =
       if (message.firstOfType(6).flatMap(_.value.headOption).contains(5)) {
@@ -21,6 +23,8 @@ class PairSetupHandlerProxy(auth: HomeKitAuthentication) {
         srpHandler.handle _
       }
 
-    handler(PairSetupRequest.of(message.asBytes.toArray)).getBody.array()
+    TlvMessage(
+      handler(PairSetupRequest.of(message.asBytes.toArray)).getBody.array()
+    )
   }
 }
