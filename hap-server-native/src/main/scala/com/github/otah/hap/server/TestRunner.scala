@@ -6,20 +6,24 @@ import java.util.concurrent.atomic.AtomicReference
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.scaladsl.Flow
+import akka.stream.scaladsl.{Flow, Tcp}
 import akka.util.ByteString
 import com.github.otah.hap.api.server._
+import com.typesafe.scalalogging.Logger
 import io.github.hapjava.server.impl.HomekitUtils
 import io.github.hapjava.server.impl.pairing.PairSetupHandlerProxy
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
+import scala.concurrent.{Await, ExecutionContext}
+import scala.util.control.NonFatal
 
 object TestRunner extends App {
+
+  val log = Logger[TestRunner.type]
 
   val label = "bla" //TODO so far it seems it doesn't work with spaces etc. in Akka HTTP (Host header broken)
   val port = 53001
@@ -64,7 +68,7 @@ object TestRunner extends App {
 
   val keys = new AtomicReference[Option[SessionKeys]](None)
 
-  val handler = pathPrefix("pair-setup") {
+  val route = pathPrefix("pair-setup") {
     extractTlv { incoming =>
       println(s"Incoming:")
       printTlvMessage(incoming)
@@ -104,10 +108,21 @@ object TestRunner extends App {
   val decryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.decrypt)
   val encryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.encrypt)
 
-  val http = Http()
-  http.bindAndHandle(handler, "0.0.0.0", port)
+  val httpFlow: Flow[HttpRequest, HttpResponse, NotUsed] = route
+
+  val fullTcpFlow: Flow[ByteString, ByteString, Any] = ???
+
+  val tcp = Tcp()
+  val binding = tcp.bindAndHandle(fullTcpFlow, "0.0.0.0", port)
+
+  binding.onComplete { result =>
+    log.info(s"Server binding resulted in $result", result.failed.toOption.orNull)
+  }
 
   sys.addShutdownHook {
     advertiser.stopAdvertising()
+    try Await.result(binding flatMap (_.unbind()), 10.seconds) catch {
+      case NonFatal(ex) => log.error("Unbinding server failed", ex)
+    }
   }
 }
