@@ -4,12 +4,15 @@ import java.net.InetAddress
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
 
+import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.stream.scaladsl.Flow
+import akka.util.ByteString
 import com.github.otah.hap.api.server._
 import io.github.hapjava.server.impl.HomekitUtils
 import io.github.hapjava.server.impl.pairing.PairSetupHandlerProxy
@@ -92,7 +95,17 @@ object TestRunner extends App {
     complete(StatusCodes.NotFound)
   }
 
-  Http().bindAndHandle(handler, "0.0.0.0", port)
+  val encryption = new Encryption
+
+  def encryptionFlow(f: SessionKeys => Array[Byte] => Array[Byte]) = Flow.fromFunction[ByteString, ByteString] { in =>
+    keys.get() map f map (_.apply(in.toArray)) map ByteString.apply getOrElse in
+  }
+
+  val decryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.decrypt)
+  val encryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.encrypt)
+
+  val http = Http()
+  http.bindAndHandle(handler, "0.0.0.0", port)
 
   sys.addShutdownHook {
     advertiser.stopAdvertising()
