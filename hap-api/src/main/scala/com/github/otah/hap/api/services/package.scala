@@ -4,11 +4,11 @@ import scala.language.implicitConversions
 
 package object services {
 
-  implicit def characteristicInstanceAutoOption(x: CharacteristicInstance) = Some(x)
+  implicit def characteristicInstanceAutoOption(x: Identified[LowLevelCharacteristic]) = Some(x)
 
-  type Characteristics = Seq[CharacteristicInstance]
+  type Characteristics = Seq[Identified[LowLevelCharacteristic]]
 
-  def Characteristics(chs: Option[CharacteristicInstance]*): Characteristics = chs.flatten
+  def Characteristics(chs: Option[Identified[LowLevelCharacteristic]]*): Characteristics = chs.flatten
 
   trait Has1Characteristic {
     def id1: InstanceId
@@ -47,4 +47,6 @@ package object services {
     override def id5: InstanceId = id(5)
     override def id6: InstanceId = id(6)
   }
+
+  abstract class ServiceWithSequentialIds(val baseInstanceId: Int) extends AccessoryService with SequenceInstanceIds
 }

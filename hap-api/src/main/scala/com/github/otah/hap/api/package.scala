@@ -7,6 +7,9 @@ import scala.language.implicitConversions
 
 package object api {
 
+  type Identified[+O] = (InstanceId, O)
+  type Services = Seq[Identified[AccessoryService]]
+
   trait Subscription {
     def unsubscribe(): Unit
   }
@@ -28,10 +31,5 @@ package object api {
     def jsonWriter(implicit ec: ExecutionContext): Option[JValue => Future[_]]
 
     def jsonValueNotifier(implicit ec: ExecutionContext): Option[LowLevelNotifier]
-  }
-
-  implicit class InstanceIdExt(value: InstanceId) {
-
-    def ->(maybeSvc: Option[AccessoryService]): Option[ServiceInstance] = maybeSvc map (new ServiceInstance(value, _))
   }
 }

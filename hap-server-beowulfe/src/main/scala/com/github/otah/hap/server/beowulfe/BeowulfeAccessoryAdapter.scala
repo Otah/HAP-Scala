@@ -26,12 +26,17 @@ class BeowulfeAccessoryAdapter(accessory: HomeKitAccessory)(implicit ec: Executi
   override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.model)
   override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.serialNumber)
   override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(null) //TODO provide firmware revision
-  override def getServices: util.Collection[Service] = accessory.services.map(instance => new Service {
-    import instance._
-    override def getType: String = service.serviceType.minimalForm
-    override def getCharacteristics: util.List[Characteristic] =
-      service.characteristics.map(_.characteristic).map(convertCharacteristic).asJava // ignores IIDs due to FW limitations
-  }).asJava
+  override def getServices: util.Collection[Service] = accessory.services.map {
+    case (iid, service) => new Service {
+
+      override def getType: String = service.serviceType.minimalForm
+
+      override def getCharacteristics: util.List[Characteristic] =
+        service.characteristics.map {
+          case (iid, characteristic) => characteristic // ignores IIDs due to FW limitations
+        }.map(convertCharacteristic).asJava
+    }
+  }.asJava
 }
 
 object BeowulfeAccessoryAdapter {

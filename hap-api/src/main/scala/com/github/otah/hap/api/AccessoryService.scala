@@ -6,9 +6,9 @@ trait AccessoryService extends TypeConvenience {
   parent =>
 
   def serviceType: HapType
-  def characteristics: Seq[CharacteristicInstance]
+  def characteristics: Characteristics
 
-  def :+(characteristicToAdd: CharacteristicInstance): AccessoryService = new AccessoryService {
+  def :+(characteristicToAdd: Identified[LowLevelCharacteristic]): AccessoryService = new AccessoryService {
 
     override def serviceType = parent.serviceType
     override def characteristics = parent.characteristics :+ characteristicToAdd

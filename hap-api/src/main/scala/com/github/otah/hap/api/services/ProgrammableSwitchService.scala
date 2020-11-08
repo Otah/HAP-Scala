@@ -11,7 +11,7 @@ trait ProgrammableSwitchService extends AccessoryService with OptionalName with 
 
   //TODO label index
   lazy val characteristics = Characteristics(
-    id1 -> name,
+    id1 ->> name,
     id2 -> programmableSwitchEvent,
   )
 }

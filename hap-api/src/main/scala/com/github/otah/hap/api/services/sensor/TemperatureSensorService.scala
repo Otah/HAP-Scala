@@ -13,8 +13,8 @@ trait TemperatureSensorService extends AccessoryService with OptionalName with H
   def statusActive: Option[StatusActiveCharacteristic] = None
 
   override def characteristics = Characteristics(
-    id1 -> name,
+    id1 ->> name,
     id2 -> currentTemperature,
-    id3 -> statusActive,
+    id3 ->> statusActive,
   )
 }
