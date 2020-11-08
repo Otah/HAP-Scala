@@ -6,11 +6,12 @@ import java.util.concurrent.atomic.AtomicReference
 
 import akka.NotUsed
 import akka.actor.ActorSystem
+import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import akka.stream.scaladsl.{Flow, Tcp}
+import akka.stream.scaladsl.{Flow, Source, Tcp}
 import akka.util.ByteString
 import com.github.otah.hap.api.server._
 import com.typesafe.scalalogging.Logger
@@ -68,7 +69,7 @@ object TestRunner extends App {
 
   val keys = new AtomicReference[Option[SessionKeys]](None)
 
-  val route = pathPrefix("pair-setup") {
+  val plainRoutes = pathPrefix("pair-setup") {
     extractTlv { incoming =>
       println(s"Incoming:")
       printTlvMessage(incoming)
@@ -108,9 +109,25 @@ object TestRunner extends App {
   val decryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.decrypt)
   val encryptFlow: Flow[ByteString, ByteString, NotUsed] = encryptionFlow(encryption.encrypt)
 
-  val httpFlow: Flow[HttpRequest, HttpResponse, NotUsed] = route
+  val httpFlow: Flow[HttpRequest, HttpResponse, NotUsed] = plainRoutes
 
-  val fullTcpFlow: Flow[ByteString, ByteString, Any] = ???
+  val fullTcpFlow: Flow[ByteString, ByteString, Any] = {
+    val dispatcher = Flow.fromFunction[ByteString, HttpBytes] { bytes =>
+      if (bytes.head == 'H') {
+        HttpBytes.Plain(bytes)
+      }
+      else {
+        val ks = keys.get().get //TODO get rid of "get"
+        HttpBytes.Encrypted(
+          ByteString(encryption.decrypt(ks)(bytes.toArray)),
+          bs => ByteString(encryption.encrypt(ks)(bs.toArray))
+        )
+      }
+    }
+
+    dispatcher map (_.bytes) via plainRoutes
+  }
+
 
   val tcp = Tcp()
   val binding = tcp.bindAndHandle(fullTcpFlow, "0.0.0.0", port)
