@@ -4,5 +4,5 @@ import com.github.otah.hap.api._
 
 trait OptionalName {
 
-  def name: Option[Identified[Characteristic[String]]] = None
+  def name: Optional[Characteristic[String]] = None
 }
