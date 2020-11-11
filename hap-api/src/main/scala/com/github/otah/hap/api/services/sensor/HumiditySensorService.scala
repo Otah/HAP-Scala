@@ -4,13 +4,13 @@ import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 
-trait HumiditySensorService2 extends AccessoryService with OptionalName2 {
+trait HumiditySensorService extends AccessoryService with OptionalName {
 
   override final val serviceType = hap.service.sensor.humidity
 
-  def currentHumidity: Identified[CurrentRelativeHumidityCharacteristic]
+  def currentHumidity: Required[CurrentRelativeHumidityCharacteristic]
 
-  def statusActive: Option[Identified[StatusActiveCharacteristic]] = None
+  def statusActive: Optional[StatusActiveCharacteristic] = None
 
   override def characteristics = Characteristics(name, currentHumidity, statusActive)
 }
