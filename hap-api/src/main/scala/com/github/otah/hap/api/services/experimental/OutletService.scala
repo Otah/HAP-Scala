@@ -1,7 +1,8 @@
-package com.github.otah.hap.api.services
+package com.github.otah.hap.api.services.experimental
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics.{OutletInUseCharacteristic, PowerStateCharacteristic}
+import com.github.otah.hap.api.services._
 
 trait OutletService extends AccessoryService with OptionalName with Has3Characteristics {
 

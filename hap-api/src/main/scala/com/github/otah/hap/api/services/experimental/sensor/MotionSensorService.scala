@@ -1,8 +1,9 @@
-package com.github.otah.hap.api.services.sensor
+package com.github.otah.hap.api.services.experimental.sensor
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
+import experimental._
 
 trait MotionSensorService extends AccessoryService with OptionalName with Has6Characteristics {
 

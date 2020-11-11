@@ -1,4 +1,4 @@
-package com.github.otah.hap.api.services
+package com.github.otah.hap.api.services.experimental
 
 import com.github.otah.hap.api.characteristics.NameCharacteristic
 

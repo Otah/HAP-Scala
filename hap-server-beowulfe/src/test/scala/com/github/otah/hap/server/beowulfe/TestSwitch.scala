@@ -2,7 +2,7 @@ package com.github.otah.hap.server.beowulfe
 
 import com.github.otah.hap.api.accessories.{IdentifyByPrintingLabel, SingleServiceAccessory}
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
-import com.github.otah.hap.api.services._
+import com.github.otah.hap.api.services.experimental._
 import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
 import scala.concurrent.{ExecutionContext, Future}

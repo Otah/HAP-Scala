@@ -2,6 +2,7 @@ package com.github.otah.hap.api.accessories
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.services._
+import com.github.otah.hap.api.services.experimental.BatteryService
 import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
 /** Many HAP accessories are defined only with a single service.
