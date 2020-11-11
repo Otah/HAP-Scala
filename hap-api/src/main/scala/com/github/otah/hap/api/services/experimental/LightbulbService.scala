@@ -4,7 +4,7 @@ import com.github.otah.hap.api.AccessoryService
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 
-trait LightbulbService extends AccessoryService with OptionalName with Has6Characteristics {
+trait LightbulbService extends AccessoryService with experimental.OptionalName with Has6Characteristics {
 
   override final val serviceType = hap.service.lightbulb
 

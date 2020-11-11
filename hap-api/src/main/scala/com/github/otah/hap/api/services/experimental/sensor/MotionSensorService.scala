@@ -5,7 +5,7 @@ import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 import experimental._
 
-trait MotionSensorService extends AccessoryService with OptionalName with Has6Characteristics {
+trait MotionSensorService extends AccessoryService with experimental.OptionalName with Has6Characteristics {
 
   override final val serviceType = hap.service.sensor.motion
 

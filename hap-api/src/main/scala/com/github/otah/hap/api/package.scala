@@ -13,6 +13,10 @@ package object api {
 
   type Services = Seq[Identified[AccessoryService]]
 
+  implicit class IntIidExt(num: Int) {
+    def <=>[O](obj: O): Identified[O] = InstanceId(num) <=> obj
+  }
+
   trait Subscription {
     def unsubscribe(): Unit
   }

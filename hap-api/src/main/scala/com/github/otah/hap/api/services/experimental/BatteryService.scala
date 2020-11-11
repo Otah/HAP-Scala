@@ -4,7 +4,7 @@ import com.github.otah.hap.api.AccessoryService
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 
-trait BatteryService extends AccessoryService with OptionalName with Has4Characteristics {
+trait BatteryService extends AccessoryService with experimental.OptionalName with Has4Characteristics {
 
   override final val serviceType = hap.service.battery
 
