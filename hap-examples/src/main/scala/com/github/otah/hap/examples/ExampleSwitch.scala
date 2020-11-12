@@ -6,7 +6,7 @@ import com.github.otah.hap.monix.ObservableWritableCharacteristic
 import monix.execution.Scheduler
 import monix.reactive.subjects.BehaviorSubject
 
-class ExampleSwitch(val id: Int, val label: String, subject: BehaviorSubject[Boolean])
+class ExampleSwitch(val label: String, subject: BehaviorSubject[Boolean])
                    (implicit s: Scheduler)
   extends BaseAccessory with SwitchService with SequenceInstanceIds {
 
