@@ -7,14 +7,12 @@ trait HomeKitBridge {
 
   def info: HomeKitInfo
 
-  def accessories: Seq[HomeKitAccessory]
+  def accessories: Seq[Identified[HomeKitAccessory]]
 
-  def selfAndAccessories: Seq[HomeKitAccessory] = asHomeKitAccessory +: accessories
+  def selfAndAccessories: Seq[Identified[HomeKitAccessory]] = asHomeKitAccessory +: accessories
 
-  def asHomeKitAccessory: HomeKitAccessory = new HomeKitAccessory {
-
-    override def id = 1
+  def asHomeKitAccessory: Identified[HomeKitAccessory] = 1 <=> new HomeKitAccessory {
     override def info = bridge.info
-    override def services: Seq[ServiceInstance] = Nil
+    override def services: Services = Nil
   }
 }

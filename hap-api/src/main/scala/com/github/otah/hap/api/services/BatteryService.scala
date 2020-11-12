@@ -1,22 +1,22 @@
 package com.github.otah.hap.api.services
 
-import com.github.otah.hap.api.AccessoryService
+import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
 
-trait BatteryService extends AccessoryService with OptionalName with Has4Characteristics {
+trait BatteryService extends AccessoryService with OptionalName {
 
   override final val serviceType = hap.service.battery
 
-  def battery: BatteryCharacteristic
+  def battery: Required[BatteryCharacteristic]
 
-  def statusLowBattery: StatusLowBatteryCharacteristic
+  def statusLowBattery: Required[StatusLowBatteryCharacteristic]
 
-  def chargingState: ChargingStateCharacteristic
+  def chargingState: Required[ChargingStateCharacteristic]
 
   override lazy val characteristics = Characteristics(
-    id1 -> name,
-    id2 -> battery,
-    id3 -> statusLowBattery,
-    id4 -> chargingState,
+    name,
+    battery,
+    statusLowBattery,
+    chargingState,
   )
 }

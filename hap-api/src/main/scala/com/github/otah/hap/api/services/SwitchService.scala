@@ -1,16 +1,13 @@
 package com.github.otah.hap.api.services
 
-import com.github.otah.hap.api.AccessoryService
+import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 
-trait SwitchService extends AccessoryService with OptionalName with Has2Characteristics {
+trait SwitchService extends AccessoryService with OptionalName {
 
   override final val serviceType = hap.service.switch
 
-  def powerState: PowerStateCharacteristic
+  def powerState: Required[PowerStateCharacteristic]
 
-  lazy val characteristics = Characteristics(
-    id1 -> name,
-    id2 -> powerState,
-  )
+  lazy val characteristics = Characteristics(name, powerState)
 }

@@ -3,7 +3,7 @@ package com.github.otah.hap.api.information
 import com.github.otah.hap.api.HomeKitInfo
 import com.github.otah.hap.api.characteristics.NameCharacteristic
 
-abstract class FromInfo(info: HomeKitInfo) extends AccessoryInformation {
+abstract class FromInfo(info: HomeKitInfo) extends AccessoryInformationWithAutoIds {
 
   override def identify = IdentifyCharacteristic(info.identification)
 

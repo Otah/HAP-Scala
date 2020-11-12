@@ -2,6 +2,7 @@ package com.github.otah.hap.server.beowulfe
 
 import java.net.InetAddress
 
+import com.github.otah.hap.api._
 import com.github.otah.hap.api.server.HomeKitServer
 import com.typesafe.scalalogging.Logger
 import io.github.hapjava.server.impl.HomekitServer
@@ -28,7 +29,8 @@ object BeowulfeServerDriver {
 
       boa.root match {
         case Left(accessory) =>
-          server.createStandaloneAccessory(authInfo, accessory)
+          // it seems aid 1 is reserved for bridge only in HAP Java
+          server.createStandaloneAccessory(authInfo, 2 <=> accessory)
 
         case Right(bridgeDef) =>
           val info = bridgeDef.info
