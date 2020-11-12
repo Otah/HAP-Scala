@@ -2,6 +2,7 @@ package com.github.otah.hap.server.beowulfe
 
 import javax.json.JsonValue
 
+import com.github.otah.hap.api._
 import io.github.hapjava.accessories.HomekitAccessory
 import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
@@ -18,7 +19,7 @@ class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with Implic
     import BeowulfeAccessoryAdapter.Implicit._
 
     val original: HomekitAccessory = BeowulfeSwitch(1, "The Label")
-    val custom: HomekitAccessory = TestSwitch(1, "The Label")
+    val custom: HomekitAccessory = 1 <=> TestSwitch("The Label")
 
     assert(original.getId === custom.getId)
     assert(original.getName.get() === custom.getName.get())

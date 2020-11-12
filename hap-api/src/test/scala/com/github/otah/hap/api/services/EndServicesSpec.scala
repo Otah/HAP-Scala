@@ -1,5 +1,6 @@
 package com.github.otah.hap.api.services
 
+import com.github.otah.hap.api.Required
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import com.github.otah.hap.api.services.experimental._
 import com.github.otah.hap.api.services.experimental.sensor._
@@ -17,7 +18,7 @@ class EndServicesSpec extends AnyFlatSpec {
   def stub: Nothing = throw new Exception()
 
   abstract class SPwr extends MockIds {
-    def powerState: PowerStateCharacteristic = stub
+    def powerState: Required[PowerStateCharacteristic] = stub
   }
 
   "End-user services" should "need only their characteristics to be specified" in {

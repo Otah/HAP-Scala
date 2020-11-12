@@ -7,7 +7,7 @@ import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class TestSwitch(id: Int, label: String)(implicit ec: ExecutionContext)
+case class TestSwitch(label: String)(implicit ec: ExecutionContext)
         extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with SequenceInstanceIds
                 with IdentifyByPrintingLabel with SwitchService with PowerStateCharacteristic {
 
