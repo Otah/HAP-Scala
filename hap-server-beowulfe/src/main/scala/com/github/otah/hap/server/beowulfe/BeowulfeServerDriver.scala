@@ -22,25 +22,23 @@ object BeowulfeServerDriver {
 
     val server = new HomekitServer(netAddress, port)
 
-    serverDef.bridgesOrAccessories foreach { boa =>
-      import BeowulfeAccessoryAdapter.Implicit._
+    import BeowulfeAccessoryAdapter.Implicit._
 
-      val authInfo = new BeowulfeAuthInfoAdapter(boa.auth)
+    val authInfo = new BeowulfeAuthInfoAdapter(serverDef.root.auth)
 
-      boa.root match {
-        case Left(accessory) =>
-          // it seems aid 1 is reserved for bridge only in HAP Java
-          server.createStandaloneAccessory(authInfo, 2 <=> accessory)
+    serverDef.root.rootDevice match {
+      case Left(accessory) =>
+        // it seems aid 1 is reserved for bridge only in HAP Java
+        server.createStandaloneAccessory(authInfo, 2 <=> accessory)
 
-        case Right(bridgeDef) =>
-          val info = bridgeDef.info
-          import info._
-          val bridge = server.createBridge(
-            authInfo, label, manufacturer, model, serialNumber,
-            firmwareRevision.asString, hardwareRevision.map(_.asString).orNull
-          )
-          bridgeDef.accessories foreach (acc => bridge.addAccessory(acc))
-      }
+      case Right(bridgeDef) =>
+        val info = bridgeDef.info
+        import info._
+        val bridge = server.createBridge(
+          authInfo, label, manufacturer, model, serialNumber,
+          firmwareRevision.asString, hardwareRevision.map(_.asString).orNull
+        )
+        bridgeDef.accessories foreach (acc => bridge.addAccessory(acc))
     }
   }
 }

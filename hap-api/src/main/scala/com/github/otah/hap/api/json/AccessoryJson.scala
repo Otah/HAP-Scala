@@ -50,4 +50,25 @@ object AccessoryJson {
       )
     }
   }
+
+  def list(accessories: Seq[Identified[HomeKitAccessory]])(implicit ec: ExecutionContext) =
+    Future.sequence(accessories map AccessoryJson.apply) map { jsons =>
+      JObject(Map("accessories" -> JArray(jsons.toVector)))
+    }
+
+  def characteristicsValues(characteristics: Seq[(Int, Int, Future[JValue])])(implicit ec: ExecutionContext) = {
+    val swapped = characteristics map {
+      case (aid, iid, futureValue) => futureValue map ((aid, iid, _))
+    }
+    Future.sequence(swapped) map { results =>
+      val jsons = results map {
+        case (aid, iid, value) => JObject(Map(
+          "aid" -> JNumber(aid),
+          "iid" -> JNumber(iid),
+          "value" -> value
+        ))
+      }
+      JObject(Map("characteristics" -> JArray(jsons.toVector)))
+    }
+  }
 }
