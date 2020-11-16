@@ -1,7 +1,7 @@
 package com.github.otah.hap.api.characteristics
 
 import com.github.otah.hap.api.Characteristic
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.concurrent.ExecutionContext
 
@@ -11,16 +11,16 @@ trait StringCharacteristic extends Characteristic[String] {
 
   def maxLength: Int // TODO make optional
 
-  override protected def toJsonValue(v: String) = JString(v)
+  override protected def toJsonValue(v: String) = JsString(v)
 
-  override protected def fromJsonValue(jv: JValue) = jv match {
-    case JString(stringValue) => stringValue
-    case JBoolean(booleanValue) => booleanValue.toString
-    case JNumber(intValueAsString) => intValueAsString
+  override protected def fromJsonValue(jv: JsValue) = jv match {
+    case JsString(stringValue) => stringValue
+    case JsBoolean(booleanValue) => booleanValue.toString
+    case JsNumber(bigDecimal) => bigDecimal.toString
     case _ => ""
   }
 
   override def asJson(instanceId: Int)(implicit ec: ExecutionContext) = super.asJson(instanceId) map { orig =>
-    orig.copy(orig.value + ("maxLen" -> JNumber(maxLength)))
+    orig.copy(orig.fields + ("maxLen" -> JsNumber(maxLength)))
   }
 }

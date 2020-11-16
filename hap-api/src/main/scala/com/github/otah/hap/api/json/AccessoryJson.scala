@@ -1,7 +1,7 @@
 package com.github.otah.hap.api.json
 
 import com.github.otah.hap.api._
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -9,10 +9,10 @@ object AccessoryJson {
 
   // TODO check the exact field names
 
-  private def build(what: Seq[Future[JValue]])(f: JArray => Map[String, JValue])(implicit ec: ExecutionContext) =
-    Future.sequence(what) map (seq => JObject(f.apply(JArray(seq.toVector))))
+  private def build(what: Seq[Future[JsValue]])(f: JsArray => Map[String, JsValue])(implicit ec: ExecutionContext) =
+    Future.sequence(what) map (seq => JsObject(f.apply(JsArray(seq.toVector))))
 
-  def apply(accessory: Identified[HomeKitAccessory])(implicit ec: ExecutionContext): Future[JObject] = {
+  def apply(accessory: Identified[HomeKitAccessory])(implicit ec: ExecutionContext): Future[JsObject] = {
 
     val (aid, acc) = accessory
 
@@ -30,14 +30,14 @@ object AccessoryJson {
     }
     if (duplicates.nonEmpty) throw new IllegalStateException("Duplicate IIDs found: " + duplicates.mkString(", "))
 
-    val servicesFutJson: Seq[Future[JObject]] = allServices map { case (serviceId, service) =>
+    val servicesFutJson: Seq[Future[JsObject]] = allServices map { case (serviceId, service) =>
       val xxx = service.characteristics map {
         case (characteristicId, characteristic) => characteristic.asJson(characteristicId.value) // TODO glue IID here instead of in asJson?
       }
       build(xxx) { characteristics =>
         Map(
-          "type" -> JString(service.serviceType.minimalForm),
-          "iid" -> JNumber(serviceId.value),
+          "type" -> JsString(service.serviceType.minimalForm),
+          "iid" -> JsNumber(serviceId.value),
           "characteristics" -> characteristics
         )
       }
@@ -45,7 +45,7 @@ object AccessoryJson {
 
     build(servicesFutJson) { services =>
       Map(
-        "aid" -> JNumber(aid.value),
+        "aid" -> JsNumber(aid.value),
         "services" -> services
       )
     }
@@ -53,22 +53,22 @@ object AccessoryJson {
 
   def list(accessories: Seq[Identified[HomeKitAccessory]])(implicit ec: ExecutionContext) =
     Future.sequence(accessories map AccessoryJson.apply) map { jsons =>
-      JObject(Map("accessories" -> JArray(jsons.toVector)))
+      JsObject("accessories" -> JsArray(jsons.toVector))
     }
 
-  def characteristicsValues(characteristics: Seq[(Int, Int, Future[JValue])])(implicit ec: ExecutionContext) = {
+  def characteristicsValues(characteristics: Seq[(Int, Int, Future[JsValue])])(implicit ec: ExecutionContext) = {
     val swapped = characteristics map {
       case (aid, iid, futureValue) => futureValue map ((aid, iid, _))
     }
     Future.sequence(swapped) map { results =>
       val jsons = results map {
-        case (aid, iid, value) => JObject(Map(
-          "aid" -> JNumber(aid),
-          "iid" -> JNumber(iid),
-          "value" -> value
-        ))
+        case (aid, iid, value) => JsObject(
+          "aid" -> JsNumber(aid),
+          "iid" -> JsNumber(iid),
+          "value" -> value,
+        )
       }
-      JObject(Map("characteristics" -> JArray(jsons.toVector)))
+      JsObject("characteristics" -> JsArray(jsons.toVector))
     }
   }
 }
