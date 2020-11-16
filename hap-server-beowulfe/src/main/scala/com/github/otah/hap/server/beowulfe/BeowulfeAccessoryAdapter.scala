@@ -9,7 +9,7 @@ import com.github.otah.hap.api.{HomeKitAccessory, LowLevelCharacteristic, Subscr
 import io.github.hapjava.accessories.HomekitAccessory
 import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristic, HomekitCharacteristicChangeCallback}
 import io.github.hapjava.services.Service
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
@@ -49,10 +49,10 @@ object BeowulfeAccessoryAdapter {
 
     class BridgedCharacteristic extends Characteristic with AccessoryConversions {
 
-      private val cache = Scaffeine().expireAfterWrite(1.seconds).build[String, JValue]()
+      private val cache = Scaffeine().expireAfterWrite(1.seconds).build[String, JsValue]()
       private val key = ""
 
-      protected def setTempValue(value: JValue): Unit = cache.put(key, value)
+      protected def setTempValue(value: JsValue): Unit = cache.put(key, value)
 
       /** As [[supplyValue]] is called after each event
         * (in other words the Beowulfe's framework is not designed in the way that the emitted event determines the value),

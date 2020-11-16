@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.util.Try
 
@@ -10,11 +10,11 @@ trait FloatCharacteristic extends NumberCharacteristic[Float] {
 
   override def minStep = 1.0f
 
-  override protected final lazy val formatMeta = FormatMeta(Float.MinValue, Float.MaxValue)(JNumber.apply)
+  override protected final lazy val formatMeta = FormatMeta(Float.MinValue, Float.MaxValue)(JsNumber.apply)
 
-  override protected def fromJsonValue(jv: JValue): Float = jv match {
-    case JBoolean(flag) => if (flag) 1 else 0
-    case JNumber(numString) => Try(numString.toFloat) getOrElse 0
+  override protected def fromJsonValue(jv: JsValue): Float = jv match {
+    case JsBoolean(flag) => if (flag) 1 else 0
+    case JsNumber(bigDecimal) => Try(bigDecimal.toFloat) getOrElse 0
     case _ => 0
   }
 }
