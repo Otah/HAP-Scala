@@ -1,6 +1,6 @@
 package com.github.otah.hap
 
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.implicitConversions
@@ -26,16 +26,16 @@ package object api {
   }
 
   trait LowLevelNotifier {
-    def subscribe(callback: JValue => Future[Unit]): Subscription
+    def subscribe(callback: JsValue => Future[Unit]): Subscription
   }
 
   trait LowLevelCharacteristic {
 
-    def asJson(instanceId: Int)(implicit ec: ExecutionContext): Future[JObject]
+    def asJson(instanceId: Int)(implicit ec: ExecutionContext): Future[JsObject]
 
-    def readJsonValue()(implicit ec: ExecutionContext): Future[JValue]
+    def readJsonValue()(implicit ec: ExecutionContext): Future[JsValue]
 
-    def jsonWriter(implicit ec: ExecutionContext): Option[JValue => Future[_]]
+    def jsonWriter(implicit ec: ExecutionContext): Option[JsValue => Future[_]]
 
     def jsonValueNotifier(implicit ec: ExecutionContext): Option[LowLevelNotifier]
   }

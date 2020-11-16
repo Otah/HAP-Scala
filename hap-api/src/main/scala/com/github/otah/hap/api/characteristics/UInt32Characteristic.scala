@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.util.Try
 
@@ -10,11 +10,11 @@ trait UInt32Characteristic extends NumberCharacteristic[Long] {
 
   override def minStep: Long = 1
 
-  override protected def formatMeta = FormatMeta(min = 0, max = 4294967295L)(JNumber.apply)
+  override protected def formatMeta = FormatMeta(min = 0, max = 4294967295L)(JsNumber.apply)
 
-  override protected def fromJsonValue(jv: JValue): Long = jv match {
-    case JBoolean(flag) => if (flag) 1 else 0
-    case JNumber(numString) => Try(numString.toLong) getOrElse 0
+  override protected def fromJsonValue(jv: JsValue): Long = jv match {
+    case JsBoolean(flag) => if (flag) 1 else 0
+    case JsNumber(bigDecimal) => Try(bigDecimal.toLong) getOrElse 0
     case _ => 0
   }
 }

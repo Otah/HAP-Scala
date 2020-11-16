@@ -1,7 +1,7 @@
 package com.github.otah.hap.api.characteristics
 
 import com.github.otah.hap.api.Characteristic
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 import scala.concurrent.ExecutionContext
 
@@ -15,12 +15,12 @@ trait NumberCharacteristic[T] extends Characteristic[T] {
   def minStep: T
 
   protected case class FormatMeta(min: T, max: T)
-                                 (val toJValue: T => JValue)
+                                 (val toJValue: T => JsValue)
                                  (implicit val ordering: Ordering[T])
 
   protected def formatMeta: FormatMeta
 
-  override protected def toJsonValue(v: T): JValue = {
+  override protected def toJsonValue(v: T): JsValue = {
     implicit val ordering = formatMeta.ordering
     require(v >= min, s"Provided value $v is lower than the declared min value $min")
     require(v <= max, s"Provided value $v is greater than the declared max value $max")
@@ -40,8 +40,8 @@ trait NumberCharacteristic[T] extends Characteristic[T] {
       },
       "minStep" -> formatMeta.toJValue(minStep),
     )
-    val maybeUnit = unit map (u => "unit" -> JString(u))
-    orig.copy(orig.value ++ required ++ maybeUnit)
+    val maybeUnit = unit map (u => "unit" -> JsString(u))
+    orig.copy(orig.fields ++ required ++ maybeUnit)
   }
 
 }

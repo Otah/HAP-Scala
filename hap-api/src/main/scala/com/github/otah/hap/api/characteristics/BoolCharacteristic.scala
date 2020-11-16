@@ -2,17 +2,17 @@ package com.github.otah.hap.api.characteristics
 
 import com.github.otah.hap.api.Characteristic
 
-import sjsonnew.shaded.scalajson.ast._
+import spray.json._
 
 trait BoolCharacteristic extends Characteristic[Boolean] {
 
   override final val format = "bool"
 
-  override protected def toJsonValue(v: Boolean) = JBoolean(v)
+  override protected def toJsonValue(v: Boolean) = JsBoolean(v)
 
-  override protected def fromJsonValue(jv: JValue) = jv match {
-    case JBoolean(booleanValue) => booleanValue
-    case JNumber(intValueAsString) => intValueAsString == "1"
+  override protected def fromJsonValue(jv: JsValue) = jv match {
+    case JsBoolean(booleanValue) => booleanValue
+    case JsNumber(bigDecimal) => bigDecimal == BigDecimal(1)
     case _ => false
   }
 }
