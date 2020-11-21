@@ -8,7 +8,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.junit.JUnitRunner
 
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 
 @RunWith(classOf[JUnitRunner])
 class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with ImplicitExecutionContext {

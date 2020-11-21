@@ -15,8 +15,8 @@ allprojects {
     }
 }
 
-ext.scalaMajor = '2.13'
-ext.scalaMinor = 2
+ext.scalaMajor = '2.12'
+ext.scalaMinor = 11
 ext.scalaLib = ext.scalaMajor + '.' + ext.scalaMinor
 
 def scala(libName) {

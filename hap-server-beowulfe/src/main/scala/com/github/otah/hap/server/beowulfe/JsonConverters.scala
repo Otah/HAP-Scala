@@ -5,7 +5,7 @@ import javax.json.JsonValue.ValueType
 
 import spray.json._
 
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 import scala.util.Try
 
 /** Mutual conversions between [[javax.json]] and [[spray.json]]
