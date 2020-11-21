@@ -21,7 +21,7 @@ case class TestSwitch(label: String)(implicit ec: ExecutionContext)
 
   override def serialNumber = "none"
 
-  override def description: String = "On / Off state"
+  override def description = Some("On / Off state")
 
   override def firmwareRevision = Revision("0.0.1")
 

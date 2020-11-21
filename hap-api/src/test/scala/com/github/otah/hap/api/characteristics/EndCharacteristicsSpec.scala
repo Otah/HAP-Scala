@@ -48,10 +48,9 @@ class EndCharacteristicsSpec extends AnyFlatSpec {
     new X with VolumeCharacteristic
   }
 
-  "Name characteristic" should "require name and maxLength provided" in {
+  "Name characteristic" should "require name provided" in {
     new NameCharacteristic {
       def name = "whatever name"
-      def maxLength = 10
     }
   }
 

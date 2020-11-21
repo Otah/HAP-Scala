@@ -8,8 +8,6 @@ trait ProgrammableSwitchEvent extends UInt8Characteristic with Units.None {
 
   override final val characteristicType = hap.characteristic.programmableSwitchEvent
 
-  override def description = "Programmable switch"
-
   override final def reader = Reader.Null
 
   override final def writer: Option[Writer] = None

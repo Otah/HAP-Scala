@@ -14,8 +14,6 @@ trait AccessoryFlagsCharacteristic extends UInt32Characteristic {
 
   override def unit: Option[String] = None
 
-  override def description = "Additional flags of an accessory"
-
   override def reader: Some[Reader]
   override def notifier: Some[Notifier]
 

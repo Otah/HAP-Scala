@@ -9,7 +9,7 @@ trait StringCharacteristic extends Characteristic[String] {
 
   override final val format = "string"
 
-  def maxLength: Int // TODO make optional
+  def maxLength: Option[Int] = None
 
   override protected def toJsonValue(v: String) = JsString(v)
 
@@ -21,6 +21,6 @@ trait StringCharacteristic extends Characteristic[String] {
   }
 
   override def asJson(instanceId: Int)(implicit ec: ExecutionContext) = super.asJson(instanceId) map { orig =>
-    orig.copy(orig.fields + ("maxLen" -> JsNumber(maxLength)))
+    orig.copy(orig.fields ++ (maxLength map (max => "maxLen" -> JsNumber(max))))
   }
 }

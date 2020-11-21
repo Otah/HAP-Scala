@@ -7,8 +7,6 @@ import scala.concurrent.Future
 
 trait InfoCharacteristic extends StringCharacteristic {
 
-  override def description = "A read-only information" //TODO make None once optional
-
   def information: String
 
   override val reader = Reader(Future.successful(information))
@@ -21,14 +19,14 @@ object InfoCharacteristic {
 
   import com.github.otah.hap.api.{HapTypes => hap}
 
-  case class Instance(characteristicType: HapType, information: String, maxLength: Int = 64) extends InfoCharacteristic
+  private case class Instance(characteristicType: HapType, information: String) extends InfoCharacteristic
 
-  def manufacturer(manufacturer: String, maxLength: Int = 64): InfoCharacteristic =
-    Instance(hap.characteristic.manufacturer, manufacturer, maxLength)
+  def manufacturer(manufacturer: String): InfoCharacteristic =
+    Instance(hap.characteristic.manufacturer, manufacturer)
 
-  def model(model: String, maxLength: Int = 64): InfoCharacteristic =
-    Instance(hap.characteristic.model, model, maxLength)
+  def model(model: String): InfoCharacteristic =
+    Instance(hap.characteristic.model, model)
 
-  def serialNumber(serial: String, maxLength: Int = 64): InfoCharacteristic =
-    Instance(hap.characteristic.serialNumber, serial, maxLength)
+  def serialNumber(serial: String): InfoCharacteristic =
+    Instance(hap.characteristic.serialNumber, serial)
 }

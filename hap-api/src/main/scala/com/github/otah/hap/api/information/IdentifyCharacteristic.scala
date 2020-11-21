@@ -8,8 +8,6 @@ trait IdentifyCharacteristic extends BoolCharacteristic {
 
   override final val characteristicType = hap.characteristic.identify
 
-  override def description = "Identification routine"
-
   override final val reader = None
 
   override final val notifier = None

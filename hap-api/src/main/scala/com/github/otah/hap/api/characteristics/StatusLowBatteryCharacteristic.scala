@@ -6,8 +6,6 @@ trait StatusLowBatteryCharacteristic extends UInt8Characteristic with ReadNotify
 
   override def min = 0
   override def max = 1
-
-  override def description = "Is the battery level low"
 }
 
 object StatusLowBatteryCharacteristic {

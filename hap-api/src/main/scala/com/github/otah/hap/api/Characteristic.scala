@@ -7,7 +7,7 @@ import scala.concurrent.{ExecutionContext, Future}
 trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
 
   def characteristicType: HapType
-  def description: String //TODO make optional
+  def description: Option[String] = None
 
   def format: String
 
@@ -53,14 +53,16 @@ trait Characteristic[T] extends LowLevelCharacteristic with TypeConvenience {
 
   override def asJson(instanceId: Int)(implicit ec: ExecutionContext): Future[JsObject] = readJsonValue() map { currentValue =>
     val perms = reader.map(_ => "pr") ++ writer.map(_ => "pw") ++ notifier.map(_ => "ev")
-    JsObject(
-      "iid" -> JsNumber(instanceId),
-      "type" -> JsString(characteristicType.minimalForm),
-      "format" -> JsString(format),
-      "value" -> currentValue,
-      "perms" -> JsArray(perms.toVector map JsString.apply),
-      "description" -> JsString(description),
-      "ev" -> JsFalse,
-    )
+    JsObject{
+      Map(
+        "iid" -> JsNumber(instanceId),
+        "type" -> JsString(characteristicType.minimalForm),
+        "format" -> JsString(format),
+        "value" -> currentValue,
+        "perms" -> JsArray(perms.toVector map JsString.apply),
+      ) ++ (
+        description map (d => "description" -> JsString(d))
+      )
+    }
   }
 }

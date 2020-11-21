@@ -55,6 +55,8 @@ class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with Implic
 
     oSwitchMap.remove(perms)
     cSwitchMap.remove(perms)
+
+    oSwitchMap.remove("ev") // "ev" has no sense in this context
     assert(oSwitchMap === cSwitchMap)
   }
 }
