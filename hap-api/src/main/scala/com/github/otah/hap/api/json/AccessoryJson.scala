@@ -16,7 +16,7 @@ object AccessoryJson {
 
     val (aid, acc) = accessory
 
-    val allServices = acc.services/*:+ infoService*/ //TODO add info service
+    val allServices = acc.lowLevelServices
 
     val iids = allServices flatMap {
       case (serviceId, service) =>
