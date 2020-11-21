@@ -1,8 +1,6 @@
-package com.github.otah.hap.api
+package com.github.otah.hap.api.information
 
-import com.github.otah.hap.api.information.{AccessoryFlags, Revision}
-
-trait HomeKitInfo {
+trait HomeKitInfo extends InfoProvider.Self {
 
   def identification: () => Unit
 

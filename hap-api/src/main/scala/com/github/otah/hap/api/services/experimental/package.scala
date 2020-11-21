@@ -38,7 +38,7 @@ package object experimental {
     def id8: InstanceId
   }
 
-  trait SequenceInstanceIds extends Has8Characteristics { // TODO use the largest one
+  trait SequentialInstanceIds extends Has8Characteristics { // TODO use the largest one
 
     def baseInstanceId: Int
 
@@ -54,5 +54,5 @@ package object experimental {
     override def id8: InstanceId = id(8)
   }
 
-  abstract class ServiceWithSequentialIds(val baseInstanceId: Int) extends AccessoryService with SequenceInstanceIds
+  abstract class ServiceWithSequentialIds(val baseInstanceId: Int) extends AccessoryService with SequentialInstanceIds
 }

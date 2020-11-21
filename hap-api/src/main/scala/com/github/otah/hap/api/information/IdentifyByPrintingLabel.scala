@@ -1,4 +1,4 @@
-package com.github.otah.hap.api
+package com.github.otah.hap.api.information
 
 trait IdentifyByPrintingLabel {
 

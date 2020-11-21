@@ -6,6 +6,7 @@ import javax.json._
 
 import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api._
+import com.github.otah.hap.api.information._
 import io.github.hapjava.accessories.HomekitAccessory
 import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristic, HomekitCharacteristicChangeCallback}
 import io.github.hapjava.services.Service
@@ -15,17 +16,17 @@ import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory)(implicit ec: ExecutionContext) extends HomekitAccessory {
+class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, info: HomeKitInfo)(implicit ec: ExecutionContext) extends HomekitAccessory {
 
   import BeowulfeAccessoryAdapter._
 
-  override def identify(): Unit = accessory.info.identification()
+  override def identify(): Unit = info.identification()
   override def getId: Int = aid.value
-  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.label)
-  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.manufacturer)
-  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.model)
-  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.serialNumber)
-  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.info.firmwareRevision.asString)
+  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(info.label)
+  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(info.manufacturer)
+  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(info.model)
+  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
+  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
   override def getServices: util.Collection[Service] = accessory.services.map {
     case (iid, service) => new Service {
 
@@ -46,9 +47,9 @@ object BeowulfeAccessoryAdapter {
   object Implicit {
     import scala.language.implicitConversions
 
-    implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory])(implicit ec: ExecutionContext): HomekitAccessory =
+    implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory with InfoProvider])(implicit ec: ExecutionContext): HomekitAccessory =
       accessory match {
-        case (aid, acc) => new BeowulfeAccessoryAdapter(aid, acc)
+        case (aid, acc) => new BeowulfeAccessoryAdapter(aid, acc, acc.info)
       }
   }
 
