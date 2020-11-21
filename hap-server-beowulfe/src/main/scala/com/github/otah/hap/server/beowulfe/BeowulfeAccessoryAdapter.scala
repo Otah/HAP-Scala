@@ -12,9 +12,9 @@ import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristi
 import io.github.hapjava.services.Service
 import spray.json._
 
-import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.jdk.CollectionConverters._
 
 class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, info: HomeKitInfo)(implicit ec: ExecutionContext) extends HomekitAccessory {
 

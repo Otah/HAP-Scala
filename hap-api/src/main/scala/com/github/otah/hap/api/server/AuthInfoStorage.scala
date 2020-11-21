@@ -2,7 +2,7 @@ package com.github.otah.hap.api.server
 
 import java.util.concurrent.ConcurrentHashMap
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 trait AuthInfoStorage {
 
