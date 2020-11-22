@@ -20,7 +20,9 @@ trait HomeKitBridge {
 
 object HomeKitBridge {
 
-  abstract class WithInfo(info: HomeKitInfo) extends HomeKitBridge {
+  trait WithInfo extends HomeKitBridge {
+
+    def info: HomeKitInfo
 
     override def infoService: Required[AccessoryService] = FromInfo(info)
 
@@ -28,7 +30,7 @@ object HomeKitBridge {
   }
 
   object WithInfo {
-    private class Impl(info: HomeKitInfo, val accessories: Seq[Identified[HomeKitAccessory]]) extends WithInfo(info)
+    private class Impl(val info: HomeKitInfo, val accessories: Seq[Identified[HomeKitAccessory]]) extends WithInfo
     def apply(info: HomeKitInfo)(accessories: Identified[HomeKitAccessory]*): WithInfo = new Impl(info, accessories)
   }
 }
