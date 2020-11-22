@@ -20,7 +20,14 @@ object AuthInfoStorage {
   type Key = Seq[Byte]
   type UserKeys = Map[String, Key]
 
-  def apply(initialUserKeys: UserKeys = Map.empty, onChange: (() => UserKeys) => Unit = _ => {}): AuthInfoStorage = new AuthInfoStorage {
+  /** Constructs a convenience in-memory auth storage which can be persisted
+    * (and loaded from persistence) using the provided arguments.
+    * @param initialUserKeys User keys map for initial data, e.g. loaded persisted data.
+    * @param onChange Callback which allows to store the (complete) current state of user keys,
+    *                 or anyhow react to a change.
+    * @return
+    */
+  def inMemory(initialUserKeys: UserKeys = Map.empty, onChange: (() => UserKeys) => Unit = _ => {}): AuthInfoStorage = new AuthInfoStorage {
 
     private val userKeys = new ConcurrentHashMap[String, Seq[Byte]](initialUserKeys.asJava)
 
