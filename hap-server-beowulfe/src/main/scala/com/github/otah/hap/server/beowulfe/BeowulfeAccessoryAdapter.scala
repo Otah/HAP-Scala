@@ -27,14 +27,14 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
   override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(info.model)
   override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
   override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
-  override def getServices: util.Collection[Service] = accessory.services.map(_.service).map { service =>
+  override def getServices: util.Collection[Service] = accessory.services.map { service =>
     // ignoring all IIDs due to FW limitations
     new Service {
 
       override def getType: String = service.serviceType.minimalForm
 
       override def getCharacteristics: util.List[Characteristic] =
-        service.characteristics.map(_.characteristic).map(convertCharacteristic).asJava
+        service.characteristics.map(ch => convertCharacteristic(ch)).asJava
     }
   }.asJava
 }
@@ -47,7 +47,7 @@ object BeowulfeAccessoryAdapter {
     import scala.language.implicitConversions
 
     implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory with InfoProvider])(implicit ec: ExecutionContext): HomekitAccessory =
-      new BeowulfeAccessoryAdapter(accessory.aid, accessory.accessory, accessory.accessory.info)
+      new BeowulfeAccessoryAdapter(accessory.aid, accessory, accessory.accessory.info)
   }
 
   import JsonConverters._
