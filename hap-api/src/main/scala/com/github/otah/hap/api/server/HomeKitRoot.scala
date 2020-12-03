@@ -15,5 +15,5 @@ object HomeKitRoot {
     new HomeKitRoot(auth, Right(bridge), label, bridge.selfAndAccessories)
 
   def standaloneAccessory(accessory: HomeKitAccessory, label: String)(implicit auth: HomeKitAuthentication) =
-    new HomeKitRoot(auth, Left(accessory), label, Seq(1 <=> accessory))
+    new HomeKitRoot(auth, Left(accessory), label, Seq(1 identifying accessory))
 }

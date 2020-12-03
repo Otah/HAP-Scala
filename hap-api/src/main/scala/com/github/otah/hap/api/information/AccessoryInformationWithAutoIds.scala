@@ -25,7 +25,7 @@ trait AccessoryInformationWithAutoIds extends AccessoryService with experimental
     id4 -> model,
     id5 -> serialNumber,
     id6 -> firmwareRevision,
-    id7 ->> hardwareRevision,
-    id8 ->> accessoryFlags,
+    id7 ->? hardwareRevision,
+    id8 ->? accessoryFlags,
   )
 }

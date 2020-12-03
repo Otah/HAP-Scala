@@ -33,7 +33,7 @@ object FromInfo {
     * @return Identified service for accessory information
     */
   def apply(info: HomeKitInfo, iid: Int = 1): Identified[AccessoryInformationWithAutoIds] = {
-    iid <=> new FromInfo.Of(info) with SequentialInstanceIds {
+    iid identifying new FromInfo.Of(info) with SequentialInstanceIds {
       override def baseInstanceId: Int = iid
     }
   }

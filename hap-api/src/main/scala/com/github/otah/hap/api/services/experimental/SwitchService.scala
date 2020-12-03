@@ -11,7 +11,7 @@ trait SwitchService extends AccessoryService with experimental.OptionalName with
   def powerState: PowerStateCharacteristic
 
   lazy val characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> powerState,
   )
 }

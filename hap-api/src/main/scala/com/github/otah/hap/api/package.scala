@@ -41,7 +41,8 @@ package object api {
   type Services = Seq[Identified[AccessoryService]]
 
   implicit class IntIidExt(num: Int) {
-    def <=>[O](obj: O): Identified[O] = InstanceId(num) <=> obj
+    def identifying[O](obj: O): Identified[O] = InstanceId(num) identifying obj
+    def -->[O](obj: O): Identified[O] = identifying(obj)
   }
 
   trait Subscription {

@@ -14,8 +14,8 @@ trait ContactSensorService extends AccessoryService with experimental.OptionalNa
 
   //TODO other optional characteristics
   override def characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> contactDetected,
-    id3 ->> statusActive,
+    id3 ->? statusActive,
   )
 }

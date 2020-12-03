@@ -12,7 +12,7 @@ trait OutletService extends AccessoryService with experimental.OptionalName with
   def inUse: OutletInUseCharacteristic
 
   override lazy val characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> powerState,
     id3 -> inUse,
   )
