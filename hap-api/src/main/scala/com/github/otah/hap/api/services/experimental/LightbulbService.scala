@@ -15,9 +15,9 @@ trait LightbulbService extends AccessoryService with experimental.OptionalName w
   def colorTemperature: Option[ColorTemperatureCharacteristic] = None
 
   lazy val characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> powerState,
-    id3 ->> brightness,
-    id4 ->> colorTemperature,
+    id3 ->? brightness,
+    id4 ->? colorTemperature,
   )
 }

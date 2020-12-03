@@ -14,8 +14,8 @@ trait MotionSensorService extends AccessoryService with experimental.OptionalNam
 
   //TODO other optional characteristics
   lazy val characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> motionDetected,
-    id3 ->> statusActive,
+    id3 ->? statusActive,
   )
 }

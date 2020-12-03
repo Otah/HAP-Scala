@@ -16,7 +16,7 @@ object Runner extends App {
   val switchStream = BehaviorSubject(false)
 
   val accessories = Seq(
-    1001 <=> new ExampleSwitch("An example switch", switchStream),
+    1001 --> new ExampleSwitch("An example switch", switchStream),
   )
 
   // --- the server definition follows ---

@@ -19,7 +19,7 @@ class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with Implic
     import BeowulfeAccessoryAdapter.Implicit._
 
     val original: HomekitAccessory = BeowulfeSwitch(1, "The Label")
-    val custom: HomekitAccessory = 1 <=> TestSwitch("The Label")
+    val custom: HomekitAccessory = 1 --> TestSwitch("The Label")
 
     assert(original.getId === custom.getId)
     assert(original.getName.get() === custom.getName.get())

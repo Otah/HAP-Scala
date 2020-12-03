@@ -13,8 +13,8 @@ trait FanService extends AccessoryService with experimental.OptionalName with Ha
   def rotationSpeed: Option[RotationSpeedCharacteristic]
 
   override lazy val characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> powerState,
-    id3 ->> rotationSpeed,
+    id3 ->? rotationSpeed,
   )
 }

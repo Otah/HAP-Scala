@@ -14,8 +14,8 @@ trait HumiditySensorService extends AccessoryService with experimental.OptionalN
   def statusActive: Option[StatusActiveCharacteristic] = None
 
   override def characteristics = Characteristics(
-    id1 ->> name,
+    id1 ->? name,
     id2 -> currentHumidity,
-    id3 ->> statusActive,
+    id3 ->? statusActive,
   )
 }
