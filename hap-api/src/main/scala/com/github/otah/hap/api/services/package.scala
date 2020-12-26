@@ -4,7 +4,7 @@ import scala.language.implicitConversions
 
 package object services {
 
-  implicit def characteristicInstanceAutoOption(x: Identified[LowLevelCharacteristic]) = Some(x)
+  implicit def autoOption[T](x: T) = Some(x)
 
   type Characteristics = Seq[Identified[LowLevelCharacteristic]]
 
