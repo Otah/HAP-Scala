@@ -2,13 +2,13 @@ package com.github.otah.hap.server.beowulfe
 
 import com.github.otah.hap.api.accessories.{IdentifyByPrintingLabel, SingleServiceAccessory}
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
-import com.github.otah.hap.api.services.experimental._
+import com.github.otah.hap.api.services._
 import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 case class TestSwitch(label: String)(implicit ec: ExecutionContext)
-        extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with SequentialInstanceIds
+        extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with HigherKindService.Automatic
                 with IdentifyByPrintingLabel with SwitchService with PowerStateCharacteristic {
 
   @volatile private var state = false

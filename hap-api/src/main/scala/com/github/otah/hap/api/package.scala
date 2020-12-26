@@ -8,8 +8,6 @@ import scala.language.implicitConversions
 package object api {
 
   type Identified[+O] = (InstanceId, O)
-  type Required[+O] = Identified[O]
-  type Optional[+O] = Option[Identified[O]]
 
   implicit class IdentifiedAccessoryExt[+A <: HomeKitAccessory](val tuple: Identified[A]) {
     def aid: InstanceId = tuple._1

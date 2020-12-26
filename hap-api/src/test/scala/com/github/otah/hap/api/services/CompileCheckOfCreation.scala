@@ -4,24 +4,24 @@ import com.github.otah.hap.api.characteristics.{BrightnessCharacteristic, ColorT
 
 class CompileCheckOfCreation {
 
-  class XBla extends ExperimentalLightbulbService with HigherKindService.Automatic {
+  class XBla extends LightbulbService with HigherKindService.Automatic {
 
-    override def powerState: Req[PowerStateCharacteristic] = pwr
-    override def brightness: Opt[BrightnessCharacteristic] = Some(brig)
-    override def colorTemperature: Opt[ColorTemperatureCharacteristic] = color
+    override def powerState: Required[PowerStateCharacteristic] = pwr
+    override def brightness: Optional[BrightnessCharacteristic] = Some(brig)
+    override def colorTemperature: Optional[ColorTemperatureCharacteristic] = color
 
     override def baseInstanceId: Int = ???
   }
 
-  class YBla extends ExperimentalLightbulbService with HigherKindService.Explicit {
+  class YBla extends LightbulbService with HigherKindService.Explicit {
 
-    override def powerState: Req[PowerStateCharacteristic] =
+    override def powerState: Required[PowerStateCharacteristic] =
       3 --> pwr
 
-    override def brightness: Opt[BrightnessCharacteristic] = Some {
+    override def brightness: Optional[BrightnessCharacteristic] = Some {
       4 --> brig
     }
-    override def colorTemperature: Opt[ColorTemperatureCharacteristic] =
+    override def colorTemperature: Optional[ColorTemperatureCharacteristic] =
       5 --> color
   }
 
