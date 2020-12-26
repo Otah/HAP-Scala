@@ -1,7 +1,7 @@
 package com.github.otah.hap.api
 
 import com.github.otah.hap.api.information._
-import com.github.otah.hap.api.services.experimental._
+import com.github.otah.hap.api.services._
 
 /** Many HAP accessories are defined only with a single service.
   * Mix this trait in case you want to define the service characteristics directly in the accessory class,
@@ -15,7 +15,7 @@ trait SingleServiceAccessory extends HomeKitAccessory {
 
   def info: HomeKitInfo
 
-  override def infoService: Required[AccessoryInformationWithAutoIds] = FromInfo(info)
+  override def infoService: Identified[AccessoryInformationWithAutoIds] = FromInfo(info)
 
   def baseInstanceId = 30 // keeps enough space for Accessory Information service (IID 1) and its characteristics
 

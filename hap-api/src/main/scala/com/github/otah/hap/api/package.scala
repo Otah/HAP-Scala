@@ -9,8 +9,6 @@ import scala.language.implicitConversions
 package object api {
 
   type Identified[+O] = (InstanceId, O)
-  type Required[+O] = Identified[O]
-  type Optional[+O] = Option[Identified[O]]
 
   implicit class IdentifiedAccessoryExt[+A <: HomeKitAccessory](val tuple: Identified[A]) extends HomeKitAccessory {
     def aid: InstanceId = tuple._1
@@ -40,9 +38,8 @@ package object api {
 
   type Services = Seq[Identified[AccessoryService]]
 
-  implicit class IntIidExt(num: Int) {
+  implicit class IntIidExt(num: Int) extends InstanceId.Ops {
     def identifying[O](obj: O): Identified[O] = InstanceId(num) identifying obj
-    def -->[O](obj: O): Identified[O] = identifying(obj)
   }
 
   trait Subscription {
