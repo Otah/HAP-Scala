@@ -4,7 +4,7 @@ import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics._
 import com.github.otah.hap.api.services._
 
-trait AccessoryInformation extends AccessoryService {
+trait AccessoryInformation extends SpecializedService {
 
   override final val serviceType = hap.service.accessoryInformation
 
@@ -18,7 +18,7 @@ trait AccessoryInformation extends AccessoryService {
   def hardwareRevision: Optional[RevisionCharacteristic]
   def accessoryFlags: Optional[LowLevelCharacteristic] //TODO proper type
 
-  override def characteristics = Characteristics(
+  override def all: AllSupported = AllSupported(
     name,
     identify,
     manufacturer,

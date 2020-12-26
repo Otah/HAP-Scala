@@ -6,14 +6,14 @@ import com.github.otah.hap.api.information._
 trait HomeKitBridge {
   bridge =>
 
-  def infoService: Required[AccessoryService]
+  def infoService: Identified[AccessoryService]
 
   def accessories: Seq[Identified[HomeKitAccessory]]
 
   def selfAndAccessories: Seq[Identified[HomeKitAccessory]] = asHomeKitAccessory +: accessories
 
   def asHomeKitAccessory: Identified[HomeKitAccessory] = 1 identifying new HomeKitAccessory {
-    override def infoService: Required[AccessoryService] = bridge.infoService
+    override def infoService: Identified[AccessoryService] = bridge.infoService
     override def services: Services = Nil
   }
 }
@@ -24,7 +24,7 @@ object HomeKitBridge {
 
     def info: HomeKitInfo
 
-    override def infoService: Required[AccessoryService] = FromInfo(info)
+    override def infoService: Identified[AccessoryService] = FromInfo(info)
 
     def asRoot(implicit auth: HomeKitAuthentication) = HomeKitRoot.bridge(this, info.label)
   }

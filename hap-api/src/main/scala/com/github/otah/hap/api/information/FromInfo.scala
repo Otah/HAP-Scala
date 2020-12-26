@@ -2,9 +2,9 @@ package com.github.otah.hap.api.information
 
 import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics.NameCharacteristic
-import com.github.otah.hap.api.services.experimental._
+import com.github.otah.hap.api.services.IdStrategy
 
-trait FromInfo extends AccessoryInformationWithAutoIds with InfoProvider {
+trait FromInfo extends AccessoryInformation with InfoProvider with IdStrategy.Automatic {
 
   override def identify = IdentifyCharacteristic(info.identification)
 
@@ -20,7 +20,7 @@ trait FromInfo extends AccessoryInformationWithAutoIds with InfoProvider {
 
   override def hardwareRevision = info.hardwareRevision map RevisionCharacteristic.hardware
 
-  override def accessoryFlags = AccessoryFlagsCharacteristic.fixed(info.accessoryFlags)
+  override def accessoryFlags = AccessoryFlagsCharacteristic.fixed(info.accessoryFlags) map (() => _)
 }
 
 object FromInfo {
@@ -32,8 +32,8 @@ object FromInfo {
     * @param iid Instance ID of the accessory service. Defaults to 1
     * @return Identified service for accessory information
     */
-  def apply(info: HomeKitInfo, iid: Int = 1): Identified[AccessoryInformationWithAutoIds] = {
-    iid identifying new FromInfo.Of(info) with SequentialInstanceIds {
+  def apply(info: HomeKitInfo, iid: Int = 1): Identified[AccessoryInformation] = {
+    iid identifying new FromInfo.Of(info) {
       override def baseInstanceId: Int = iid
     }
   }
