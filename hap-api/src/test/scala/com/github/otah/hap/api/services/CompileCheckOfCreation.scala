@@ -1,10 +1,10 @@
 package com.github.otah.hap.api.services
 import com.github.otah.hap.api._
-import com.github.otah.hap.api.characteristics.{BrightnessCharacteristic, ColorTemperatureCharacteristic, PowerStateCharacteristic}
+import com.github.otah.hap.api.characteristics._
 
 class CompileCheckOfCreation {
 
-  class XBla extends LightbulbService with HigherKindService.Automatic {
+  class LightAutomatic extends LightbulbService with IdStrategy.Automatic {
 
     override def powerState: Required[PowerStateCharacteristic] = pwr
     override def brightness: Optional[BrightnessCharacteristic] = Some(brig)
@@ -13,7 +13,7 @@ class CompileCheckOfCreation {
     override def baseInstanceId: Int = ???
   }
 
-  class YBla extends LightbulbService with HigherKindService.Explicit {
+  class LightExplicit extends LightbulbService with IdStrategy.Explicit {
 
     override def powerState: Required[PowerStateCharacteristic] =
       3 --> pwr

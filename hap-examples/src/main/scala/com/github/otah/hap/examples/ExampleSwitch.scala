@@ -8,7 +8,7 @@ import monix.reactive.subjects.BehaviorSubject
 
 class ExampleSwitch(val label: String, subject: BehaviorSubject[Boolean])
                    (implicit s: Scheduler)
-  extends BaseAccessory with SwitchService with HigherKindService.Automatic {
+  extends BaseAccessory with SwitchService with IdStrategy.Automatic {
 
   override val powerState: Required[PowerStateCharacteristic] =
     new ObservableWritableCharacteristic(subject) with PowerStateCharacteristic

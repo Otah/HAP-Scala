@@ -2,7 +2,7 @@ package com.github.otah.hap.api.services
 
 import com.github.otah.hap.api.characteristics._
 
-trait LightbulbService extends HigherKindService with OptionalName {
+trait LightbulbService extends SpecializedService with OptionalName {
 
   override final val serviceType = hap.service.lightbulb
 
@@ -12,5 +12,5 @@ trait LightbulbService extends HigherKindService with OptionalName {
 
   def colorTemperature: Optional[ColorTemperatureCharacteristic] = None
 
-  override def options: Options = Options(name, powerState, brightness, colorTemperature)
+  override def all: AllSupported = AllSupported(name, powerState, brightness, colorTemperature)
 }

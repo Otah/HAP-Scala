@@ -4,7 +4,7 @@ import com.github.otah.hap.api.characteristics.NameCharacteristic
 
 trait UseLabelAsName extends OptionalName {
 
-  this: HigherKindService with HigherKindService.Automatic =>
+  this: SpecializedService with IdStrategy.Automatic =>
 
   def label: String
 

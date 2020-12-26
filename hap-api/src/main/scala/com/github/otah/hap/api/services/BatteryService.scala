@@ -2,7 +2,7 @@ package com.github.otah.hap.api.services
 
 import com.github.otah.hap.api.characteristics._
 
-trait BatteryService extends HigherKindService with OptionalName {
+trait BatteryService extends SpecializedService with OptionalName {
 
   override final val serviceType = hap.service.battery
 
@@ -12,5 +12,5 @@ trait BatteryService extends HigherKindService with OptionalName {
 
   def chargingState: Required[ChargingStateCharacteristic]
 
-  override def options: Options = Options(name, battery, statusLowBattery, chargingState)
+  override def all: AllSupported = AllSupported(name, battery, statusLowBattery, chargingState)
 }

@@ -12,7 +12,7 @@ class EndServicesSpec extends AnyFlatSpec {
 
   def stub: Nothing = throw new Exception()
 
-  trait EasiestStrategy extends HigherKindService.Explicit
+  trait EasiestStrategy extends SpecializedService with IdStrategy.Explicit
   abstract class SPwr extends EasiestStrategy {
     def powerState: Identified[PowerStateCharacteristic] = stub
   }

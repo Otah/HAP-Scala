@@ -2,7 +2,7 @@ package com.github.otah.hap.api.services
 
 import com.github.otah.hap.api.characteristics._
 
-trait FanService extends HigherKindService with OptionalName {
+trait FanService extends SpecializedService with OptionalName {
 
   override final val serviceType = hap.service.fan
 
@@ -10,5 +10,5 @@ trait FanService extends HigherKindService with OptionalName {
 
   def rotationSpeed: Optional[RotationSpeedCharacteristic]
 
-  override def options: Options = Options(name, powerState, rotationSpeed)
+  override def all: AllSupported = AllSupported(name, powerState, rotationSpeed)
 }

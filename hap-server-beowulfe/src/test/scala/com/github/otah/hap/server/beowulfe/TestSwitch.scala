@@ -8,7 +8,7 @@ import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
 import scala.concurrent.{ExecutionContext, Future}
 
 case class TestSwitch(label: String)(implicit ec: ExecutionContext)
-        extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with HigherKindService.Automatic
+        extends HomeKitAccessory with SingleServiceAccessory with AccessoryService with IdStrategy.Automatic
                 with IdentifyByPrintingLabel with SwitchService with PowerStateCharacteristic {
 
   @volatile private var state = false
