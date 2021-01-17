@@ -27,8 +27,10 @@ package object api {
   type Services = Seq[Identified[AccessoryService]]
 
   implicit class IntIidExt(num: Int) extends InstanceId.Ops {
-    def identifying[O](obj: O): Identified[O] = InstanceId(num) identifying obj
+    def asInstanceId: InstanceId = InstanceId(num)
   }
+
+  implicit def opsToIid(ops: InstanceId.Ops): InstanceId = ops.asInstanceId
 
   trait Subscription {
     def unsubscribe(): Unit
