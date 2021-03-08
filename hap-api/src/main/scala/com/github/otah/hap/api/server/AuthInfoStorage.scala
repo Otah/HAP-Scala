@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 import scala.jdk.CollectionConverters._
 
+//TODO consider async
 trait AuthInfoStorage {
 
   def add(username: String, publicKey: Array[Byte]): Unit = add(username, publicKey.toSeq)
@@ -13,6 +14,8 @@ trait AuthInfoStorage {
 
   def get(username: String): Option[Seq[Byte]]
   def getAsArray(username: String): Option[Array[Byte]] = get(username) map (_.toArray)
+
+  def isEmpty: Boolean
 }
 
 object AuthInfoStorage {
@@ -40,5 +43,7 @@ object AuthInfoStorage {
     override def remove(username: String): Unit = changed(userKeys.remove(username))
 
     override def get(username: String): Option[Key] = Option(userKeys.get(username))
+
+    override def isEmpty: Boolean = userKeys.isEmpty
   }
 }

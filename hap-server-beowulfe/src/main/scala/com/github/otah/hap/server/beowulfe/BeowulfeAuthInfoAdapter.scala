@@ -15,6 +15,8 @@ class BeowulfeAuthInfoAdapter(authentication: HomeKitAuthentication) extends Hom
 
   override def removeUser(username: String): Unit = storage.remove(username)
 
+  override def hasUser: Boolean = !storage.isEmpty
+
   override def getMac: String = securityInfo.mac
 
   override def getPin: String = securityInfo.pin
