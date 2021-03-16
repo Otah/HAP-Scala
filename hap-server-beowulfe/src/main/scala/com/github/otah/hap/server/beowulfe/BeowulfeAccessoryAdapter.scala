@@ -47,7 +47,7 @@ object BeowulfeAccessoryAdapter {
     import scala.language.implicitConversions
 
     implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory with InfoProvider])(implicit ec: ExecutionContext): HomekitAccessory =
-      new BeowulfeAccessoryAdapter(accessory.aid, accessory, accessory.accessory.info)
+      new BeowulfeAccessoryAdapter(accessory.aid, accessory, accessory.accessory.homeKitInfo)
   }
 
   import JsonConverters._

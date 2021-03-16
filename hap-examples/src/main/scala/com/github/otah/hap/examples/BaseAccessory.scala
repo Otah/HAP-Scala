@@ -16,5 +16,5 @@ trait BaseAccessory extends SingleServiceAccessory with HomeKitInfo with Identif
   override def firmwareRevision = Revision("0.0.1")
   override def hardwareRevision = None
 
-  override def info: HomeKitInfo = this
+  override def homeKitInfo: HomeKitInfo = this
 }

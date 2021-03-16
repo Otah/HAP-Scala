@@ -14,7 +14,7 @@ trait NameCharacteristic extends StringCharacteristic {
 }
 
 object NameCharacteristic {
-  private case class NameCharacteristicClass(name: String) extends NameCharacteristic
-  def apply(name: String): NameCharacteristic = NameCharacteristicClass(name)
-  def apply(name: String, maxLength: Int): NameCharacteristic = NameCharacteristicClass(name)
+  private case class NameCharacteristicClass(name: String, override val maxLength: Option[Int]) extends NameCharacteristic
+  def apply(name: String): NameCharacteristic = NameCharacteristicClass(name, maxLength = None)
+  def apply(name: String, maxLength: Int): NameCharacteristic = NameCharacteristicClass(name, Some(maxLength))
 }
