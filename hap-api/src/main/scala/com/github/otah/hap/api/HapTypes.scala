@@ -39,6 +39,8 @@ object HapTypes {
     }
 
     val brightness              = Apple("8")
+    val hue                     = Apple("13")
+    val saturation              = Apple("2F")
     val name                    = Apple("23")
     val powerState              = Apple("25")
     val rotationSpeed           = Apple("29")
