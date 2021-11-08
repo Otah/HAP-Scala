@@ -27,7 +27,8 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
   override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(info.model)
   override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
   override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
-  override def getServices: util.Collection[Service] = accessory.services.map { service =>
+
+  private def convertService(service: Identified[AccessoryService]): Service = {
     // ignoring all IIDs due to FW limitations
     new Service {
 
@@ -37,10 +38,14 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
 
       override def getType: String = service.serviceType.minimalForm
 
-      override def getCharacteristics: util.List[Characteristic] =
-        service.characteristics.map(ch => convertCharacteristic(ch)).asJava
+      // characteristics must be fixed because the underlying FW queries them by reference
+      private val characteristicsCopied = new util.ArrayList(service.characteristics.map(ch => convertCharacteristic(ch)).asJava)
+      override def getCharacteristics: util.List[Characteristic] = characteristicsCopied
     }
-  }.asJava
+  }
+  // services must be fixed because the underlying FW queries them by reference
+  private val servicesCopied = new util.ArrayList(accessory.services.map(convertService).asJava)
+  override def getServices: util.Collection[Service] = servicesCopied
 }
 
 object BeowulfeAccessoryAdapter {

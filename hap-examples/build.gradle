@@ -7,4 +7,6 @@ dependencies {
     implementation monix
     implementation beowulfeHap
     implementation scalajson
+
+    implementation slf4jSimple
 }
