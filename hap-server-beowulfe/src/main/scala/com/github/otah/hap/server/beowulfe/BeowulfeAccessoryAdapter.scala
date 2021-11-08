@@ -31,6 +31,10 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
     // ignoring all IIDs due to FW limitations
     new Service {
 
+      override def getLinkedServices: util.List[Service] = util.Collections.emptyList()
+
+      override def addLinkedService(service: Service): Unit = ()
+
       override def getType: String = service.serviceType.minimalForm
 
       override def getCharacteristics: util.List[Characteristic] =
