@@ -20,17 +20,15 @@ trait HomeKitBridge {
 
 object HomeKitBridge {
 
-  trait WithInfo extends HomeKitBridge {
+  trait WithInfo extends HomeKitBridge with InfoProvider {
 
-    def info: HomeKitInfo
+    override def infoService: Identified[AccessoryService] = FromInfo(homeKitInfo)
 
-    override def infoService: Identified[AccessoryService] = FromInfo(info)
-
-    def asRoot(implicit auth: HomeKitAuthentication) = HomeKitRoot.bridge(this, info.label)
+    def asRoot(implicit auth: HomeKitAuthentication) = HomeKitRoot.bridge(this, homeKitInfo.label)
   }
 
   object WithInfo {
-    private class Impl(val info: HomeKitInfo, val accessories: Seq[Identified[HomeKitAccessory]]) extends WithInfo
+    private class Impl(val homeKitInfo: HomeKitInfo, val accessories: Seq[Identified[HomeKitAccessory]]) extends WithInfo
     def apply(info: HomeKitInfo)(accessories: Identified[HomeKitAccessory]*): WithInfo = new Impl(info, accessories)
   }
 }
