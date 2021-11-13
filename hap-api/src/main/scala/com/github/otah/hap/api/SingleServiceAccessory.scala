@@ -15,7 +15,7 @@ trait SingleServiceAccessory extends HomeKitAccessory {
 
   def homeKitInfo: HomeKitInfo
 
-  override def infoService: Identified[AccessoryInformation] = FromInfo(homeKitInfo)
+  override def infoService: Identified[AccessoryInformation] = AccessoryInformation.fromInfo(homeKitInfo)
 
   def baseInstanceId = 30 // keeps enough space for Accessory Information service (IID 1) and its characteristics
 

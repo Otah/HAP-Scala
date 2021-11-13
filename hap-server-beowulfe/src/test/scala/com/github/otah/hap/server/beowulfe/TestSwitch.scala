@@ -41,5 +41,5 @@ case class TestSwitch(label: String)(implicit ec: ExecutionContext)
 
   override def powerState = this
 
-  override def infoService = FromInfo(this)
+  override def infoService = AccessoryInformation.fromInfo(this)
 }

@@ -14,6 +14,12 @@ object IdStrategy {
     implicit def anyToOption[A](any: Identified[A]): Option[Identified[A]] = Some(any)
 
     override def characteristics: Characteristics = all.flatten
+
+    override def getCharacteristic[A <: LowLevelCharacteristic](required: Required[A]): A =
+      required.characteristic
+
+    override def getCharacteristic[A <: LowLevelCharacteristic](optional: Optional[A]): Option[A] =
+      optional map (_.characteristic)
   }
 
   trait Automatic {
@@ -29,5 +35,11 @@ object IdStrategy {
     override def characteristics: Characteristics = all.zipWithIndex collect {
       case (Some(ch), id) => (baseInstanceId + 1 + id) identifying ch()
     }
+
+    override def getCharacteristic[A <: LowLevelCharacteristic](required: Required[A]): A =
+      required()
+
+    override def getCharacteristic[A <: LowLevelCharacteristic](optional: Optional[A]): Option[A] =
+      optional.map(_.apply())
   }
 }

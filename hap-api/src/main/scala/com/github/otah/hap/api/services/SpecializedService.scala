@@ -11,4 +11,8 @@ trait SpecializedService extends AccessoryService {
   def AllSupported(opts: Option[Required[LowLevelCharacteristic]]*): AllSupported = opts
 
   def all: AllSupported
+
+  //TODO consider non-getter name
+  def getCharacteristic[A <: LowLevelCharacteristic](required: Required[A]): A
+  def getCharacteristic[A <: LowLevelCharacteristic](optional: Optional[A]): Option[A]
 }

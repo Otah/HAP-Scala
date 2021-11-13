@@ -29,3 +29,37 @@ trait AccessoryInformation extends SpecializedService {
     accessoryFlags,
   )
 }
+
+object AccessoryInformation {
+
+  trait FromInfo extends AccessoryInformation with InfoProvider with IdStrategy.Automatic {
+
+    override def identify = IdentifyCharacteristic(homeKitInfo.identification)
+
+    override def manufacturer = InfoCharacteristic.manufacturer(homeKitInfo.manufacturer)
+
+    override def model = InfoCharacteristic.model(homeKitInfo.model)
+
+    override def name = NameCharacteristic(homeKitInfo.label) //TODO is label the correct info?
+
+    override def serialNumber = InfoCharacteristic.serialNumber(homeKitInfo.serialNumber)
+
+    override def firmwareRevision = RevisionCharacteristic.firmware(homeKitInfo.firmwareRevision)
+
+    override def hardwareRevision = homeKitInfo.hardwareRevision map RevisionCharacteristic.hardware
+
+    override def accessoryFlags = AccessoryFlagsCharacteristic.fixed(homeKitInfo.accessoryFlags) map (() => _)
+  }
+
+  /** Creates an Identified accessory info service from an info
+    * @param info Info object to be translated to the respective info characteristics.
+    * @param iid Instance ID of the accessory service. Defaults to 1
+    * @return Identified service for accessory information
+    */
+  def fromInfo(info: HomeKitInfo, iid: Int = 1): Identified[AccessoryInformation] = {
+    iid identifying new FromInfo {
+      override def homeKitInfo: HomeKitInfo = info
+      override def baseInstanceId: Int = iid
+    }
+  }
+}

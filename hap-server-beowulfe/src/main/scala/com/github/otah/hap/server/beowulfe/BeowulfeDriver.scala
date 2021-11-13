@@ -29,9 +29,11 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
         case other =>
           other.infoService.service match {
             case provider: InfoProvider => provider.homeKitInfo
+            case is: AccessoryInformation => HomeKitInfo.fromAccessoryInfo(is)
             //FIXME it would be really great if this works generally
             case _ => throw new UnsupportedOperationException(s"$this requires the bridge and accessories " +
-              s"to implement ${classOf[InfoProvider]} to be able to extract structured accessory information.")
+              s"to implement ${classOf[InfoProvider]} or infoService to be an instance of ${classOf[AccessoryInformation]}" +
+              s"to be able to extract structured accessory information.")
           }
       }
     }
