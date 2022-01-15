@@ -12,8 +12,8 @@ buildscript {
     }
 }
 
-ext.scalaMajor = '2.13'
-ext.scalaMinor = 2
+ext.scalaMajor = '3'
+ext.scalaMinor = '1.0'
 ext.scalaLib = ext.scalaMajor + '.' + ext.scalaMinor
 
 def scala(libName) {
@@ -45,7 +45,7 @@ subprojects {
     sourceCompatibility = 11
 
     dependencies {
-        implementation group: 'org.scala-lang', name: 'scala-library', version: scalaLib
+        implementation group: 'org.scala-lang', name: 'scala3-library_3', version: scalaLib
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
         implementation group: 'com.typesafe.scala-logging', name: scala('scala-logging'), version: '3.9.4'
 
