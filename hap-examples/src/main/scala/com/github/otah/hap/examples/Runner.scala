@@ -11,7 +11,7 @@ import monix.reactive.subjects.BehaviorSubject
 
 object Runner extends App {
 
-  implicit val scheduler = Scheduler(Executors.newCachedThreadPool())
+  implicit val scheduler: Scheduler = Scheduler(Executors.newCachedThreadPool())
 
   val switchStream = BehaviorSubject(false)
   switchStream.subscribe { state =>

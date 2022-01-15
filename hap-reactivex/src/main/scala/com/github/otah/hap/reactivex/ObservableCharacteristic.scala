@@ -9,7 +9,7 @@ abstract class ObservableCharacteristic[T](observable: Observable[T], currentVal
 
   def this(behavior: BehaviorSubject[T]) = this(behavior, behavior.head)
 
-  override val reader = ObservableReader(currentValue)
+  override val reader: Some[Reader] = ObservableReader(currentValue)
 
-  override val notifier = ObservableNotifier(observable)
+  override val notifier: Some[Notifier] = ObservableNotifier(observable)
 }

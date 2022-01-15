@@ -16,5 +16,5 @@ class ObservableNotifier[T](observable: Observable[T]) extends TypedNotifier[T] 
 }
 
 object ObservableNotifier {
-  def apply[T](observable: Observable[T]) = Some(new ObservableNotifier(observable))
+  def apply[T](observable: Observable[T]): Some[ObservableNotifier[T]] = Some(new ObservableNotifier(observable))
 }

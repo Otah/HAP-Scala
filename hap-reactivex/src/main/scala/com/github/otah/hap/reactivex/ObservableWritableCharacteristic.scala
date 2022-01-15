@@ -21,5 +21,5 @@ abstract class ObservableWritableCharacteristic[T](observable: Observable[T], cu
 
   def this(subject: Subject[T], currentValue: Observable[T]) = this(subject, currentValue, subject)
 
-  override def writer = Writer(setFunc)
+  override def writer: Some[Writer] = Writer(setFunc)
 }

@@ -120,7 +120,7 @@ object BeowulfeAccessoryAdapter {
         }
 
         override def unsubscribe(): Unit = {
-          subscriptions.keySet().asScala.toSet foreach { subscription: Subscription =>
+          subscriptions.keySet().asScala.toSet foreach { (subscription: Subscription) =>
             subscriptions.remove(subscription)
             subscription.unsubscribe()
           }

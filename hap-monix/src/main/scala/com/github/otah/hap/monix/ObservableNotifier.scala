@@ -17,5 +17,6 @@ class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: Sched
 }
 
 object ObservableNotifier {
-  def apply[T](observable: Observable[T])(implicit scheduler: Scheduler) = Some(new ObservableNotifier(observable))
+  def apply[T](observable: Observable[T])(implicit scheduler: Scheduler): Some[ObservableNotifier[T]] =
+    Some(new ObservableNotifier(observable))
 }
