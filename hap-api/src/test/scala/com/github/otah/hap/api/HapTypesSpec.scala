@@ -1,12 +1,9 @@
 package com.github.otah.hap.api
 
 import com.github.otah.hap.api.HapTypes._
-import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import org.scalatestplus.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
 class HapTypesSpec extends AnyFlatSpec with Matchers {
 
   object expected {
