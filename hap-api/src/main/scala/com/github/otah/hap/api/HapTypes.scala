@@ -12,6 +12,7 @@ object HapTypes {
     val lightbulb          = Apple("43")
     val switch             = Apple("49")
     val programmableSwitch = Apple("89")
+    val windowCovering     = Apple("8C")
     val speaker            = Apple("113")
     val outlet             = Apple("47")
     val battery            = Apple("96")
@@ -63,6 +64,11 @@ object HapTypes {
     }
     object relativeHumidity {
       val current = Apple("10")
+    }
+    object position {
+      val current = Apple("6D")
+      val state   = Apple("72")
+      val target  = Apple("7C")
     }
   }
 }
