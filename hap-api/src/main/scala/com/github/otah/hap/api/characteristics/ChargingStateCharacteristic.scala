@@ -6,8 +6,6 @@ trait ChargingStateCharacteristic extends UInt8Characteristic with ReadNotify[In
 
   override def min = 0
   override def max = 2
-
-  override def description = "State of charging"
 }
 
 object ChargingStateCharacteristic {

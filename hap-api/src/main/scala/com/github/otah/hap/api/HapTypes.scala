@@ -5,6 +5,9 @@ object HapTypes {
   import HapType._
 
   object service {
+
+    val accessoryInformation = Apple("3E")
+
     val fan                = Apple("40")
     val lightbulb          = Apple("43")
     val switch             = Apple("49")
@@ -15,6 +18,7 @@ object HapTypes {
 
     object sensor {
       val motion           = Apple("85")
+      val occupancy        = Apple("86")
       val contact          = Apple("80")
       val humidity         = Apple("82")
       val temperature      = Apple("8A")
@@ -22,7 +26,22 @@ object HapTypes {
   }
 
   object characteristic {
+    val identify            = Apple("14")
+    val manufacturer        = Apple("20")
+    val model               = Apple("21")
+    val serialNumber        = Apple("30")
+    val accessoryProperties = Apple("A6")
+
+    object firmware {
+      val revision = Apple("52")
+    }
+    object hardware {
+      val revision = Apple("53")
+    }
+
     val brightness              = Apple("8")
+    val hue                     = Apple("13")
+    val saturation              = Apple("2F")
     val name                    = Apple("23")
     val powerState              = Apple("25")
     val rotationSpeed           = Apple("29")
@@ -31,6 +50,7 @@ object HapTypes {
     val colorTemperature        = Apple("CE")
     val motionDetected          = Apple("22")
     val contactState            = Apple("6A")
+    val occupancyDetected       = Apple("71")
     val programmableSwitchEvent = Apple("73")
     val statusActive            = Apple("75")
     val outletInUse             = Apple("26")

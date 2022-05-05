@@ -1,11 +1,10 @@
-package com.github.otah.hap.api.accessories
+package com.github.otah.hap.api.information
 
-import com.github.otah.hap.api.HomeKitAccessory
 import com.typesafe.scalalogging.Logger
 
 trait IdentifyByLoggingLabel {
 
-  this: HomeKitAccessory =>
+  this: HomeKitInfo =>
 
   private val log = Logger(getClass)
 

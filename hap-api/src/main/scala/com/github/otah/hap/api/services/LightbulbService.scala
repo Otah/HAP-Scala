@@ -12,5 +12,9 @@ trait LightbulbService extends SpecializedService with OptionalName {
 
   def colorTemperature: Optional[ColorTemperatureCharacteristic] = None
 
-  override def all: AllSupported = AllSupported(name, powerState, brightness, colorTemperature)
+  def hue: Optional[HueCharacteristic] = None
+
+  def saturation: Optional[SaturationCharacteristic] = None
+
+  override def all: AllSupported = AllSupported(name, powerState, brightness, colorTemperature, hue, saturation)
 }

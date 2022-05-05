@@ -1,10 +1,7 @@
 package com.github.otah.hap.api.characteristics
 
-import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatestplus.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
 class EndCharacteristicsSpec extends AnyFlatSpec {
 
   def stub: Some[Nothing] = throw new Exception()
@@ -48,10 +45,9 @@ class EndCharacteristicsSpec extends AnyFlatSpec {
     new X with VolumeCharacteristic
   }
 
-  "Name characteristic" should "require name and maxLength provided" in {
+  "Name characteristic" should "require name provided" in {
     new NameCharacteristic {
       def name = "whatever name"
-      def maxLength = 10
     }
   }
 

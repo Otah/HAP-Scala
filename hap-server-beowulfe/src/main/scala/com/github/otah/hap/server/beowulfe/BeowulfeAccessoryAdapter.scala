@@ -6,6 +6,7 @@ import javax.json._
 
 import com.github.blemale.scaffeine.Scaffeine
 import com.github.otah.hap.api._
+import com.github.otah.hap.api.information._
 import io.github.hapjava.accessories.HomekitAccessory
 import io.github.hapjava.characteristics.{Characteristic, EventableCharacteristic, HomekitCharacteristicChangeCallback}
 import io.github.hapjava.services.Service
@@ -15,27 +16,36 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.jdk.CollectionConverters._
 
-class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory)(implicit ec: ExecutionContext) extends HomekitAccessory {
+class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, info: HomeKitInfo)(implicit ec: ExecutionContext) extends HomekitAccessory {
 
   import BeowulfeAccessoryAdapter._
 
-  override def identify(): Unit = accessory.identification()
+  override def identify(): Unit = info.identification()
   override def getId: Int = aid.value
-  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.label)
-  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.manufacturer)
-  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.model)
-  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(accessory.serialNumber)
-  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(null) //TODO provide firmware revision
-  override def getServices: util.Collection[Service] = accessory.services.map(_.service).map { service =>
+  override def getName: CompletableFuture[String] = CompletableFuture.completedFuture(info.label)
+  override def getManufacturer: CompletableFuture[String] = CompletableFuture.completedFuture(info.manufacturer)
+  override def getModel: CompletableFuture[String] = CompletableFuture.completedFuture(info.model)
+  override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
+  override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
+
+  private def convertService(service: Identified[AccessoryService]): Service = {
     // ignoring all IIDs due to FW limitations
     new Service {
 
+      override def getLinkedServices: util.List[Service] = util.Collections.emptyList()
+
+      override def addLinkedService(service: Service): Unit = ()
+
       override def getType: String = service.serviceType.minimalForm
 
-      override def getCharacteristics: util.List[Characteristic] =
-        service.characteristics.map(_.characteristic).map(convertCharacteristic).asJava
+      // characteristics must be fixed because the underlying FW queries them by reference
+      private val characteristicsCopied = new util.ArrayList(service.characteristics.map(ch => convertCharacteristic(ch)).asJava)
+      override def getCharacteristics: util.List[Characteristic] = characteristicsCopied
     }
-  }.asJava
+  }
+  // services must be fixed because the underlying FW queries them by reference
+  private val servicesCopied = new util.ArrayList(accessory.services.map(convertService).asJava)
+  override def getServices: util.Collection[Service] = servicesCopied
 }
 
 object BeowulfeAccessoryAdapter {
@@ -45,8 +55,8 @@ object BeowulfeAccessoryAdapter {
   object Implicit {
     import scala.language.implicitConversions
 
-    implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory])(implicit ec: ExecutionContext): HomekitAccessory =
-      new BeowulfeAccessoryAdapter(accessory.aid, accessory.accessory)
+    implicit def accessoryToBeowulfe(accessory: Identified[HomeKitAccessory with InfoProvider])(implicit ec: ExecutionContext): HomekitAccessory =
+      new BeowulfeAccessoryAdapter(accessory.aid, accessory, accessory.accessory.homeKitInfo)
   }
 
   import JsonConverters._
@@ -110,7 +120,7 @@ object BeowulfeAccessoryAdapter {
         }
 
         override def unsubscribe(): Unit = {
-          subscriptions.keySet().asScala.toSet foreach { subscription: Subscription =>
+          subscriptions.keySet().asScala.toSet foreach { (subscription: Subscription) =>
             subscriptions.remove(subscription)
             subscription.unsubscribe()
           }

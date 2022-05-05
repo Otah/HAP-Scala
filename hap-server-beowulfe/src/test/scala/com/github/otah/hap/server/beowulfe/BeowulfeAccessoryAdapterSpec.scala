@@ -4,14 +4,11 @@ import javax.json.JsonValue
 
 import com.github.otah.hap.api._
 import io.github.hapjava.accessories.HomekitAccessory
-import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import org.scalatestplus.junit.JUnitRunner
 
 import scala.jdk.CollectionConverters._
 
-@RunWith(classOf[JUnitRunner])
 class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with ImplicitExecutionContext {
 
   "Original accessory creation" should "give the same result as the converted custom accessory" in {
@@ -55,6 +52,8 @@ class BeowulfeAccessoryAdapterSpec extends AnyFlatSpec with Matchers with Implic
 
     oSwitchMap.remove(perms)
     cSwitchMap.remove(perms)
+
+    oSwitchMap.remove("ev") // "ev" has no sense in this context
     assert(oSwitchMap === cSwitchMap)
   }
 }

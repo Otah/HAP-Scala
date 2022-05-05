@@ -6,17 +6,15 @@ trait NameCharacteristic extends StringCharacteristic {
 
   override final val characteristicType = hap.characteristic.name
 
-  override def description = "Name of the accessory"
-
   def name: String
   override val reader = Reader(Future.successful(name))
 
-  override def writer = None
-  override def notifier = None
+  override final def writer = None
+  override final def notifier = None
 }
 
 object NameCharacteristic {
-  private case class NameCharacteristicClass(name: String, maxLength: Int) extends NameCharacteristic
-  def apply(name: String): NameCharacteristic = NameCharacteristicClass(name, maxLength = 64)
-  def apply(name: String, maxLength: Int): NameCharacteristic = NameCharacteristicClass(name, maxLength)
+  private case class NameCharacteristicClass(name: String, override val maxLength: Option[Int]) extends NameCharacteristic
+  def apply(name: String): NameCharacteristic = NameCharacteristicClass(name, maxLength = None)
+  def apply(name: String, maxLength: Int): NameCharacteristic = NameCharacteristicClass(name, Some(maxLength))
 }

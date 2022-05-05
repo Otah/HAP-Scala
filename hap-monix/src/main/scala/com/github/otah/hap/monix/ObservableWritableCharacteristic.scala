@@ -19,5 +19,5 @@ abstract class ObservableWritableCharacteristic[T](observable: Observable[T], cu
 
   def this(subject: PublishSubject[T], currentValue: Task[T])(implicit scheduler: Scheduler) = this(subject, currentValue, subject)
 
-  override def writer = Writer(setFunc)
+  override def writer: Some[Writer] = Writer(setFunc)
 }

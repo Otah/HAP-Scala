@@ -2,11 +2,8 @@ package com.github.otah.hap.api
 
 trait HomeKitAccessory {
 
-  def label: String
-  def serialNumber: String
-  def model: String
-  def manufacturer: String
+  def infoService: Identified[AccessoryService]
   def services: Services
 
-  def identification: () => Unit
+  def lowLevelServices: Services = infoService +: services
 }
