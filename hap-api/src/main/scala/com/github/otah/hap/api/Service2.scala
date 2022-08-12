@@ -10,7 +10,7 @@ trait Service2 {
 
   def serviceType: HapType
 
-  def characteristics: Seq[Characteristic2]
+  def characteristics: Seq[Identified[Characteristic2]]
 
   def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]]
 
@@ -18,7 +18,7 @@ trait Service2 {
 
   def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]]
 
-  //FIXME add notify
+  def characteristicsSubscribe(callback: Map[InstanceId, JsValue] => Unit): Subscription
 
   protected def characteristicsJson()(implicit ec: ExecutionContext): Future[Seq[JsObject]] = {
 
@@ -27,8 +27,8 @@ trait Service2 {
     }
 
     Future.sequence(futureVals) map (_.toMap) map { vals =>
-      characteristics map { ch =>
-        ch.toJson(vals.getOrElse(ch.iid, JsNull)) //TODO Null might not be the right fallback
+      characteristics map { case (iid, ch) =>
+        ch.toJson(iid, vals.getOrElse(iid, JsNull)) //TODO Null might not be the right fallback
       }
     }
   }

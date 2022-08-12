@@ -4,7 +4,6 @@ import spray.json._
 
 trait Characteristic2 {
 
-  def iid: InstanceId
   def characteristicType: HapType
 
   def isReadable: Boolean
@@ -14,7 +13,7 @@ trait Characteristic2 {
   def format: String
   def description: Option[String]
 
-  def toJson(value: JsValue): JsObject = {
+  def toJson(iid: InstanceId, value: JsValue): JsObject = {
     val perms = Option.when(isReadable)("pr") ++ Option.when(isWritable)("pw") ++ Option.when(hasEvents)("ev")
     JsObject {
       Map(

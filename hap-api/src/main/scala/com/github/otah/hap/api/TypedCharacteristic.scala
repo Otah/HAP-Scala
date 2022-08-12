@@ -8,5 +8,5 @@ trait TypedCharacteristic[T] extends Characteristic2 {
 
   def fromJsonValue(json: JsValue): T
 
-  def toJson(value: T): JsObject = toJson(toJsonValue(value))
+  def toJson(iid: InstanceId, value: T): JsObject = toJson(iid, toJsonValue(value)) //FIXME handle conversion errors?
 }
