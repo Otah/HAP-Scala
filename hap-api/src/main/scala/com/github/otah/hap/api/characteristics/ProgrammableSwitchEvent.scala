@@ -8,11 +8,9 @@ trait ProgrammableSwitchEvent extends UInt8Characteristic with Units.None {
 
   override final val characteristicType = hap.characteristic.programmableSwitchEvent
 
-  override final def reader = Reader.Null
-
-  override final def writer: Option[Writer] = None
-
-  override def notifier: Some[Notifier]
+  override final def isReadable: Boolean = true
+  override final def isWritable: Boolean = false
+  override final def hasEvents: Boolean = true
 }
 
 object ProgrammableSwitchEvent {

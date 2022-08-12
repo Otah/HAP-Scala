@@ -11,15 +11,15 @@ import com.github.otah.hap.api.services._
   */
 trait SingleServiceAccessory extends HomeKitAccessory {
 
-  this: AccessoryService =>
+  this: Service =>
 
   def homeKitInfo: HomeKitInfo
 
-  override def infoService: Identified[AccessoryInformation] = AccessoryInformation.fromInfo(homeKitInfo)
+  override def infoService: AccessoryInformation = AccessoryInformation.fromInfo(homeKitInfo)
 
-  def baseInstanceId = 30 // keeps enough space for Accessory Information service (IID 1) and its characteristics
+  override def iid = InstanceId(30) // keeps enough space for Accessory Information service (IID 1) and its characteristics
 
-  def services: Seq[Identified[AccessoryService]] = Seq(InstanceId(baseInstanceId) -> this) ++ battery
+  def services: Seq[Service] = Seq(this) ++ battery
 
-  def battery: Option[Identified[BatteryService]] = None
+  def battery: Option[BatteryService] = None
 }

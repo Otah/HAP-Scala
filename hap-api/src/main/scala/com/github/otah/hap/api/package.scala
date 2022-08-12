@@ -14,29 +14,23 @@ package object api {
     def aid: InstanceId = tuple._1
     def accessory: A = tuple._2
 
-    override def infoService: (InstanceId, AccessoryService) = accessory.infoService
+    override def infoService: Service = accessory.infoService
     override def services: Services = accessory.services
   }
 
-  implicit class IdentifiedServiceExt[+S <: AccessoryService](val tuple: Identified[S]) extends AccessoryService {
-    def iid: InstanceId = tuple._1
-    def service: S = tuple._2
-
-    override def serviceType: HapType = service.serviceType
-    override def characteristics: Characteristics = service.characteristics
-  }
-
-  implicit class IdentifiedCharacteristicExt[+C <: LowLevelCharacteristic](val tuple: Identified[C]) extends LowLevelCharacteristic {
+  implicit class IdentifiedCharacteristicExt[+C <: Characteristic](val tuple: Identified[C]) extends Characteristic {
     def iid: InstanceId = tuple._1
     def characteristic: C = tuple._2
 
-    override def asJson(instanceId: Int)(implicit ec: ExecutionContext): Future[JsObject] = characteristic.asJson(instanceId)
-    override def readJsonValue()(implicit ec: ExecutionContext): Future[JsValue] = characteristic.readJsonValue()
-    override def jsonWriter(implicit ec: ExecutionContext): Option[JsValue => Future[_]] = characteristic.jsonWriter
-    override def jsonValueNotifier(implicit ec: ExecutionContext): Option[LowLevelNotifier] = characteristic.jsonValueNotifier
+    override def characteristicType: HapType = characteristic.characteristicType
+    override def isReadable: Boolean = characteristic.isReadable
+    override def isWritable: Boolean = characteristic.isWritable
+    override def hasEvents: Boolean = characteristic.hasEvents
+    override def format: String = characteristic.format
+    override def description: Option[String] = characteristic.description
   }
 
-  type Services = Seq[Identified[AccessoryService]]
+  type Services = Seq[Service]
 
   implicit class IntIidExt(num: Int) extends InstanceId.Ops {
     def asInstanceId: InstanceId = InstanceId(num)
@@ -54,16 +48,5 @@ package object api {
 
   trait LowLevelNotifier {
     def subscribe(callback: JsValue => Future[Unit]): Subscription
-  }
-
-  trait LowLevelCharacteristic {
-
-    def asJson(instanceId: Int)(implicit ec: ExecutionContext): Future[JsObject]
-
-    def readJsonValue()(implicit ec: ExecutionContext): Future[JsValue]
-
-    def jsonWriter(implicit ec: ExecutionContext): Option[JsValue => Future[_]]
-
-    def jsonValueNotifier(implicit ec: ExecutionContext): Option[LowLevelNotifier]
   }
 }

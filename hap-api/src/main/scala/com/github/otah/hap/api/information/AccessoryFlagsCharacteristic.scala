@@ -14,10 +14,9 @@ trait AccessoryFlagsCharacteristic extends UInt32Characteristic {
 
   override def unit: Option[String] = None
 
-  override def reader: Some[Reader]
-  override def notifier: Some[Notifier]
-
-  override final val writer = None
+  override final def isReadable: Boolean = true
+  override final def isWritable: Boolean = false
+  override final def hasEvents: Boolean = true
 }
 
 object AccessoryFlagsCharacteristic {
@@ -26,18 +25,4 @@ object AccessoryFlagsCharacteristic {
     if (flags.requiresAdditionalSetup) Some(0x0001)
     else None
   }
-
-  def fixed(flags: AccessoryFlags): Option[AccessoryFlagsCharacteristic] =
-    flagsToBits(flags) map Future.successful map { bits =>
-      new AccessoryFlagsCharacteristic {
-
-        override def reader = Reader(bits)
-
-        override def notifier = Some {
-          new TypedNotifier[Long] {
-            override def subscribe(callback: Long => Future[Unit]) = () => ()
-          }
-        }
-      }
-    }
 }

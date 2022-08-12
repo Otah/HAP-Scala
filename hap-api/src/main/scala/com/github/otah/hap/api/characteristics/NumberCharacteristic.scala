@@ -1,11 +1,11 @@
-package com.github.otah.hap.api.characteristics
+package com.github.otah.hap.api
+package characteristics
 
-import com.github.otah.hap.api.Characteristic
 import spray.json._
 
 import scala.concurrent.ExecutionContext
 
-trait NumberCharacteristic[T] extends Characteristic[T] {
+trait NumberCharacteristic[T] extends TypedCharacteristic[T] {
   import Ordering.Implicits._
 
   def min: T
@@ -20,14 +20,15 @@ trait NumberCharacteristic[T] extends Characteristic[T] {
 
   protected def formatMeta: FormatMeta
 
-  override protected def toJsonValue(v: T): JsValue = {
+  override def toJsonValue(v: T): JsValue = {
     implicit val ordering = formatMeta.ordering
     require(v >= min, s"Provided value $v is lower than the declared min value $min")
     require(v <= max, s"Provided value $v is greater than the declared max value $max")
     formatMeta.toJValue(v)
   }
 
-  override def asJson(instanceId: Int)(implicit ec: ExecutionContext) = super.asJson(instanceId) map { orig =>
+  override def toJson(iid: InstanceId, value: T): JsObject = {
+    val orig = super.toJson(iid, value)
     implicit val ordering = formatMeta.ordering
     val required = Map(
       "minValue" -> {

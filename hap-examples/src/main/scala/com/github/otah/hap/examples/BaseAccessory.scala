@@ -7,7 +7,7 @@ import com.github.otah.hap.api.information._
   */
 trait BaseAccessory extends SingleServiceAccessory with HomeKitInfo with IdentifyByPrintingLabel {
 
-  this: AccessoryService =>
+  this: Service =>
 
   override def manufacturer = "Otah"
   override def model = "Virtual Accessory"

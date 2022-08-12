@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-trait OccupancyDetectedCharacteristic extends UInt8Characteristic with ReadNotify[Int] {
+trait OccupancyDetectedCharacteristic extends UInt8Characteristic with ReadNotify {
 
   override final val characteristicType = hap.characteristic.occupancyDetected
 

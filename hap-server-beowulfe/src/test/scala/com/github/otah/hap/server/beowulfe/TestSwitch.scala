@@ -4,12 +4,12 @@ import com.github.otah.hap.api._
 import com.github.otah.hap.api.characteristics.PowerStateCharacteristic
 import com.github.otah.hap.api.information._
 import com.github.otah.hap.api.services._
-import com.github.otah.hap.api.{AccessoryService, HomeKitAccessory}
+import com.github.otah.hap.api.{Service, HomeKitAccessory}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 case class TestSwitch(label: String)(implicit ec: ExecutionContext)
-        extends HomeKitAccessory with HomeKitInfo with SingleServiceAccessory with AccessoryService with IdStrategy.Automatic
+        extends HomeKitAccessory with HomeKitInfo with SingleServiceAccessory with Service with IdStrategy.Automatic
                 with IdentifyByPrintingLabel with SwitchService with PowerStateCharacteristic {
 
   @volatile private var state = false

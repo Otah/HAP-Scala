@@ -15,17 +15,15 @@ object IdStrategy {
 
     override def characteristics: Characteristics = all.flatten
 
-    override def getCharacteristic[A <: LowLevelCharacteristic](required: Required[A]): A =
+    override def getCharacteristic[A <: Characteristic](required: Required[A]): A =
       required.characteristic
 
-    override def getCharacteristic[A <: LowLevelCharacteristic](optional: Optional[A]): Option[A] =
+    override def getCharacteristic[A <: Characteristic](optional: Optional[A]): Option[A] =
       optional map (_.characteristic)
   }
 
   trait Automatic {
     this: SpecializedService =>
-
-    def baseInstanceId: Int
 
     override type Required[+A] = () => A
 
@@ -33,13 +31,13 @@ object IdStrategy {
     implicit def anyToOption[A](any: A): Option[() => A] = Some(() => any)
 
     override def characteristics: Characteristics = all.zipWithIndex collect {
-      case (Some(ch), id) => (baseInstanceId + 1 + id) identifying ch()
+      case (Some(ch), id) => (iid + 1 + id) identifying ch()
     }
 
-    override def getCharacteristic[A <: LowLevelCharacteristic](required: Required[A]): A =
+    override def getCharacteristic[A <: Characteristic](required: Required[A]): A =
       required()
 
-    override def getCharacteristic[A <: LowLevelCharacteristic](optional: Optional[A]): Option[A] =
+    override def getCharacteristic[A <: Characteristic](optional: Optional[A]): Option[A] =
       optional.map(_.apply())
   }
 }

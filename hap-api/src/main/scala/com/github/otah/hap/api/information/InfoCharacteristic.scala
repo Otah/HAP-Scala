@@ -7,19 +7,16 @@ import scala.concurrent.Future
 
 trait InfoCharacteristic extends StringCharacteristic {
 
-  def information: String
-
-  override val reader = Reader(Future.successful(information))
-
-  override final val writer = None
-  override final val notifier = None
+  override final def isReadable: Boolean = true
+  override final def isWritable: Boolean = false
+  override final def hasEvents: Boolean = false
 }
 
 object InfoCharacteristic {
 
   import com.github.otah.hap.api.{HapTypes => hap}
 
-  private case class Instance(characteristicType: HapType, information: String) extends InfoCharacteristic
+  private case class Instance(characteristicType: HapType, x: Any) extends InfoCharacteristic
 
   def manufacturer(manufacturer: String): InfoCharacteristic =
     Instance(hap.characteristic.manufacturer, manufacturer)
@@ -29,4 +26,10 @@ object InfoCharacteristic {
 
   def serialNumber(serial: String): InfoCharacteristic =
     Instance(hap.characteristic.serialNumber, serial)
+
+  def hardware(revision: Revision): InfoCharacteristic =
+    Instance(hap.characteristic.hardware.revision, revision)
+
+  def firmware(revision: Revision): InfoCharacteristic =
+    Instance(hap.characteristic.firmware.revision, revision)
 }

@@ -1,26 +1,27 @@
-package com.github.otah.hap.api.characteristics
+package com.github.otah.hap.api
+package characteristics
 
-import com.github.otah.hap.api.Characteristic
 import spray.json._
 
 import scala.concurrent.ExecutionContext
 
-trait StringCharacteristic extends Characteristic[String] {
+trait StringCharacteristic extends TypedCharacteristic[String] {
 
   override final val format = "string"
 
   def maxLength: Option[Int] = None
 
-  override protected def toJsonValue(v: String) = JsString(v)
+  override def toJsonValue(v: String) = JsString(v)
 
-  override protected def fromJsonValue(jv: JsValue) = jv match {
+  override def fromJsonValue(jv: JsValue) = jv match {
     case JsString(stringValue) => stringValue
     case JsBoolean(booleanValue) => booleanValue.toString
     case JsNumber(bigDecimal) => bigDecimal.toString
     case _ => ""
   }
 
-  override def asJson(instanceId: Int)(implicit ec: ExecutionContext) = super.asJson(instanceId) map { orig =>
+  override def toJson(iid: InstanceId, value: String): JsObject = {
+    val orig = super.toJson(iid, value)
     orig.copy(orig.fields ++ (maxLength map (max => "maxLen" -> JsNumber(max))))
   }
 }

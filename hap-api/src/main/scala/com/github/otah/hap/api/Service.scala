@@ -4,13 +4,13 @@ import spray.json.*
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait Service2 {
+trait Service extends TypeConvenience {
 
   def iid: InstanceId
 
   def serviceType: HapType
 
-  def characteristics: Seq[Identified[Characteristic2]]
+  def characteristics: Seq[Identified[Characteristic]]
 
   def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]]
 

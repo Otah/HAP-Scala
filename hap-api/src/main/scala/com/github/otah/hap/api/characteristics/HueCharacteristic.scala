@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-trait HueCharacteristic extends FloatCharacteristic with ReadWriteNotify[Float] with Units.ArcDegrees {
+trait HueCharacteristic extends FloatCharacteristic with ReadWriteNotify with Units.ArcDegrees {
 
   override final val characteristicType = hap.characteristic.hue
 

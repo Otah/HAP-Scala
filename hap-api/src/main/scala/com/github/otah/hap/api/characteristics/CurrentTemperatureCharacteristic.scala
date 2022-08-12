@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-trait CurrentTemperatureCharacteristic extends FloatCharacteristic with ReadNotify[Float] with Units.DegreesCelsius {
+trait CurrentTemperatureCharacteristic extends FloatCharacteristic with ReadNotify with Units.DegreesCelsius {
 
   override final val characteristicType = hap.characteristic.temperature.current
 

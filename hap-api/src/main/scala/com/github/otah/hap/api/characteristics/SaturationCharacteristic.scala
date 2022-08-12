@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-trait SaturationCharacteristic extends FloatCharacteristic with ReadWriteNotify[Float] with Units.Percentage {
+trait SaturationCharacteristic extends FloatCharacteristic with ReadWriteNotify with Units.Percentage {
 
   override final val characteristicType = hap.characteristic.saturation
 

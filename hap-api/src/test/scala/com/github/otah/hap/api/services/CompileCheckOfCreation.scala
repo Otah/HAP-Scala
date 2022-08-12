@@ -1,19 +1,28 @@
 package com.github.otah.hap.api.services
-import com.github.otah.hap.api._
-import com.github.otah.hap.api.characteristics._
+import com.github.otah.hap.api.*
+import com.github.otah.hap.api.characteristics.*
+import spray.json.JsValue
+
+import scala.concurrent.{ExecutionContext, Future}
 
 class CompileCheckOfCreation {
 
-  class LightAutomatic extends LightbulbService with IdStrategy.Automatic {
+  trait MockedLight extends LightbulbService {
+    override def iid: InstanceId = ???
+    override def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]] = ???
+    override def characteristicsValues()(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
+    override def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
+    override def characteristicsSubscribe(callback: Map[InstanceId, JsValue] => Unit): Subscription = ???
+  }
+
+  class LightAutomatic extends MockedLight with IdStrategy.Automatic {
 
     override def powerState: Required[PowerStateCharacteristic] = pwr
     override def brightness: Optional[BrightnessCharacteristic] = Some(brig)
     override def colorTemperature: Optional[ColorTemperatureCharacteristic] = color
-
-    override def baseInstanceId: Int = ???
   }
 
-  class LightExplicit extends LightbulbService with IdStrategy.Explicit {
+  class LightExplicit extends MockedLight with IdStrategy.Explicit {
 
     override def powerState: Required[PowerStateCharacteristic] =
       3 --> pwr
@@ -25,19 +34,7 @@ class CompileCheckOfCreation {
       5 --> color
   }
 
-  val pwr = new PowerStateCharacteristic {
-    override def reader: Some[Reader] = ???
-    override def writer: Some[Writer] = ???
-    override def notifier: Some[Notifier] = ???
-  }
-  val brig = new BrightnessCharacteristic {
-    override def reader: Some[Reader] = ???
-    override def writer: Some[Writer] = ???
-    override def notifier: Some[Notifier] = ???
-  }
-  val color = new ColorTemperatureCharacteristic {
-    override def reader: Some[Reader] = ???
-    override def writer: Some[Writer] = ???
-    override def notifier: Some[Notifier] = ???
-  }
+  val pwr = new PowerStateCharacteristic {}
+  val brig = new BrightnessCharacteristic {}
+  val color = new ColorTemperatureCharacteristic {}
 }

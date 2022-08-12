@@ -28,7 +28,7 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
   override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
   override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
 
-  private def convertService(service: Identified[AccessoryService]): Service = {
+  private def convertService(service: Identified[Service]): Service = {
     // ignoring all IIDs due to FW limitations
     new Service {
 
@@ -61,7 +61,7 @@ object BeowulfeAccessoryAdapter {
 
   import JsonConverters._
 
-  private def convertCharacteristic(orig: LowLevelCharacteristic)(implicit ec: ExecutionContext): Characteristic = {
+  private def convertCharacteristic(orig: Characteristic)(implicit ec: ExecutionContext): Characteristic = {
 
     class BridgedCharacteristic extends Characteristic with AccessoryConversions {
 

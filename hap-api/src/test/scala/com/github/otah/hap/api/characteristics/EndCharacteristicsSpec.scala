@@ -4,20 +4,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class EndCharacteristicsSpec extends AnyFlatSpec {
 
-  def stub: Some[Nothing] = throw new Exception()
-
-  trait ReadOnly {
-    def reader = stub
-    def notifier = stub
-  }
-
-  trait ReadWrite extends ReadOnly {
-    def writer = stub
-  }
-
   "End-user read-only characteristics" should "require only reader and notifier defined" in {
 
-    abstract class X extends ReadOnly
+    abstract class X
 
     new X with ContactSensorStateCharacteristic
 
@@ -30,7 +19,7 @@ class EndCharacteristicsSpec extends AnyFlatSpec {
 
   "End-user read-write characteristics" should "require only reader, writer and notifier defined" in {
 
-    abstract class X extends ReadWrite
+    abstract class X
 
     new X with BrightnessCharacteristic
 
@@ -53,7 +42,6 @@ class EndCharacteristicsSpec extends AnyFlatSpec {
 
   "Programmable switch event" should "require notifier, max and pressed SPI" in {
     new ProgrammableSwitchEvent {
-      override def notifier = stub
       override def max = 1
     }
   }

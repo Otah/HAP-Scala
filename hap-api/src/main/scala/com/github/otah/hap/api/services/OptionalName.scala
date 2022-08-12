@@ -1,9 +1,8 @@
-package com.github.otah.hap.api.services
-
-import com.github.otah.hap.api.Characteristic
+package com.github.otah.hap.api
+package services
 
 trait OptionalName {
   this: SpecializedService =>
 
-  def name: Optional[Characteristic[String]] = None
+  def name: Optional[TypedCharacteristic[String]] = None
 }

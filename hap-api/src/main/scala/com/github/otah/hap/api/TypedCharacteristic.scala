@@ -2,7 +2,7 @@ package com.github.otah.hap.api
 
 import spray.json._
 
-trait TypedCharacteristic[T] extends Characteristic2 {
+trait TypedCharacteristic[T] extends Characteristic {
 
   def toJsonValue(value: T): JsValue
 

@@ -1,6 +1,6 @@
 package com.github.otah.hap.api.characteristics
 
-trait PositionStateCharacteristic extends UInt8Characteristic with ReadNotify[Int] with Units.None {
+trait PositionStateCharacteristic extends UInt8Characteristic with ReadNotify with Units.None {
 
   override final val characteristicType = hap.characteristic.position.state
 

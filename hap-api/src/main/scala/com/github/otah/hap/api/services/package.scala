@@ -6,7 +6,7 @@ package object services {
 
   implicit def autoOption[T](x: T): Some[T] = Some(x)
 
-  type Characteristics = Seq[Identified[LowLevelCharacteristic]]
+  type Characteristics = Seq[Identified[Characteristic]]
 
-  def Characteristics(chs: Option[Identified[LowLevelCharacteristic]]*): Characteristics = chs.flatten
+  def Characteristics(chs: Option[Identified[Characteristic]]*): Characteristics = chs.flatten
 }

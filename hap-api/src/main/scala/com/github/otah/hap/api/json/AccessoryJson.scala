@@ -18,30 +18,18 @@ object AccessoryJson {
 
     val allServices = acc.lowLevelServices
 
-    val iids = allServices flatMap {
-      case (serviceId, service) =>
-        val characteristicsIds = service.characteristics map {
-          case (characteristicId, _) => characteristicId
-        }
-        serviceId +: characteristicsIds
+    val iids = allServices flatMap { service =>
+      val characteristicsIds = service.characteristics map {
+        case (characteristicId, _) => characteristicId
+      }
+      service.iid +: characteristicsIds
     }
     val duplicates = iids map (_.value) groupBy identity collect {
       case (iid, occurrences) if occurrences.tail.nonEmpty => s"$iid defined ${occurrences.size}x"
     }
     if (duplicates.nonEmpty) throw new IllegalStateException("Duplicate IIDs found: " + duplicates.mkString(", "))
 
-    val servicesFutJson: Seq[Future[JsObject]] = allServices map { case (serviceId, service) =>
-      val xxx = service.characteristics map {
-        case (characteristicId, characteristic) => characteristic.asJson(characteristicId.value) // TODO glue IID here instead of in asJson?
-      }
-      build(xxx) { characteristics =>
-        Map(
-          "type" -> JsString(service.serviceType.minimalForm),
-          "iid" -> JsNumber(serviceId.value),
-          "characteristics" -> characteristics
-        )
-      }
-    }
+    val servicesFutJson: Seq[Future[JsObject]] = allServices map (_.toJson())
 
     build(servicesFutJson) { services =>
       Map(

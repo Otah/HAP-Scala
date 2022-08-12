@@ -8,16 +8,7 @@ trait IdentifyCharacteristic extends BoolCharacteristic {
 
   override final val characteristicType = hap.characteristic.identify
 
-  override final val reader = None
-
-  override final val notifier = None
-
-  override def writer: Some[Writer]
-}
-
-object IdentifyCharacteristic {
-
-  def apply(onIdentify: () => Unit): IdentifyCharacteristic = new IdentifyCharacteristic {
-    override final val writer = Writer(_ => Future.successful(onIdentify()))
-  }
+  override final def isReadable: Boolean = false
+  override final def isWritable: Boolean = true
+  override final def hasEvents: Boolean = false
 }

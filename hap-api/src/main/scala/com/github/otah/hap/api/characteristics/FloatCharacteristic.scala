@@ -12,7 +12,7 @@ trait FloatCharacteristic extends NumberCharacteristic[Float] {
 
   override protected final lazy val formatMeta = FormatMeta(Float.MinValue, Float.MaxValue)(JsNumber.apply)
 
-  override protected def fromJsonValue(jv: JsValue): Float = jv match {
+  override def fromJsonValue(jv: JsValue): Float = jv match {
     case JsBoolean(flag) => if (flag) 1 else 0
     case JsNumber(bigDecimal) => Try(bigDecimal.toFloat) getOrElse 0
     case _ => 0

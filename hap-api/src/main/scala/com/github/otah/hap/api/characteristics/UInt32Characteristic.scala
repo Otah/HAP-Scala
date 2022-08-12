@@ -12,7 +12,7 @@ trait UInt32Characteristic extends NumberCharacteristic[Long] {
 
   override protected def formatMeta = FormatMeta(min = 0, max = 4294967295L)(JsNumber.apply)
 
-  override protected def fromJsonValue(jv: JsValue): Long = jv match {
+  override def fromJsonValue(jv: JsValue): Long = jv match {
     case JsBoolean(flag) => if (flag) 1 else 0
     case JsNumber(bigDecimal) => Try(bigDecimal.toLong) getOrElse 0
     case _ => 0

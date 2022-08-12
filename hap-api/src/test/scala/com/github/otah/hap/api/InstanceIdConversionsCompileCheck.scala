@@ -14,16 +14,6 @@ class InstanceIdConversionsCompileCheck {
     def bigFun(iid: InstanceId): Unit = ()
     bigFun(id1.id)
 
-    val svc1 = 1 --> new AccessoryService {
-      override def serviceType: HapType = ???
-      override def characteristics: Characteristics = ???
-    }
-
-    val svc2 = InstanceId(1) --> new AccessoryService {
-      override def serviceType: HapType = ???
-      override def characteristics: Characteristics = ???
-    }
-
-    (id1, id2, svc1, svc2)
+    (id1, id2)
   }
 }

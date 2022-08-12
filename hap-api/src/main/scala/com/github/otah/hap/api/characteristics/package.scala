@@ -24,21 +24,19 @@ package object characteristics {
     }
   }
 
-  trait ReadNotify[T] {
+  trait ReadNotify {
+    this: Characteristic =>
 
-    this: Characteristic[T] =>
-
-    override def reader: Some[Reader]
-    override final val writer = None
-    override def notifier: Some[Notifier]
+    override final def isReadable: Boolean = true
+    override final def isWritable: Boolean = false
+    override final def hasEvents: Boolean = true
   }
 
-  trait ReadWriteNotify[T] {
+  trait ReadWriteNotify {
+    this: Characteristic =>
 
-    this: Characteristic[T] =>
-
-    override def reader: Some[Reader]
-    override def writer: Some[Writer]
-    override def notifier: Some[Notifier]
+    override final def isReadable: Boolean = true
+    override final def isWritable: Boolean = true
+    override final def hasEvents: Boolean = true
   }
 }
