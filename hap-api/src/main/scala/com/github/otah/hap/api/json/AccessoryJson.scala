@@ -19,9 +19,7 @@ object AccessoryJson {
     val allServices = acc.lowLevelServices
 
     val iids = allServices flatMap { service =>
-      val characteristicsIds = service.characteristics map {
-        case (characteristicId, _) => characteristicId
-      }
+      val characteristicsIds = service.characteristics map (_.iid)
       service.iid +: characteristicsIds
     }
     val duplicates = iids map (_.value) groupBy identity collect {

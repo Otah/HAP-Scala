@@ -16,20 +16,15 @@ object InfoCharacteristic {
 
   import com.github.otah.hap.api.{HapTypes => hap}
 
-  private case class Instance(characteristicType: HapType, x: Any) extends InfoCharacteristic
+  trait Manufacturer extends InfoCharacteristic {
+    override val characteristicType = hap.characteristic.manufacturer
+  }
 
-  def manufacturer(manufacturer: String): InfoCharacteristic =
-    Instance(hap.characteristic.manufacturer, manufacturer)
+  trait Model extends InfoCharacteristic {
+    override val characteristicType = hap.characteristic.model
+  }
 
-  def model(model: String): InfoCharacteristic =
-    Instance(hap.characteristic.model, model)
-
-  def serialNumber(serial: String): InfoCharacteristic =
-    Instance(hap.characteristic.serialNumber, serial)
-
-  def hardware(revision: Revision): InfoCharacteristic =
-    Instance(hap.characteristic.hardware.revision, revision)
-
-  def firmware(revision: Revision): InfoCharacteristic =
-    Instance(hap.characteristic.firmware.revision, revision)
+  trait SerialNumber extends InfoCharacteristic {
+    override val characteristicType = hap.characteristic.serialNumber
+  }
 }

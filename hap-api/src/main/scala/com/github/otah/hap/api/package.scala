@@ -18,17 +18,7 @@ package object api {
     override def services: Services = accessory.services
   }
 
-  implicit class IdentifiedCharacteristicExt[+C <: Characteristic](val tuple: Identified[C]) extends Characteristic {
-    def iid: InstanceId = tuple._1
-    def characteristic: C = tuple._2
-
-    override def characteristicType: HapType = characteristic.characteristicType
-    override def isReadable: Boolean = characteristic.isReadable
-    override def isWritable: Boolean = characteristic.isWritable
-    override def hasEvents: Boolean = characteristic.hasEvents
-    override def format: String = characteristic.format
-    override def description: Option[String] = characteristic.description
-  }
+  type Update = Map[InstanceId, JsValue]
 
   type Services = Seq[Service]
 
@@ -48,5 +38,13 @@ package object api {
 
   trait LowLevelNotifier {
     def subscribe(callback: JsValue => Future[Unit]): Subscription
+  }
+
+  trait FilterSubsetFromAll {
+    this: Service =>
+
+    override def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = {
+      characteristicsValues().view.filterKeys(ids.contains).toMap
+    }
   }
 }

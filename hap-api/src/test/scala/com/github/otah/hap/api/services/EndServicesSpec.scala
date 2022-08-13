@@ -13,15 +13,15 @@ class EndServicesSpec extends AnyFlatSpec {
 
   def stub: Nothing = throw new Exception()
 
-  trait EasiestStrategy extends SpecializedService with IdStrategy.Explicit {
+  trait EasiestStrategy extends SpecializedService {
     override def iid: InstanceId = ???
-    override def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]] = ???
+    override def characteristicsWrite(updates: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]] = ???
     override def characteristicsValues()(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
     override def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
     override def characteristicsSubscribe(callback: Map[InstanceId, JsValue] => Unit): api.Subscription = ???
   }
   abstract class SPwr extends EasiestStrategy {
-    def powerState: Identified[PowerStateCharacteristic] = stub
+    def powerState: PowerStateCharacteristic = stub
   }
 
   "End-user services" should "need only their characteristics to be specified" in {

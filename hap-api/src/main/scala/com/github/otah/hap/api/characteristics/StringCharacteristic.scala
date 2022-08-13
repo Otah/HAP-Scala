@@ -20,8 +20,8 @@ trait StringCharacteristic extends TypedCharacteristic[String] {
     case _ => ""
   }
 
-  override def toJson(iid: InstanceId, value: String): JsObject = {
-    val orig = super.toJson(iid, value)
+  override def toJson(value: String): JsObject = {
+    val orig = super.toJson(value)
     orig.copy(orig.fields ++ (maxLength map (max => "maxLen" -> JsNumber(max))))
   }
 }

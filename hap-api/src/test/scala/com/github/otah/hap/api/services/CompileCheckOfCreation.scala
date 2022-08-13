@@ -9,32 +9,28 @@ class CompileCheckOfCreation {
 
   trait MockedLight extends LightbulbService {
     override def iid: InstanceId = ???
-    override def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]] = ???
+    override def characteristicsWrite(updates: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]] = ???
     override def characteristicsValues()(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
     override def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = ???
     override def characteristicsSubscribe(callback: Map[InstanceId, JsValue] => Unit): Subscription = ???
   }
 
-  class LightAutomatic extends MockedLight with IdStrategy.Automatic {
+  class LightAutomatic extends MockedLight {
 
-    override def powerState: Required[PowerStateCharacteristic] = pwr
-    override def brightness: Optional[BrightnessCharacteristic] = Some(brig)
-    override def colorTemperature: Optional[ColorTemperatureCharacteristic] = color
+    override def powerState: Required[PowerStateCharacteristic] = new A with PowerStateCharacteristic
+    override def brightness: Optional[BrightnessCharacteristic] = Some(new A with BrightnessCharacteristic)
+    override val colorTemperature: Optional[ColorTemperatureCharacteristic] = new A with ColorTemperatureCharacteristic
   }
 
-  class LightExplicit extends MockedLight with IdStrategy.Explicit {
+  class LightExplicit extends MockedLight {
 
     override def powerState: Required[PowerStateCharacteristic] =
-      3 --> pwr
+      new IID(3) with PowerStateCharacteristic
 
     override def brightness: Optional[BrightnessCharacteristic] = Some {
-      4 --> brig
+      new IID(4) with BrightnessCharacteristic
     }
-    override def colorTemperature: Optional[ColorTemperatureCharacteristic] =
-      5 --> color
+    override val colorTemperature: Optional[ColorTemperatureCharacteristic] =
+      new IID(5) with ColorTemperatureCharacteristic
   }
-
-  val pwr = new PowerStateCharacteristic {}
-  val brig = new BrightnessCharacteristic {}
-  val color = new ColorTemperatureCharacteristic {}
 }

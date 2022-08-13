@@ -10,8 +10,3 @@ trait NameCharacteristic extends StringCharacteristic {
   override final def isWritable: Boolean = false
   override final def hasEvents: Boolean = false
 }
-
-object NameCharacteristic {
-
-  case class Concrete(name: String, override val maxLength: Option[Int] = None) extends NameCharacteristic
-}

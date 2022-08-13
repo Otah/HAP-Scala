@@ -4,6 +4,7 @@ import spray.json._
 
 trait Characteristic extends TypeConvenience {
 
+  def iid: InstanceId
   def characteristicType: HapType
   def description: Option[String] = None
 
@@ -13,7 +14,7 @@ trait Characteristic extends TypeConvenience {
   def isWritable: Boolean
   def hasEvents: Boolean
 
-  def toJson(iid: InstanceId, value: JsValue): JsObject = {
+  def toJson(value: JsValue): JsObject = {
     val perms = Option.when(isReadable)("pr") ++ Option.when(isWritable)("pw") ++ Option.when(hasEvents)("ev")
     JsObject {
       Map(

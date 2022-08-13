@@ -27,8 +27,8 @@ trait NumberCharacteristic[T] extends TypedCharacteristic[T] {
     formatMeta.toJValue(v)
   }
 
-  override def toJson(iid: InstanceId, value: T): JsObject = {
-    val orig = super.toJson(iid, value)
+  override def toJson(value: T): JsObject = {
+    val orig = super.toJson(value)
     implicit val ordering = formatMeta.ordering
     val required = Map(
       "minValue" -> {

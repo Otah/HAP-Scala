@@ -10,15 +10,15 @@ trait Service extends TypeConvenience {
 
   def serviceType: HapType
 
-  def characteristics: Seq[Identified[Characteristic]]
+  def characteristics: Seq[Characteristic]
 
-  def characteristicsWrite(x: Map[InstanceId, JsValue])(implicit ec: ExecutionContext): Seq[Future[_]]
+  def characteristicsWrite(updates: Update)(implicit ec: ExecutionContext): Seq[Future[_]]
 
   def characteristicsValues()(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]]
 
   def characteristicsValues(ids: Set[InstanceId])(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]]
 
-  def characteristicsSubscribe(callback: Map[InstanceId, JsValue] => Unit): Subscription
+  def characteristicsSubscribe(callback: Update => Unit): Subscription
 
   protected def characteristicsJson()(implicit ec: ExecutionContext): Future[Seq[JsObject]] = {
 
@@ -27,8 +27,8 @@ trait Service extends TypeConvenience {
     }
 
     Future.sequence(futureVals) map (_.toMap) map { vals =>
-      characteristics map { case (iid, ch) =>
-        ch.toJson(iid, vals.getOrElse(iid, JsNull)) //TODO Null might not be the right fallback
+      characteristics map { ch =>
+        ch.toJson(vals.getOrElse(iid, JsNull)) //TODO Null might not be the right fallback
       }
     }
   }
