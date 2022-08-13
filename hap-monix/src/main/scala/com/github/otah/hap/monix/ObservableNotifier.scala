@@ -1,14 +1,16 @@
-package com.github.otah.hap.monix
+package com.github.otah
+package hap.monix
 
-import com.github.otah.hap.api.{Subscription, TypedNotifier}
+import hap.api._
 import monix.execution.{Ack, Scheduler}
 import monix.reactive.Observable
+import monix.reactive.subjects.ConcurrentSubject
 
 import scala.concurrent.Future
 
-class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: Scheduler) extends TypedNotifier[T] {
+class ObservableNotifier(observable: Observable[Update])(implicit s: Scheduler) {
 
-  override def subscribe(callback: T => Future[Unit]) = new Subscription {
+  def subscribe(callback: Update => Unit) = new Subscription {
 
     private val subscription = observable.subscribe(callback.andThen(_ => Ack.Continue))
 
@@ -17,6 +19,10 @@ class ObservableNotifier[T](observable: Observable[T])(implicit scheduler: Sched
 }
 
 object ObservableNotifier {
-  def apply[T](observable: Observable[T])(implicit scheduler: Scheduler): Some[ObservableNotifier[T]] =
-    Some(new ObservableNotifier(observable))
+
+  class ConcurrentPublisher(subject: ConcurrentSubject[Update, Update])(implicit s: Scheduler)
+    extends ObservableNotifier(subject) {
+
+    def this()(implicit s: Scheduler) = this(ConcurrentSubject.publish)
+  }
 }
