@@ -19,6 +19,9 @@ class ObservableNotifier(observable: Observable[Update])(implicit s: Scheduler) 
 }
 
 object ObservableNotifier {
+  
+  def apply(observable: Observable[Update])(implicit s: Scheduler): ObservableNotifier =
+    new ObservableNotifier(observable)
 
   class ConcurrentPublisher(subject: ConcurrentSubject[Update, Update])(implicit s: Scheduler)
     extends ObservableNotifier(subject) {
