@@ -17,7 +17,10 @@ class ExampleSwitch(val label: String, subject: BehaviorSubject[Boolean])
 
   override val powerState: Required[PowerStateCharacteristic] = new A with PowerStateCharacteristic
 
-  override def characteristicsWrite(updates: Update)(implicit ec: ExecutionContext): Seq[Future[_]] = xxx
+  override def characteristicsWrite(updates: Update)(implicit ec: ExecutionContext): Seq[Future[_]] = {
+    val maybe = powerState updateEffect updates map subject.onNext
+    maybe.iterator.toSeq
+  }
 
   override def characteristicsValues()(implicit ec: ExecutionContext): Map[InstanceId, Future[JsValue]] = Map(
     powerState withValue subject.firstL.runToFuture,

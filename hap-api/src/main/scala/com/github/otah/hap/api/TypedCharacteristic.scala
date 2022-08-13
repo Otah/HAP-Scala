@@ -18,4 +18,10 @@ trait TypedCharacteristic[T] extends Characteristic {
 
   def withValue(value: T): Identified[JsValue] =
     iid -> toJsonValue(value)
+    
+  def updateEffect(update: Update): Option[T] =
+    update.get(iid) map fromJsonValue
+    
+  def updated(implicit update: Update): Option[T] =
+    updateEffect(update)
 }
