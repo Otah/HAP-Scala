@@ -1,4 +1,5 @@
-package com.github.otah.hap.server.beowulfe
+package com.github.otah
+package hap.server.beowulfe
 
 import java.util
 import java.util.concurrent.{CompletableFuture, ConcurrentHashMap}
@@ -28,7 +29,7 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
   override def getSerialNumber: CompletableFuture[String] = CompletableFuture.completedFuture(info.serialNumber)
   override def getFirmwareRevision: CompletableFuture[String] = CompletableFuture.completedFuture(info.firmwareRevision.asString)
 
-  private def convertService(service: Identified[Service]): Service = {
+  private def convertService(service: hap.api.Service): Service = {
     // ignoring all IIDs due to FW limitations
     new Service {
 
@@ -39,7 +40,7 @@ class BeowulfeAccessoryAdapter(aid: InstanceId, accessory: HomeKitAccessory, inf
       override def getType: String = service.serviceType.minimalForm
 
       // characteristics must be fixed because the underlying FW queries them by reference
-      private val characteristicsCopied = new util.ArrayList(service.characteristics.map(ch => convertCharacteristic(ch)).asJava)
+      private val characteristicsCopied = new util.ArrayList(service.characteristics.map(ch => convertCharacteristic(service, ch)).asJava)
       override def getCharacteristics: util.List[Characteristic] = characteristicsCopied
     }
   }
@@ -61,7 +62,7 @@ object BeowulfeAccessoryAdapter {
 
   import JsonConverters._
 
-  private def convertCharacteristic(orig: Characteristic)(implicit ec: ExecutionContext): Characteristic = {
+  private def convertCharacteristic(origSvc: hap.api.Service, origCh: hap.api.Characteristic)(implicit ec: ExecutionContext): Characteristic = {
 
     class BridgedCharacteristic extends Characteristic with AccessoryConversions {
 
@@ -86,12 +87,13 @@ object BeowulfeAccessoryAdapter {
         * If accessories share a value (or some base for it) the only chance is to use some time-based cache.
         */
       override def supplyValue(characteristicBuilder: JsonObjectBuilder): Unit = {
-        val result = cache.getIfPresent(key) getOrElse Await.result(orig.readJsonValue(), 29.seconds)
+        val result = cache.getIfPresent(key) getOrElse
+          Await.result(origSvc.characteristicsValues(Set(origCh.iid)).head._2, 29.seconds)
         //TODO add error handling - now it fails the whole procedure if readJsonValue's Future fails
         addJToJson(characteristicBuilder, "value", result)
       }
 
-      override def toJson(iid: Int): CompletableFuture[JsonObject] = orig.asJson(iid) map convertObjectJToJson
+      override def toJson(iid: Int): CompletableFuture[JsonObject] = origCh.toJson(iid) map convertObjectJToJson
 
       override def setValue(jsonValue: JsonValue): Unit = orig.jsonWriter match {
         case Some(writer) => writer.apply(convertJsonToJ(jsonValue)) // ignoring the Future, as the return type is `Unit`

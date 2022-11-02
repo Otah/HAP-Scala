@@ -10,7 +10,7 @@ trait LightbulbService extends SpecializedService with OptionalName {
 
   def brightness: Optional[BrightnessCharacteristic]
 
-  def colorTemperature: Optional[ColorTemperatureCharacteristic] = None
+  val colorTemperature: Optional[ColorTemperatureCharacteristic] = None
 
   def hue: Optional[HueCharacteristic] = None
 

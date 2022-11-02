@@ -2,6 +2,7 @@ package com.github.otah.hap.examples
 
 import java.math.BigInteger
 import java.util.concurrent.ConcurrentHashMap
+/*
 
 import io.github.hapjava.server.HomekitAuthInfo
 
@@ -26,3 +27,4 @@ class InMemoryAuthInfo extends HomekitAuthInfo {
 
   override def getUserPublicKey(username: String): Array[Byte] = map.get(username)
 }
+*/
