@@ -97,6 +97,11 @@ object BeowulfeAccessoryAdapter {
         case Some(writer) => writer.apply(convertJsonToJ(jsonValue)) // ignoring the Future, as the return type is `Unit`
         case None => throw new IllegalStateException("This characteristic doesn't have write permission")
       }
+
+      override def getType: String = orig match {
+        case ch: com.github.otah.hap.api.Characteristic[_] => ch.characteristicType.minimalForm
+        case _ => toJson(2).get().getString("type", "")
+      }
     }
 
     orig.jsonValueNotifier match {

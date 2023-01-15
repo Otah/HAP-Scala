@@ -40,6 +40,7 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
 
     val jAuth = new BeowulfeAuthInfoAdapter(auth)
 
+    val category = server.root.category
     server.root.rootDevice match {
 
       case Right(bridge) =>
@@ -49,7 +50,7 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
         }
         import info._
         val bridgeFut = serverFut map { jServer =>
-          val jBridge = jServer.createBridge(jAuth, label, manufacturer, model, serialNumber, firmwareRevision.asString, hardwareRevision.map(_.asString).orNull)
+          val jBridge = jServer.createBridge(jAuth, label, category, manufacturer, model, serialNumber, firmwareRevision.asString, hardwareRevision.map(_.asString).orNull)
 
           bridge.accessories foreach {
             case (aid, accessory) =>
