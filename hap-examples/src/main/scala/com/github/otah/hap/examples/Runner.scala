@@ -27,7 +27,7 @@ object Runner extends App {
 //  // TODO here comes some better implementation of storage of authentication information
 //  val authInfo: HomekitAuthInfo = new InMemoryAuthInfo()
 //
-//  val bridge = server.createBridge(authInfo, "Example Bridge", "Otah", "BridgeV1", "111bbb222", null, null)
+//  val bridge = server.createBridge(authInfo, "Example Bridge", 1, "Otah", "BridgeV1", "111bbb222", null, null)
 //
 //  import beowulfe.BeowulfeAccessoryAdapter.Implicit._ // import implicit accessory converter
 //  accessories foreach (acc => bridge.addAccessory(acc))

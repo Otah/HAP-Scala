@@ -99,6 +99,8 @@ object BeowulfeAccessoryAdapter {
         case Some(writer) => writer.apply(convertJsonToJ(jsonValue)) // ignoring the Future, as the return type is `Unit`
         case None => throw new IllegalStateException("This characteristic doesn't have write permission")
       }
+
+      override def getType: String = origCh.characteristicType.minimalForm
     }
 
     orig.jsonValueNotifier match {
