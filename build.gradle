@@ -40,7 +40,7 @@ subprojects {
     }
 
     group = "com.github.otah"
-    version = "0.13.1-server-SNAPSHOT"
+    version = "0.13.2-server-SNAPSHOT"
 
     sourceCompatibility = 11
 

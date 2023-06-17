@@ -41,6 +41,8 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
     val jAuth = new BeowulfeAuthInfoAdapter(auth)
 
     val category = server.root.category
+    val configurationNumber = server.root.configurationNumber
+
     server.root.rootDevice match {
 
       case Right(bridge) =>
@@ -56,6 +58,8 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
             case (aid, accessory) =>
               jBridge.addAccessory(new BeowulfeAccessoryAdapter(aid, accessory, structuredInfoFromAccessory(accessory)))
           }
+
+          jBridge.setConfigurationIndex(configurationNumber)
 
           jBridge.start()
           jBridge
@@ -79,6 +83,7 @@ class BeowulfeDriver()(implicit ec: ExecutionContext) extends HomeKitDriver[Any]
           x.start()
         }
         log.warn("Using standalone server which doesn't support stopping by the underlying framework design")
+        log.warn("Using standalone server which doesn't support configuration number by the underlying framework design")
 
         new HomeKitDriver.Run[Any] {
           override def initialized(): Future[Any] = init
