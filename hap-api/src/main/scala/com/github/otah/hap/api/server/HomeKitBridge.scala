@@ -23,8 +23,6 @@ object HomeKitBridge {
   trait WithInfo extends HomeKitBridge with InfoProvider {
 
     override def infoService: Identified[AccessoryService] = AccessoryInformation.fromInfo(homeKitInfo)
-
-    def asRoot(implicit auth: HomeKitAuthentication) = HomeKitRoot.bridge(this, homeKitInfo.label)
   }
 
   object WithInfo {
